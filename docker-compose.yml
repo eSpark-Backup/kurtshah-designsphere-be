@@ -1,0 +1,4 @@
+services:
+  pgserver:
+    image: postgis/postgis
+
