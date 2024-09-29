@@ -22,74 +22,7 @@ namespace DesignSphere.Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("DesignSphere.Domain.Entites.Building", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<Guid>("CreatorId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("CreatorName")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime?>("LastmodificationTime")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<Guid?>("LastmodifierId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("LastmodifierName")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Buildings");
-                });
-
-            modelBuilder.Entity("DesignSphere.Domain.Entites.Comnpany", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("AddressId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("CompanyName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<Guid>("CreatorId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("CreatorName")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime?>("LastmodificationTime")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<Guid?>("LastmodifierId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("LastmodifierName")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AddressId");
-
-                    b.ToTable("Comnpanies");
-                });
-
-            modelBuilder.Entity("DesignSphere.Domain.Entites.CompanyAddress", b =>
+            modelBuilder.Entity("DesignSphere.Domain.Entites.Address", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -122,7 +55,586 @@ namespace DesignSphere.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CompanyAddress");
+                    b.ToTable("Address");
+                });
+
+            modelBuilder.Entity("DesignSphere.Domain.Entites.Catalog", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid>("CreatorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("CreatorName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("LastmodificationTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid?>("LastmodifierId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("LastmodifierName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Catalogs");
+                });
+
+            modelBuilder.Entity("DesignSphere.Domain.Entites.Contarctor", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("AddressId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ContarctorName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid>("CreatorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("CreatorName")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("LastmodificationTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid?>("LastmodifierId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("LastmodifierName")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AddressId");
+
+                    b.ToTable("Comnpanies");
+                });
+
+            modelBuilder.Entity("DesignSphere.Domain.Entites.Door", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid>("CreatorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("CreatorName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Hand")
+                        .HasColumnType("integer");
+
+                    b.Property<float>("Height")
+                        .HasColumnType("real");
+
+                    b.Property<DateTime?>("LastmodificationTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid?>("LastmodifierId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("LastmodifierName")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("ManufacturerId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ManufacturerName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("MaterialDescription")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("MaterialId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<float>("Thickness")
+                        .HasColumnType("real");
+
+                    b.Property<float>("UnitPrice")
+                        .HasColumnType("real");
+
+                    b.Property<float>("Width")
+                        .HasColumnType("real");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Doors");
+                });
+
+            modelBuilder.Entity("DesignSphere.Domain.Entites.DoorFrame", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid>("CreatorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("CreatorName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<float>("Height")
+                        .HasColumnType("real");
+
+                    b.Property<DateTime?>("LastmodificationTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid?>("LastmodifierId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("LastmodifierName")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("ManufacturerId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ManufacturerName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("MaterialDescription")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("MaterialId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<float>("Thickness")
+                        .HasColumnType("real");
+
+                    b.Property<float>("UnitPrice")
+                        .HasColumnType("real");
+
+                    b.Property<float>("Width")
+                        .HasColumnType("real");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DoorFrames");
+                });
+
+            modelBuilder.Entity("DesignSphere.Domain.Entites.DoorOpening", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("ActiveStopCondition")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid>("CreatorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("CreatorName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("DoorDescription")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("DoorFrameDescription")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("DoorFrameId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("DoorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("HardwareSetDescription")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("HardwareSetId")
+                        .HasColumnType("uuid");
+
+                    b.Property<float>("Height")
+                        .HasColumnType("real");
+
+                    b.Property<DateTime?>("LastmodificationTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid?>("LastmodifierId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("LastmodifierName")
+                        .HasColumnType("text");
+
+                    b.Property<long>("Number")
+                        .HasColumnType("bigint");
+
+                    b.Property<Guid>("ProjectPlanId")
+                        .HasColumnType("uuid");
+
+                    b.Property<float>("Thickness")
+                        .HasColumnType("real");
+
+                    b.Property<float>("Width")
+                        .HasColumnType("real");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProjectPlanId");
+
+                    b.ToTable("DoorOpenings");
+                });
+
+            modelBuilder.Entity("DesignSphere.Domain.Entites.HardwareCategory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid>("CreatorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("CreatorName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("LastmodificationTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid?>("LastmodifierId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("LastmodifierName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("HardwareCategories");
+                });
+
+            modelBuilder.Entity("DesignSphere.Domain.Entites.HardwareSeries", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid>("CreatorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("CreatorName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("LastmodificationTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid?>("LastmodifierId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("LastmodifierName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("HardwaresSeries");
+                });
+
+            modelBuilder.Entity("DesignSphere.Domain.Entites.HardwareSet", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid>("CreatorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("CreatorName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("HardwareCategoryDescription")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("HardwareCategoryId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("HardwareSeriesDescription")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("HardwareSeriesId")
+                        .HasColumnType("uuid");
+
+                    b.Property<float>("Height")
+                        .HasColumnType("real");
+
+                    b.Property<DateTime?>("LastmodificationTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid?>("LastmodifierId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("LastmodifierName")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("ManufacturerId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ManufacturerName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("MaterialDescription")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("MaterialId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("PowerSupplyDescription")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("PowerSupplyId")
+                        .HasColumnType("uuid");
+
+                    b.Property<float>("Thickness")
+                        .HasColumnType("real");
+
+                    b.Property<float>("UnitPrice")
+                        .HasColumnType("real");
+
+                    b.Property<float>("Width")
+                        .HasColumnType("real");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("HardwareSets");
+                });
+
+            modelBuilder.Entity("DesignSphere.Domain.Entites.Manufacturer", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid>("CreatorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("CreatorName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("LastmodificationTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid?>("LastmodifierId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("LastmodifierName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Manufacturers");
+                });
+
+            modelBuilder.Entity("DesignSphere.Domain.Entites.Material", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid>("CreatorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("CreatorName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("LastmodificationTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid?>("LastmodifierId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("LastmodifierName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Materials");
+                });
+
+            modelBuilder.Entity("DesignSphere.Domain.Entites.PowerSupply", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid>("CreatorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("CreatorName")
+                        .HasColumnType("text");
+
+                    b.Property<float>("Current")
+                        .HasColumnType("real");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<float>("Height")
+                        .HasColumnType("real");
+
+                    b.Property<DateTime?>("LastmodificationTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid?>("LastmodifierId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("LastmodifierName")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("ManufacturerId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ManufacturerName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("MaterialDescription")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("MaterialId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<float>("Thickness")
+                        .HasColumnType("real");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer");
+
+                    b.Property<float>("UnitPrice")
+                        .HasColumnType("real");
+
+                    b.Property<float>("VoltageString")
+                        .HasColumnType("real");
+
+                    b.Property<float>("Width")
+                        .HasColumnType("real");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PowerSupplies");
                 });
 
             modelBuilder.Entity("DesignSphere.Domain.Entites.Project", b =>
@@ -231,6 +743,9 @@ namespace DesignSphere.Infrastructure.Migrations
                     b.Property<string>("CreatorName")
                         .HasColumnType("text");
 
+                    b.Property<DateTime?>("DueDate")
+                        .HasColumnType("timestamp without time zone");
+
                     b.Property<DateTime?>("LastmodificationTime")
                         .HasColumnType("timestamp without time zone");
 
@@ -239,6 +754,9 @@ namespace DesignSphere.Infrastructure.Migrations
 
                     b.Property<string>("LastmodifierName")
                         .HasColumnType("text");
+
+                    b.Property<int>("Unit")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -282,6 +800,8 @@ namespace DesignSphere.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ProjectId");
+
                     b.ToTable("ProjectPlans");
                 });
 
@@ -320,15 +840,43 @@ namespace DesignSphere.Infrastructure.Migrations
                     b.ToTable("UserComnpanies");
                 });
 
-            modelBuilder.Entity("DesignSphere.Domain.Entites.Comnpany", b =>
+            modelBuilder.Entity("DesignSphere.Domain.Entites.Contarctor", b =>
                 {
-                    b.HasOne("DesignSphere.Domain.Entites.CompanyAddress", "Address")
+                    b.HasOne("DesignSphere.Domain.Entites.Address", "Address")
                         .WithMany()
                         .HasForeignKey("AddressId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Address");
+                });
+
+            modelBuilder.Entity("DesignSphere.Domain.Entites.DoorOpening", b =>
+                {
+                    b.HasOne("DesignSphere.Domain.Entites.ProjectPlan", null)
+                        .WithMany("DoorOpenings")
+                        .HasForeignKey("ProjectPlanId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DesignSphere.Domain.Entites.ProjectPlan", b =>
+                {
+                    b.HasOne("DesignSphere.Domain.Entites.Project", null)
+                        .WithMany("ProjectPlans")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DesignSphere.Domain.Entites.Project", b =>
+                {
+                    b.Navigation("ProjectPlans");
+                });
+
+            modelBuilder.Entity("DesignSphere.Domain.Entites.ProjectPlan", b =>
+                {
+                    b.Navigation("DoorOpenings");
                 });
 #pragma warning restore 612, 618
         }

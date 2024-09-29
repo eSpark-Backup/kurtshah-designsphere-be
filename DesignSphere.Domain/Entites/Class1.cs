@@ -4,13 +4,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Collections.Specialized.BitVector32;
 
 namespace DesignSphere.Domain.Entites;
-public class CompanyAddress : EntityBase, ICompanyAddress
+public class Address : EntityBase, ICompanyAddress
 {
     public string CountryName { get; set; }
     public ushort PostalCode { get; set; }
@@ -18,14 +19,8 @@ public class CompanyAddress : EntityBase, ICompanyAddress
 public interface ICompanyAddress : IAddress
 {
 }
-public class Building : EntityBase, IBuilding
-{
-    public string Name { get; }
-}
-public interface IBuilding
-{
-    string Name { get; }
-}
+
+
 public class ProjectCollaborator : EntityBase, IProjectCollaborator
 {
     [ForeignKey(nameof(Project))]
@@ -40,41 +35,208 @@ public interface IProjectCollaborator
     string ProjectId { get; set; }
     string UserId { get; set; }
 }
-public class ProjectDetail : EntityBase, IProjectDetail
+public enum EMUnits
 {
-    [ForeignKey(nameof(Comnpany))]
-    public Guid ComapanyId { get; set; }
-    public virtual Comnpany Comnpany { get; }
+    Metric, Imperial
+}
 
-}
-public interface IProjectDetail
-{
-    Guid ComapanyId { get; set; }
-}
 public class ProjectPlan : EntityBase, IProjectPlan
 {
     [ForeignKey(nameof(Project))]
     public Guid ProjectId { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }
+    public ICollection<DoorOpening> DoorOpenings { get; set; }
     public virtual Project Project { get; }
+}
+
+public enum EDoorHand
+{
+    Left, Right, Sliding
+}
+public enum EDoorCondition
+{
+    Door, Wall
+}
+public enum EDoorPanelType
+{
+    Flush, FullGlass
+}
+public interface IDoorMode
+{
+    string Name { get; set; }
+}
+public class Manufacturer : EntityBase, IManufacturer
+{
+    public string Description { get; set; }
+    public string Name { get; set; }
+}
+public interface IManufacturer : IGeneric
+{
+    
+}
+public class PowerSupply : EntityBase, IPowerSupply
+{
+    public float Current { get; set; }
+    public float VoltageString { get; set; }
+    public ushort Type { get; set; }
+    public Guid MaterialId { get; set; }
+    public string MaterialDescription { get; set; }
+    public virtual Material Material { get; }
+    public string Description { get; set; }
+    public string Name { get; set; }
+    public float Width { get; set; }
+    public float Height { get; set; }
+    public float Thickness { get; set; }
+    public float UnitPrice { get; set; }
+    public Guid ManufacturerId { get; set; }
+    public string ManufacturerName { get; set; }
+    public virtual Manufacturer Manufacturer { get;  }
+}
+public interface IPowerSupply : IProduct
+{
+    float Current { get; set; }
+    float VoltageString { get; set; }
+    UInt16 Type { get; set; }
 
 }
+public class Material : EntityBase, IMaterial
+{
+    public string Description { get; set; }
+    public string Name { get; set; }
+}
+public interface IMaterial  : IGeneric
+{
+    
+}
+public interface IGeneric : IName
+{
+    string Description { get; set; }
+}
+public interface IName
+{
+    string Name { set; get; }
+}
+public interface IUnitPrice
+{
+    float UnitPrice { get; set; }
+}
+public interface ISize
+{
+     float Width { get; set; }
+     float Height { get; set; }
+     float Thickness { get; set; }
+}
+public class DoorOpening : EntityBase, IDoorOpening
+{
+    public uint Number { get; set; }
+    public float Thickness { get; set; }
+    public EDoorCondition ActiveStopCondition { get; set; }
+    public float Width { get; set; }
+    public float Height { get; set; }
+    [ForeignKey(nameof(DoorFrame))]
+    public Guid DoorFrameId { get; set; }
+    public string DoorFrameDescription { get; set; }
+    public virtual DoorFrame DoorFrame { get; }
+    [ForeignKey(nameof(ProjectPlan))]
+    public Guid  ProjectPlanId { get; set; }
+    public virtual ProjectPlan ProjectPlan { get;  }
+    [ForeignKey(nameof(Door))]
+    public Guid DoorId { get; set; }
+    public string DoorDescription { get; set; }
+    public virtual Door Door { get; }
+    [ForeignKey(nameof(HardwareSet))]
+    public Guid HardwareSetId { get; set; }
+    public string HardwareSetDescription { get; set; }
+    public virtual HardwareSet HardwareSet{ get; }
+}
+public interface IDoorOpening : ISize
+{
+     uint Number { get; set; }
+    EDoorCondition ActiveStopCondition { get; set; }
+    Guid DoorId { get; set; }
+    Guid DoorFrameId { get; set; }
+    string DoorFrameDescription { get; set; }
+    string DoorDescription { get; set; }
+    Guid ProjectPlanId { get; set; }
+    Guid HardwareSetId { get; set; }
+    string HardwareSetDescription { get; set; }
+
+}
+public class Door : EntityBase, IDoor
+{
+  public  EDoorPanelType PanelType { get; set; }
+    public EDoorHand Hand { get; set; }
+    [ForeignKey(nameof(Material))]
+    public Guid MaterialId { get; set; }
+    public virtual Material Material { get;  }
+    public string Description { get; set; }
+    public string Name { get; set; }
+    public float Width { get; set; }
+    public float Height { get; set; }
+    public float Thickness { get; set; }
+    [ForeignKey(nameof(Manufacturer))]
+    public Guid ManufacturerId { get; set; }
+    public string ManufacturerName { get; set; }
+    public virtual Manufacturer Manufacturer { get; }
+    public float UnitPrice { get; set; }
+   public string MaterialDescription { get; set; }
+}
+
+public interface IProduct : IGeneric, ISize, IUnitPrice, IProductManufacturer
+{
+    Guid MaterialId { get; set; }
+    string MaterialDescription { get; set; }
+}
+public interface IDoor : IProduct
+{
+    EDoorHand Hand { get; set;}
+}
+public class DoorFrame : EntityBase,  IDoorFrame
+{
+    public Guid MaterialId { get; set; }
+    public string MaterialDescription { get; set; }
+    public string Description { get; set; }
+    public string Name { get; set; }
+    public float Width { get; set; }
+    public float Height { get; set; }
+    public float Thickness { get; set; }
+    public Guid ManufacturerId { get; set; }
+    public string ManufacturerName { get; set; }
+    public float UnitPrice { get; set; }
+}
+public interface IDoorFrame : IProduct
+{
+}
+
 public interface IProjectPlan
 {
     Guid ProjectId { get; set; }
     string Name { get; set; }
     string Description { get; set; }
 }
-public enum EProjectType 
+public enum EProjectType
 {
-    A, B , C
+    Project = 0x01, DemoTraning, Master
 }
 public enum EProjectStage
 {
-    A,
-    B,
-    C
+    Design = 0x01,
+    Construct,
+    Operate
+}
+public class ProjectDetail : EntityBase, IProjectDetail
+{
+    [ForeignKey(nameof(Comnpany))]
+    public Guid ComapanyId { get; set; }
+    public EMUnits Unit { get; set; }
+    public DateTime? DueDate { get; set; }
+    public virtual Contarctor Comnpany { get; }
+
+}
+public interface IProjectDetail
+{
+    Guid ComapanyId { get; set; }
 }
 public class Project : EntityBase, IProject
 {
@@ -85,9 +247,9 @@ public class Project : EntityBase, IProject
     public EProjectType Type { get; set; }
     public bool? HelpUs { get; set; }
     public string? Comment { get; set; }
-    public virtual ICollection<ProjectPlan> GetProjectPlans { get; }
-
+    public virtual ICollection<ProjectPlan> ProjectPlans { get; }
 }
+
 public interface IProject
 {
     string Name { get; set; }
@@ -103,25 +265,104 @@ public interface IAddress
     string CountryName { get; set; }
     ushort PostalCode { get; set; }
 }
-public class Comnpany : EntityBase, IComnpany
+public class HardwareSeries : EntityBase, IHardwareSeries
 {
-    public string CompanyName { get; set; }
-    [ForeignKey(nameof(CompanyAddress))]
-    public Guid AddressId { get; set; }
-    public CompanyAddress Address { get; set; }
+    public string Description { get; set; }
+    public string Name { get; set; }
 }
-public interface IComnpany
+public interface IHardwareSeries : IGeneric
 {
-    string CompanyName { get; set; }
-    CompanyAddress Address { get; set; }
+
+}
+public class HardwareCategory : EntityBase, IHardwareCategory
+{
+    public string Description { get; set; }
+    public string Name { get; set; }
+}
+public interface IHardwareCategory : IGeneric
+{
+
+}
+public interface IProductManufacturer 
+{
+    public Guid ManufacturerId { get; set; }
+    public string ManufacturerName { get; set; }
+}
+public class HardwareSet : EntityBase, IHardwareSet
+{
+    [ForeignKey(nameof(HardwareCategory))]
+    public Guid HardwareCategoryId { get; set; }
+    public Guid HardwareCategoryDescription { get; set; }
+    public virtual HardwareCategory HardwareCategory { get;  }
+    [ForeignKey(nameof(HardwareSeries))]
+    public Guid HardwareSeriesId { get; set; }
+    public string HardwareSeriesDescription { get; set; }
+    public virtual HardwareSeries HardwareSeries { get; }
+    [ForeignKey(nameof(PowerSupply))]
+    public Guid PowerSupplyId { get; set; }
+    public Guid PowerSupplyDescription { get; set; }
+    public virtual PowerSupply PowerSupply { get;  }
+    public string Description { get; set; }
+    public string Name { get; set; }
+    [ForeignKey(nameof(Manufacturer))]
+    public Guid ManufacturerId { get; set; }
+    public string ManufacturerName { get; set; }
+    public virtual Manufacturer Manufacturer { get; }
+    public float Width { get; set; }
+    public float Height { get; set; }
+    public float UnitPrice { get; set; }
+    public float Thickness { get; set; }
+    [ForeignKey(nameof(Material))]
+    public Guid MaterialId { get; set; }
+    public string MaterialDescription { get; set; }
+    public virtual Material Material { get; }
+}
+public interface IHardwareSet : IProduct
+{
+    Guid HardwareCategoryId { get; set; }
+    Guid HardwareCategoryDescription { get; set; }
+    Guid HardwareSeriesId { get; set; }
+    string HardwareSeriesDescription { get; set; }
+    Guid PowerSupplyId { get; set; }
+    Guid PowerSupplyDescription { get; set; }
+
+}
+public enum ECatalogTypes
+{
+    Master  = 0x01,
+    Project  = 0x02,
+    User  = 0x03,
+}
+
+public class Catalog : EntityBase, ICatalog
+{
+    public ECatalogTypes Type { get; set; }
+    public string Description { get; set; }
+    public string Name { get; set; }
+}
+public interface ICatalog : IGeneric
+{
+    ECatalogTypes Type { get; set; }
+}
+public class Contarctor : EntityBase, IContactor
+{
+    public string ContarctorName { get; set; }
+    [ForeignKey(nameof(Entites.Address))]
+    public Guid AddressId { get; set; }
+    public Address Address { get; set; }
+}
+public interface IContactor
+{
+    string ContarctorName { get; set; }
+    Address Address { get; set; }
 }
 public class UserComnpany : EntityBase, IUserComnpany
 {
     [ForeignKey(nameof(AppUser))]
     public Guid UserId { get; set; }
-    [ForeignKey(nameof(Comnpany))]
+    [ForeignKey(nameof(Contarctor))]
     public Guid CompanyId { get; set; }
-    public virtual Comnpany AppComnpanyUser { get; }
+    public virtual Contarctor AppComnpanyUser { get; }
     public virtual AppUser AppUser { get; }
 
 }
@@ -137,7 +378,7 @@ public interface IAppUserExtention
     string ProfilePictureUrl { get; set; }
     bool NewsLetterSubscription { get; set; }
 }
-public interface IContact 
+public interface IContact
 {
 
 }
