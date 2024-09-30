@@ -9,10 +9,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace DesignSphere.Infrastructure.Migrations.AppDb
+namespace DesignSphere.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240924131745_Initial")]
+    [Migration("20240930130848_Initial")]
     partial class Initial
     {
         /// <inheritdoc />

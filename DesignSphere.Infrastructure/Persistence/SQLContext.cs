@@ -8,12 +8,12 @@ public class SQLContext : DbContext
     {
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
     }
+
     public DbSet<UserComnpany> UserComnpanies { get; set; }
     public DbSet<Contarctor> Contarctors { get; set; }
     public DbSet<Project> Projects { get; set; }
     public DbSet<ProjectPlan> ProjectPlans { get; set; }
     public DbSet<ProjectDetail> ProjectDetails { get; set; }
-    public DbSet<ProjectCollaborator> ProjectCollaborators { get; set; }
     public DbSet<Catalog> Catalogs { get; set; }
     public DbSet<HardwareSet> HardwareSets { get; set; }
     public DbSet<HardwareCategory> HardwareCategories { get; set; }

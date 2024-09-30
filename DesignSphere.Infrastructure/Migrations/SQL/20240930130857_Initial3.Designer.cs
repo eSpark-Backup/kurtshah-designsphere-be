@@ -9,10 +9,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace DesignSphere.Infrastructure.Migrations
+namespace DesignSphere.Infrastructure.Migrations.SQL
 {
     [DbContext(typeof(SQLContext))]
-    [Migration("20240929130120_Initial3")]
+    [Migration("20240930130857_Initial3")]
     partial class Initial3
     {
         /// <inheritdoc />
@@ -136,7 +136,7 @@ namespace DesignSphere.Infrastructure.Migrations
 
                     b.HasIndex("AddressId");
 
-                    b.ToTable("Comnpanies");
+                    b.ToTable("Contarctors");
                 });
 
             modelBuilder.Entity("DesignSphere.Domain.Entites.Door", b =>
@@ -191,6 +191,9 @@ namespace DesignSphere.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("PanelType")
+                        .HasColumnType("integer");
+
                     b.Property<float>("Thickness")
                         .HasColumnType("real");
 
@@ -201,6 +204,10 @@ namespace DesignSphere.Infrastructure.Migrations
                         .HasColumnType("real");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ManufacturerId");
+
+                    b.HasIndex("MaterialId");
 
                     b.ToTable("Doors");
                 });
@@ -265,6 +272,10 @@ namespace DesignSphere.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ManufacturerId");
+
+                    b.HasIndex("MaterialId");
+
                     b.ToTable("DoorFrames");
                 });
 
@@ -287,24 +298,21 @@ namespace DesignSphere.Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("DoorDescription")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("DoorFrameDescription")
-                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid>("DoorFrameId")
+                    b.Property<Guid?>("DoorFrameId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("DoorId")
+                    b.Property<Guid?>("DoorId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("HardwareSetDescription")
-                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid>("HardwareSetId")
+                    b.Property<Guid?>("HardwareSetId")
                         .HasColumnType("uuid");
 
                     b.Property<float>("Height")
@@ -332,6 +340,12 @@ namespace DesignSphere.Infrastructure.Migrations
                         .HasColumnType("real");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DoorFrameId");
+
+                    b.HasIndex("DoorId");
+
+                    b.HasIndex("HardwareSetId");
 
                     b.HasIndex("ProjectPlanId");
 
@@ -431,8 +445,9 @@ namespace DesignSphere.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid>("HardwareCategoryDescription")
-                        .HasColumnType("uuid");
+                    b.Property<string>("HardwareCategoryDescription")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<Guid>("HardwareCategoryId")
                         .HasColumnType("uuid");
@@ -490,6 +505,14 @@ namespace DesignSphere.Infrastructure.Migrations
                         .HasColumnType("real");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("HardwareCategoryId");
+
+                    b.HasIndex("HardwareSeriesId");
+
+                    b.HasIndex("ManufacturerId");
+
+                    b.HasIndex("MaterialId");
 
                     b.ToTable("HardwareSets");
                 });
@@ -637,6 +660,10 @@ namespace DesignSphere.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ManufacturerId");
+
+                    b.HasIndex("MaterialId");
+
                     b.ToTable("PowerSupplies");
                 });
 
@@ -689,43 +716,6 @@ namespace DesignSphere.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Projects");
-                });
-
-            modelBuilder.Entity("DesignSphere.Domain.Entites.ProjectCollaborator", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<Guid>("CreatorId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("CreatorName")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime?>("LastmodificationTime")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<Guid?>("LastmodifierId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("LastmodifierName")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ProjectId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ProjectCollaborators");
                 });
 
             modelBuilder.Entity("DesignSphere.Domain.Entites.ProjectDetail", b =>
@@ -854,11 +844,107 @@ namespace DesignSphere.Infrastructure.Migrations
                     b.Navigation("Address");
                 });
 
+            modelBuilder.Entity("DesignSphere.Domain.Entites.Door", b =>
+                {
+                    b.HasOne("DesignSphere.Domain.Entites.Manufacturer", "Manufacturer")
+                        .WithMany("Doors")
+                        .HasForeignKey("ManufacturerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DesignSphere.Domain.Entites.Material", "Material")
+                        .WithMany("Doors")
+                        .HasForeignKey("MaterialId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Manufacturer");
+
+                    b.Navigation("Material");
+                });
+
+            modelBuilder.Entity("DesignSphere.Domain.Entites.DoorFrame", b =>
+                {
+                    b.HasOne("DesignSphere.Domain.Entites.Manufacturer", "Manufacturer")
+                        .WithMany("DoorFrames")
+                        .HasForeignKey("ManufacturerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DesignSphere.Domain.Entites.Material", "Material")
+                        .WithMany("DoorFrames")
+                        .HasForeignKey("MaterialId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Manufacturer");
+
+                    b.Navigation("Material");
+                });
+
             modelBuilder.Entity("DesignSphere.Domain.Entites.DoorOpening", b =>
                 {
+                    b.HasOne("DesignSphere.Domain.Entites.DoorFrame", null)
+                        .WithMany("DoorOpenings")
+                        .HasForeignKey("DoorFrameId");
+
+                    b.HasOne("DesignSphere.Domain.Entites.Door", null)
+                        .WithMany("DoorOpenings")
+                        .HasForeignKey("DoorId");
+
+                    b.HasOne("DesignSphere.Domain.Entites.HardwareSet", null)
+                        .WithMany("DoorOpenings")
+                        .HasForeignKey("HardwareSetId");
+
                     b.HasOne("DesignSphere.Domain.Entites.ProjectPlan", null)
                         .WithMany("DoorOpenings")
                         .HasForeignKey("ProjectPlanId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DesignSphere.Domain.Entites.HardwareSet", b =>
+                {
+                    b.HasOne("DesignSphere.Domain.Entites.HardwareCategory", null)
+                        .WithMany("HardwareSets")
+                        .HasForeignKey("HardwareCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DesignSphere.Domain.Entites.HardwareSeries", null)
+                        .WithMany("HardwareSets")
+                        .HasForeignKey("HardwareSeriesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DesignSphere.Domain.Entites.Manufacturer", "Manufacturer")
+                        .WithMany("HardwareSets")
+                        .HasForeignKey("ManufacturerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DesignSphere.Domain.Entites.Material", "Material")
+                        .WithMany("HardwareSets")
+                        .HasForeignKey("MaterialId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Manufacturer");
+
+                    b.Navigation("Material");
+                });
+
+            modelBuilder.Entity("DesignSphere.Domain.Entites.PowerSupply", b =>
+                {
+                    b.HasOne("DesignSphere.Domain.Entites.Manufacturer", null)
+                        .WithMany("PowerSupplies")
+                        .HasForeignKey("ManufacturerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DesignSphere.Domain.Entites.Material", null)
+                        .WithMany("PowerSupplies")
+                        .HasForeignKey("MaterialId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -870,6 +956,53 @@ namespace DesignSphere.Infrastructure.Migrations
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("DesignSphere.Domain.Entites.Door", b =>
+                {
+                    b.Navigation("DoorOpenings");
+                });
+
+            modelBuilder.Entity("DesignSphere.Domain.Entites.DoorFrame", b =>
+                {
+                    b.Navigation("DoorOpenings");
+                });
+
+            modelBuilder.Entity("DesignSphere.Domain.Entites.HardwareCategory", b =>
+                {
+                    b.Navigation("HardwareSets");
+                });
+
+            modelBuilder.Entity("DesignSphere.Domain.Entites.HardwareSeries", b =>
+                {
+                    b.Navigation("HardwareSets");
+                });
+
+            modelBuilder.Entity("DesignSphere.Domain.Entites.HardwareSet", b =>
+                {
+                    b.Navigation("DoorOpenings");
+                });
+
+            modelBuilder.Entity("DesignSphere.Domain.Entites.Manufacturer", b =>
+                {
+                    b.Navigation("DoorFrames");
+
+                    b.Navigation("Doors");
+
+                    b.Navigation("HardwareSets");
+
+                    b.Navigation("PowerSupplies");
+                });
+
+            modelBuilder.Entity("DesignSphere.Domain.Entites.Material", b =>
+                {
+                    b.Navigation("DoorFrames");
+
+                    b.Navigation("Doors");
+
+                    b.Navigation("HardwareSets");
+
+                    b.Navigation("PowerSupplies");
                 });
 
             modelBuilder.Entity("DesignSphere.Domain.Entites.Project", b =>

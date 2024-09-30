@@ -1,5 +1,6 @@
 ﻿using DesignSphere.Domain.Common;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore.Query.Internal;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using System;
 using System.Collections.Generic;
@@ -20,21 +21,6 @@ public interface ICompanyAddress : IAddress
 {
 }
 
-
-public class ProjectCollaborator : EntityBase, IProjectCollaborator
-{
-    [ForeignKey(nameof(Project))]
-    public string ProjectId { get; set; }
-    [ForeignKey(nameof(AppUser))]
-    public string UserId { get; set; }
-    public virtual AppUser AppUser { get; }
-    public virtual Project Project { get; }
-}
-public interface IProjectCollaborator
-{
-    string ProjectId { get; set; }
-    string UserId { get; set; }
-}
 public enum EMUnits
 {
     Metric, Imperial
@@ -70,10 +56,14 @@ public class Manufacturer : EntityBase, IManufacturer
 {
     public string Description { get; set; }
     public string Name { get; set; }
+    public ICollection<HardwareSet> HardwareSets { get; set; }
+    public ICollection<PowerSupply> PowerSupplies { get; set; }
+    public ICollection<Door> Doors { get; set; }
+    public ICollection<DoorFrame> DoorFrames { get; set; }
 }
 public interface IManufacturer : IGeneric
 {
-    
+
 }
 public class PowerSupply : EntityBase, IPowerSupply
 {
@@ -91,9 +81,9 @@ public class PowerSupply : EntityBase, IPowerSupply
     public float UnitPrice { get; set; }
     public Guid ManufacturerId { get; set; }
     public string ManufacturerName { get; set; }
-    public virtual Manufacturer Manufacturer { get;  }
+    public virtual Manufacturer Manufacturer { get; }
 }
-public interface IPowerSupply : IProduct
+public interface IPowerSupply 
 {
     float Current { get; set; }
     float VoltageString { get; set; }
@@ -104,10 +94,15 @@ public class Material : EntityBase, IMaterial
 {
     public string Description { get; set; }
     public string Name { get; set; }
+    public ICollection<HardwareSet> HardwareSets { get; set; }
+    public ICollection<PowerSupply> PowerSupplies { get; set; }
+    public ICollection<Door> Doors { get; set; }
+    public ICollection<DoorFrame> DoorFrames { get; set; }
 }
-public interface IMaterial  : IGeneric
+
+public interface IMaterial : IGeneric
 {
-    
+
 }
 public interface IGeneric : IName
 {
@@ -123,9 +118,9 @@ public interface IUnitPrice
 }
 public interface ISize
 {
-     float Width { get; set; }
-     float Height { get; set; }
-     float Thickness { get; set; }
+    float Width { get; set; }
+    float Height { get; set; }
+    float Thickness { get; set; }
 }
 public class DoorOpening : EntityBase, IDoorOpening
 {
@@ -135,77 +130,72 @@ public class DoorOpening : EntityBase, IDoorOpening
     public float Width { get; set; }
     public float Height { get; set; }
     [ForeignKey(nameof(DoorFrame))]
-    public Guid DoorFrameId { get; set; }
-    public string DoorFrameDescription { get; set; }
-    public virtual DoorFrame DoorFrame { get; }
+    public Guid? DoorFrameId { get; set; }
+    public string? DoorFrameDescription { get; set; }
+    public DoorFrame? DoorFrame { get; }
     [ForeignKey(nameof(ProjectPlan))]
-    public Guid  ProjectPlanId { get; set; }
-    public virtual ProjectPlan ProjectPlan { get;  }
+    public Guid ProjectPlanId { get; set; }
+    public ProjectPlan ProjectPlan { get; }
     [ForeignKey(nameof(Door))]
-    public Guid DoorId { get; set; }
-    public string DoorDescription { get; set; }
-    public virtual Door Door { get; }
+    public Guid? DoorId { get; set; }
+    public string? DoorDescription { get; set; }
+    public  Door? Door { get; }
     [ForeignKey(nameof(HardwareSet))]
-    public Guid HardwareSetId { get; set; }
-    public string HardwareSetDescription { get; set; }
-    public virtual HardwareSet HardwareSet{ get; }
+    public Guid? HardwareSetId { get; set; }
+    public string? HardwareSetDescription { get; set; }
+    public HardwareSet? HardwareSet { get; }
 }
 public interface IDoorOpening : ISize
 {
-     uint Number { get; set; }
+    uint Number { get; set; }
     EDoorCondition ActiveStopCondition { get; set; }
-    Guid DoorId { get; set; }
-    Guid DoorFrameId { get; set; }
-    string DoorFrameDescription { get; set; }
-    string DoorDescription { get; set; }
+    Guid? DoorId { get; set; }
+    string? DoorDescription { get; set; }
+    Guid? DoorFrameId { get; set; }
+    string? DoorFrameDescription { get; set; }
     Guid ProjectPlanId { get; set; }
-    Guid HardwareSetId { get; set; }
-    string HardwareSetDescription { get; set; }
+    Guid? HardwareSetId { get; set; }
+    string? HardwareSetDescription { get; set; }
 
 }
-public class Door : EntityBase, IDoor
+public class Door : Product, IDoor
 {
-  public  EDoorPanelType PanelType { get; set; }
+    public EDoorPanelType PanelType { get; set; }
     public EDoorHand Hand { get; set; }
+}
+public class Product : EntityBase, IProduct
+{
     [ForeignKey(nameof(Material))]
     public Guid MaterialId { get; set; }
-    public virtual Material Material { get;  }
+    public string MaterialDescription { get; set; }
+    public virtual Material Material { get; set; }
     public string Description { get; set; }
     public string Name { get; set; }
     public float Width { get; set; }
     public float Height { get; set; }
     public float Thickness { get; set; }
+    public float UnitPrice { get; set; }
     [ForeignKey(nameof(Manufacturer))]
     public Guid ManufacturerId { get; set; }
     public string ManufacturerName { get; set; }
-    public virtual Manufacturer Manufacturer { get; }
-    public float UnitPrice { get; set; }
-   public string MaterialDescription { get; set; }
+    public virtual Manufacturer Manufacturer{ get; set; }
+    public ICollection<DoorOpening> DoorOpenings { get; set; }
 }
-
 public interface IProduct : IGeneric, ISize, IUnitPrice, IProductManufacturer
 {
     Guid MaterialId { get; set; }
     string MaterialDescription { get; set; }
 }
-public interface IDoor : IProduct
+public interface IDoor 
 {
-    EDoorHand Hand { get; set;}
+    EDoorPanelType PanelType { get; set; }
+    EDoorHand Hand { get; set; }
 }
-public class DoorFrame : EntityBase,  IDoorFrame
+public class DoorFrame : Product, IDoorFrame
 {
-    public Guid MaterialId { get; set; }
-    public string MaterialDescription { get; set; }
-    public string Description { get; set; }
-    public string Name { get; set; }
-    public float Width { get; set; }
-    public float Height { get; set; }
-    public float Thickness { get; set; }
-    public Guid ManufacturerId { get; set; }
-    public string ManufacturerName { get; set; }
-    public float UnitPrice { get; set; }
+
 }
-public interface IDoorFrame : IProduct
+public interface IDoorFrame 
 {
 }
 
@@ -247,7 +237,9 @@ public class Project : EntityBase, IProject
     public EProjectType Type { get; set; }
     public bool? HelpUs { get; set; }
     public string? Comment { get; set; }
-    public virtual ICollection<ProjectPlan> ProjectPlans { get; }
+    public ICollection<ProjectPlan> ProjectPlans { get; }
+    
+
 }
 
 public interface IProject
@@ -269,6 +261,7 @@ public class HardwareSeries : EntityBase, IHardwareSeries
 {
     public string Description { get; set; }
     public string Name { get; set; }
+    public ICollection<HardwareSet> HardwareSets { get; set; }
 }
 public interface IHardwareSeries : IGeneric
 {
@@ -278,49 +271,33 @@ public class HardwareCategory : EntityBase, IHardwareCategory
 {
     public string Description { get; set; }
     public string Name { get; set; }
+    public ICollection<HardwareSet> HardwareSets { get; set; }
 }
 public interface IHardwareCategory : IGeneric
 {
 
 }
-public interface IProductManufacturer 
+public interface IProductManufacturer
 {
     public Guid ManufacturerId { get; set; }
     public string ManufacturerName { get; set; }
 }
-public class HardwareSet : EntityBase, IHardwareSet
+public class HardwareSet : Product, IHardwareSet
 {
     [ForeignKey(nameof(HardwareCategory))]
     public Guid HardwareCategoryId { get; set; }
-    public Guid HardwareCategoryDescription { get; set; }
-    public virtual HardwareCategory HardwareCategory { get;  }
+    public string HardwareCategoryDescription { get; set; }
     [ForeignKey(nameof(HardwareSeries))]
     public Guid HardwareSeriesId { get; set; }
     public string HardwareSeriesDescription { get; set; }
-    public virtual HardwareSeries HardwareSeries { get; }
     [ForeignKey(nameof(PowerSupply))]
     public Guid PowerSupplyId { get; set; }
     public Guid PowerSupplyDescription { get; set; }
-    public virtual PowerSupply PowerSupply { get;  }
-    public string Description { get; set; }
-    public string Name { get; set; }
-    [ForeignKey(nameof(Manufacturer))]
-    public Guid ManufacturerId { get; set; }
-    public string ManufacturerName { get; set; }
-    public virtual Manufacturer Manufacturer { get; }
-    public float Width { get; set; }
-    public float Height { get; set; }
-    public float UnitPrice { get; set; }
-    public float Thickness { get; set; }
-    [ForeignKey(nameof(Material))]
-    public Guid MaterialId { get; set; }
-    public string MaterialDescription { get; set; }
-    public virtual Material Material { get; }
 }
-public interface IHardwareSet : IProduct
+public interface IHardwareSet 
 {
     Guid HardwareCategoryId { get; set; }
-    Guid HardwareCategoryDescription { get; set; }
+    string HardwareCategoryDescription { get; set; }
     Guid HardwareSeriesId { get; set; }
     string HardwareSeriesDescription { get; set; }
     Guid PowerSupplyId { get; set; }
@@ -329,9 +306,9 @@ public interface IHardwareSet : IProduct
 }
 public enum ECatalogTypes
 {
-    Master  = 0x01,
-    Project  = 0x02,
-    User  = 0x03,
+    Master = 0x01,
+    Project = 0x02,
+    User = 0x03,
 }
 
 public class Catalog : EntityBase, ICatalog
@@ -378,10 +355,7 @@ public interface IAppUserExtention
     string ProfilePictureUrl { get; set; }
     bool NewsLetterSubscription { get; set; }
 }
-public interface IContact
-{
 
-}
 public class AppUser : IdentityUser, IAppUserExtention
 {
     public string FirstName { get; set; }

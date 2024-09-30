@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace DesignSphere.Infrastructure.Migrations.AppDb
+namespace DesignSphere.Infrastructure.Migrations
 {
     /// <inheritdoc />
     public partial class Initial : Migration

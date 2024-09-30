@@ -1,11 +1,25 @@
-﻿using System;
+﻿using DesignSphere.Domain.Entites;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace DesignSphere.Domain.Common;
-public class EntityBase
+
+public interface IEntityBase
+{
+    DateTime CreationTime { get; set; }
+    Guid CreatorId { get; set; }
+    string? CreatorName { get; set; }
+    Guid Id { get; set; }
+    DateTime? LastmodificationTime { get; set; }
+    Guid? LastmodifierId { get; set; }
+    string? LastmodifierName { get; set; }
+}
+
+public class EntityBase : IEntityBase
 {
     public Guid Id { get; set; }
     public Guid CreatorId { get; set; }
