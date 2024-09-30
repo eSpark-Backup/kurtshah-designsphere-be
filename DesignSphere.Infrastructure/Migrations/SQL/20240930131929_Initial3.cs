@@ -295,63 +295,6 @@ namespace DesignSphere.Infrastructure.Migrations.SQL
                 });
 
             migrationBuilder.CreateTable(
-                name: "HardwareSets",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    HardwareCategoryId = table.Column<Guid>(type: "uuid", nullable: false),
-                    HardwareCategoryDescription = table.Column<string>(type: "text", nullable: false),
-                    HardwareSeriesId = table.Column<Guid>(type: "uuid", nullable: false),
-                    HardwareSeriesDescription = table.Column<string>(type: "text", nullable: false),
-                    PowerSupplyId = table.Column<Guid>(type: "uuid", nullable: false),
-                    PowerSupplyDescription = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreatorId = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreatorName = table.Column<string>(type: "text", nullable: true),
-                    CreationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    LastmodifierId = table.Column<Guid>(type: "uuid", nullable: true),
-                    LastmodifierName = table.Column<string>(type: "text", nullable: true),
-                    LastmodificationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    MaterialId = table.Column<Guid>(type: "uuid", nullable: false),
-                    MaterialDescription = table.Column<string>(type: "text", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    Width = table.Column<float>(type: "real", nullable: false),
-                    Height = table.Column<float>(type: "real", nullable: false),
-                    Thickness = table.Column<float>(type: "real", nullable: false),
-                    UnitPrice = table.Column<float>(type: "real", nullable: false),
-                    ManufacturerId = table.Column<Guid>(type: "uuid", nullable: false),
-                    ManufacturerName = table.Column<string>(type: "text", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_HardwareSets", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_HardwareSets_HardwareCategories_HardwareCategoryId",
-                        column: x => x.HardwareCategoryId,
-                        principalTable: "HardwareCategories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_HardwareSets_HardwaresSeries_HardwareSeriesId",
-                        column: x => x.HardwareSeriesId,
-                        principalTable: "HardwaresSeries",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_HardwareSets_Manufacturers_ManufacturerId",
-                        column: x => x.ManufacturerId,
-                        principalTable: "Manufacturers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_HardwareSets_Materials_MaterialId",
-                        column: x => x.MaterialId,
-                        principalTable: "Materials",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "PowerSupplies",
                 columns: table => new
                 {
@@ -415,6 +358,69 @@ namespace DesignSphere.Infrastructure.Migrations.SQL
                         name: "FK_ProjectPlans_Projects_ProjectId",
                         column: x => x.ProjectId,
                         principalTable: "Projects",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "HardwareSets",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    HardwareCategoryId = table.Column<Guid>(type: "uuid", nullable: false),
+                    HardwareCategoryDescription = table.Column<string>(type: "text", nullable: false),
+                    HardwareSeriesId = table.Column<Guid>(type: "uuid", nullable: false),
+                    HardwareSeriesDescription = table.Column<string>(type: "text", nullable: false),
+                    PowerSupplyId = table.Column<Guid>(type: "uuid", nullable: false),
+                    PowerSupplyDescription = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatorId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatorName = table.Column<string>(type: "text", nullable: true),
+                    CreationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    LastmodifierId = table.Column<Guid>(type: "uuid", nullable: true),
+                    LastmodifierName = table.Column<string>(type: "text", nullable: true),
+                    LastmodificationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    MaterialId = table.Column<Guid>(type: "uuid", nullable: false),
+                    MaterialDescription = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Width = table.Column<float>(type: "real", nullable: false),
+                    Height = table.Column<float>(type: "real", nullable: false),
+                    Thickness = table.Column<float>(type: "real", nullable: false),
+                    UnitPrice = table.Column<float>(type: "real", nullable: false),
+                    ManufacturerId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ManufacturerName = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HardwareSets", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_HardwareSets_HardwareCategories_HardwareCategoryId",
+                        column: x => x.HardwareCategoryId,
+                        principalTable: "HardwareCategories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_HardwareSets_HardwaresSeries_HardwareSeriesId",
+                        column: x => x.HardwareSeriesId,
+                        principalTable: "HardwaresSeries",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_HardwareSets_Manufacturers_ManufacturerId",
+                        column: x => x.ManufacturerId,
+                        principalTable: "Manufacturers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_HardwareSets_Materials_MaterialId",
+                        column: x => x.MaterialId,
+                        principalTable: "Materials",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_HardwareSets_PowerSupplies_PowerSupplyId",
+                        column: x => x.PowerSupplyId,
+                        principalTable: "PowerSupplies",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -535,6 +541,11 @@ namespace DesignSphere.Infrastructure.Migrations.SQL
                 column: "MaterialId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_HardwareSets_PowerSupplyId",
+                table: "HardwareSets",
+                column: "PowerSupplyId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PowerSupplies_ManufacturerId",
                 table: "PowerSupplies",
                 column: "ManufacturerId");
@@ -561,9 +572,6 @@ namespace DesignSphere.Infrastructure.Migrations.SQL
 
             migrationBuilder.DropTable(
                 name: "DoorOpenings");
-
-            migrationBuilder.DropTable(
-                name: "PowerSupplies");
 
             migrationBuilder.DropTable(
                 name: "ProjectDetails");
@@ -593,13 +601,16 @@ namespace DesignSphere.Infrastructure.Migrations.SQL
                 name: "HardwaresSeries");
 
             migrationBuilder.DropTable(
+                name: "PowerSupplies");
+
+            migrationBuilder.DropTable(
+                name: "Projects");
+
+            migrationBuilder.DropTable(
                 name: "Manufacturers");
 
             migrationBuilder.DropTable(
                 name: "Materials");
-
-            migrationBuilder.DropTable(
-                name: "Projects");
         }
     }
 }

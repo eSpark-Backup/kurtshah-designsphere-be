@@ -511,6 +511,8 @@ namespace DesignSphere.Infrastructure.Migrations.SQL
 
                     b.HasIndex("MaterialId");
 
+                    b.HasIndex("PowerSupplyId");
+
                     b.ToTable("HardwareSets");
                 });
 
@@ -926,6 +928,12 @@ namespace DesignSphere.Infrastructure.Migrations.SQL
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("DesignSphere.Domain.Entites.PowerSupply", null)
+                        .WithMany("HardwareSets")
+                        .HasForeignKey("PowerSupplyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Manufacturer");
 
                     b.Navigation("Material");
@@ -1000,6 +1008,11 @@ namespace DesignSphere.Infrastructure.Migrations.SQL
                     b.Navigation("HardwareSets");
 
                     b.Navigation("PowerSupplies");
+                });
+
+            modelBuilder.Entity("DesignSphere.Domain.Entites.PowerSupply", b =>
+                {
+                    b.Navigation("HardwareSets");
                 });
 
             modelBuilder.Entity("DesignSphere.Domain.Entites.Project", b =>

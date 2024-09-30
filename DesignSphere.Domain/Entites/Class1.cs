@@ -82,6 +82,7 @@ public class PowerSupply : EntityBase, IPowerSupply
     public Guid ManufacturerId { get; set; }
     public string ManufacturerName { get; set; }
     public virtual Manufacturer Manufacturer { get; }
+    public ICollection<HardwareSet> HardwareSets { get; }
 }
 public interface IPowerSupply 
 {
