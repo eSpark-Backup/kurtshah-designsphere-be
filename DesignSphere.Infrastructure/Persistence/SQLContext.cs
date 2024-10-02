@@ -24,5 +24,7 @@ public class SQLContext : DbContext
     public DbSet<Door> Doors { get; set; }
     public DbSet<DoorFrame> DoorFrames { get; set; }
     public DbSet<DoorOpening> DoorOpenings{ get; set; }
+    public DbSet<ProjectRole> ProjectRoles{ get; set; }
+    public DbSet<ProjectUserRole> ProjectUserRoles{ get; set; }
 
 }

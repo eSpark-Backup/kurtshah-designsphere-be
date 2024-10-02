@@ -16,11 +16,6 @@ public static class InfrastructureServiceRegistration
         services.AddDbContext<SQLContext>(options =>
            options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
 
-        services.AddDbContext<AppDbContext>(options =>
-            options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
-
-  
-
         return services;
     }
 }

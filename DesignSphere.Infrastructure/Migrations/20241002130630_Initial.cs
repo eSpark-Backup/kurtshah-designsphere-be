@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace DesignSphere.Infrastructure.Migrations.SQL
+namespace DesignSphere.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial3 : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -143,6 +144,25 @@ namespace DesignSphere.Infrastructure.Migrations.SQL
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ProjectDetails", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProjectRoles",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    CreatorId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatorName = table.Column<string>(type: "text", nullable: true),
+                    CreationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    LastmodifierId = table.Column<Guid>(type: "uuid", nullable: true),
+                    LastmodifierName = table.Column<string>(type: "text", nullable: true),
+                    LastmodificationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProjectRoles", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -362,6 +382,37 @@ namespace DesignSphere.Infrastructure.Migrations.SQL
                 });
 
             migrationBuilder.CreateTable(
+                name: "ProjectUserRoles",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    ProjectRoleId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ProjectId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatorId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatorName = table.Column<string>(type: "text", nullable: true),
+                    CreationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    LastmodifierId = table.Column<Guid>(type: "uuid", nullable: true),
+                    LastmodifierName = table.Column<string>(type: "text", nullable: true),
+                    LastmodificationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProjectUserRoles", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ProjectUserRoles_ProjectRoles_ProjectRoleId",
+                        column: x => x.ProjectRoleId,
+                        principalTable: "ProjectRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProjectUserRoles_Projects_ProjectId",
+                        column: x => x.ProjectId,
+                        principalTable: "Projects",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "HardwareSets",
                 columns: table => new
                 {
@@ -558,6 +609,16 @@ namespace DesignSphere.Infrastructure.Migrations.SQL
                 name: "IX_ProjectPlans_ProjectId",
                 table: "ProjectPlans",
                 column: "ProjectId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProjectUserRoles_ProjectId",
+                table: "ProjectUserRoles",
+                column: "ProjectId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProjectUserRoles_ProjectRoleId",
+                table: "ProjectUserRoles",
+                column: "ProjectRoleId");
         }
 
         /// <inheritdoc />
@@ -576,6 +637,9 @@ namespace DesignSphere.Infrastructure.Migrations.SQL
                 name: "ProjectDetails");
 
             migrationBuilder.DropTable(
+                name: "ProjectUserRoles");
+
+            migrationBuilder.DropTable(
                 name: "UserComnpanies");
 
             migrationBuilder.DropTable(
@@ -592,6 +656,9 @@ namespace DesignSphere.Infrastructure.Migrations.SQL
 
             migrationBuilder.DropTable(
                 name: "ProjectPlans");
+
+            migrationBuilder.DropTable(
+                name: "ProjectRoles");
 
             migrationBuilder.DropTable(
                 name: "HardwareCategories");

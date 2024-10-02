@@ -8,7 +8,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace DesignSphere.Infrastructure.Migrations.SQL
+namespace DesignSphere.Infrastructure.Migrations
 {
     [DbContext(typeof(SQLContext))]
     partial class SQLContextModelSnapshot : ModelSnapshot
@@ -797,6 +797,82 @@ namespace DesignSphere.Infrastructure.Migrations.SQL
                     b.ToTable("ProjectPlans");
                 });
 
+            modelBuilder.Entity("DesignSphere.Domain.Entites.ProjectRole", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid>("CreatorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("CreatorName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("LastmodificationTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid?>("LastmodifierId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("LastmodifierName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ProjectRoles");
+                });
+
+            modelBuilder.Entity("DesignSphere.Domain.Entites.ProjectUserRole", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid>("CreatorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("CreatorName")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("LastmodificationTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid?>("LastmodifierId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("LastmodifierName")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("ProjectId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ProjectRoleId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProjectId");
+
+                    b.HasIndex("ProjectRoleId");
+
+                    b.ToTable("ProjectUserRoles");
+                });
+
             modelBuilder.Entity("DesignSphere.Domain.Entites.UserComnpany", b =>
                 {
                     b.Property<Guid>("Id")
@@ -963,6 +1039,21 @@ namespace DesignSphere.Infrastructure.Migrations.SQL
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("DesignSphere.Domain.Entites.ProjectUserRole", b =>
+                {
+                    b.HasOne("DesignSphere.Domain.Entites.Project", null)
+                        .WithMany("ProjectUserRoles")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DesignSphere.Domain.Entites.ProjectRole", null)
+                        .WithMany("ProjectUserRoles")
+                        .HasForeignKey("ProjectRoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("DesignSphere.Domain.Entites.Door", b =>
                 {
                     b.Navigation("DoorOpenings");
@@ -1018,11 +1109,18 @@ namespace DesignSphere.Infrastructure.Migrations.SQL
             modelBuilder.Entity("DesignSphere.Domain.Entites.Project", b =>
                 {
                     b.Navigation("ProjectPlans");
+
+                    b.Navigation("ProjectUserRoles");
                 });
 
             modelBuilder.Entity("DesignSphere.Domain.Entites.ProjectPlan", b =>
                 {
                     b.Navigation("DoorOpenings");
+                });
+
+            modelBuilder.Entity("DesignSphere.Domain.Entites.ProjectRole", b =>
+                {
+                    b.Navigation("ProjectUserRoles");
                 });
 #pragma warning restore 612, 618
         }

@@ -18,7 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Migrations\SQL\" />
     <Folder Include="Repositries\" />
   </ItemGroup>
 

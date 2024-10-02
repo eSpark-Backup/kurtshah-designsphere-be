@@ -223,7 +223,8 @@ public class ProjectRole : EntityBase, IProjectRole
 {
     public string Description { get; set; }
     public string Name { get; set; }
-    
+    public ICollection<ProjectUserRole> ProjectUserRoles { get; set; }
+
 }
 public interface IProjectRole : IGeneric
 {
@@ -235,8 +236,6 @@ public class ProjectUserRole : EntityBase, IProjectUserRole
     public Guid ProjectRoleId { get; set; }
     [ForeignKey(nameof(Project))]
     public Guid ProjectId { get; set; }
-    public ICollection<ProjectRole> ProjectRoles { get; set; }
-    public ICollection<Project> Projects { get; set; }
 }
 public interface IProjectUserRole
 {
@@ -254,8 +253,7 @@ public class Project : EntityBase, IProject
     public bool? HelpUs { get; set; }
     public string? Comment { get; set; }
     public ICollection<ProjectPlan> ProjectPlans { get; }
-
-
+    public ICollection<ProjectUserRole> ProjectUserRoles { get; }
 }
 
 public interface IProject

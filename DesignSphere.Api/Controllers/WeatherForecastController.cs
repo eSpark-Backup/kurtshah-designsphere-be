@@ -1,8 +1,13 @@
+using Asp.Versioning;
+using AutoWrapper.Wrappers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DesignSphere.Api.Controllers;
 [ApiController]
-[Route("[controller]")]
+[Authorize(Roles = "customer1")]
+[ApiVersion("1.0")]
+[Route("v{version:apiVersion}/weather")]
 public class WeatherForecastController : ControllerBase
 {
     private static readonly string[] Summaries = new[]
@@ -16,7 +21,7 @@ public class WeatherForecastController : ControllerBase
     {
         _logger = logger;
     }
-
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
     [HttpGet(Name = "GetWeatherForecast")]
     public IEnumerable<WeatherForecast> Get()
     {

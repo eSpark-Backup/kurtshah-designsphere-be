@@ -4,63 +4,64 @@ using DesignSphere.Domain.Entites;
 using DesignSphere.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.BearerToken;
-using BuildingBlocks.Common;
+using BuildingBlocks.Common.Extensions;
+using BuildingBlocks.Common.Infrastructure;
+using Serilog;
+using BuildingBlocks.Common.Services;
+using Microsoft.AspNetCore.Authentication;
+using BuildingBlocks.Common.Filters;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 IConfiguration configuration = builder.Services.BuildServiceProvider().GetService<IConfiguration>();
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+builder.Host.UseSerilog(SeriLogger.Configure);
+
+builder.Services.AddApiCors(configuration);
+builder.Services.AddSwaggerServices(configuration);
+builder.Services.AddApiVersioningServices(configuration);
+
 builder.Services.AddInfrastructureServices(configuration);
 builder.Services.AddApplicationServices(configuration);
 
-builder.Services.AddIdentityCore<AppUser>()
-            .AddEntityFrameworkStores<AppDbContext>()
-            .AddApiEndpoints();
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddScoped(typeof(IUserService), typeof(UserService));
 
-builder.Services.Configure<IdentityOptions>(options =>
+bool isDevelopment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Testing";
+if (!isDevelopment)
+    builder.Services.AddIdentityServices(configuration);
+else
 {
-    options.Password.RequireDigit = false;
-    options.Password.RequireLowercase = false;
-    options.Password.RequireNonAlphanumeric = false;
-    options.Password.RequireUppercase = false;
-    options.Password.RequiredLength = 4;
-    options.User.RequireUniqueEmail = true;
-});
-builder.Services.AddAuthentication().AddBearerToken(IdentityConstants.BearerScheme);
-builder.Services.AddOptions<BearerTokenOptions>(IdentityConstants.BearerScheme).Configure(options =>
+    // for testing only
+    builder.Services.AddAuthentication("Test")
+     .AddScheme<AuthenticationSchemeOptions, TestAuthHandler>("Test", options => { });
+}
+builder.Services.AddAuthorization(options =>
 {
-    options.BearerTokenExpiration = TimeSpan.FromSeconds(configuration.GetValue<int>("BearerToken:BearerTokenExpiration"));
-    options.RefreshTokenExpiration = TimeSpan.FromSeconds(configuration.GetValue<int>("BearerToken:RefreshTokenExpiration"));
 });
+
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
-var app = builder.Build();
 
+var app = builder.Build();
+app.Seriloging();
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (!app.Environment.IsProduction())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.SwaggerConfigEx(builder.Configuration, app);
 }
 app.MigrateDatabase<SQLContext>((context, services) =>
 {
     var logger = services.GetService<ILogger<SqlDbContextSeed>>();
     SqlDbContextSeed.SeedAsync(context, logger).Wait();
 }); 
-app.MigrateDatabase<AppDbContext>((context, services) =>
-{
-    var logger = services.GetService<ILogger<AppDbContextSeed>>();
-    AppDbContextSeed.SeedAsync(context, logger).Wait();
-}); 
 
+app.AutoWrapperConfigEx();
 //app.UseHttpsRedirection();
-
+app.UseCors();
 app.UseAuthorization();
-app.MapIdentityApi<AppUser>();
 app.MapControllers();
 
 app.Run();
