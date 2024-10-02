@@ -1,0 +1,203 @@
+﻿{
+  "IdentityServerData": {
+    "IdentityResources": [
+      {
+        "Name": "roles",
+        "Enabled": true,
+        "DisplayName": "Roles",
+        "UserClaims": [
+          "role"
+        ]
+      },
+      {
+        "Name": "openid",
+        "Enabled": true,
+        "Required": true,
+        "DisplayName": "Your user identifier",
+        "UserClaims": [
+          "sub"
+        ]
+      },
+      {
+        "Name": "profile",
+        "Enabled": true,
+        "DisplayName": "User profile",
+        "Description": "Your user profile information (first name, last name, etc.)",
+        "Emphasize": true,
+        "UserClaims": [
+          "name",
+          "family_name",
+          "given_name",
+          "middle_name",
+          "nickname",
+          "preferred_username",
+          "profile",
+          "picture",
+          "website",
+          "phone_number",
+          "gender",
+          "birthdate",
+          "zoneinfo",
+          "locale",
+          "updated_at"
+        ]
+      },
+      {
+        "Name": "email",
+        "Enabled": true,
+        "DisplayName": "Your email address",
+        "Emphasize": true,
+        "UserClaims": [
+          "email",
+          "email_verified"
+        ]
+      },
+      {
+        "Name": "address",
+        "Enabled": true,
+        "DisplayName": "Your address",
+        "Emphasize": true,
+        "UserClaims": [
+          "address"
+        ]
+      }
+    ],
+    "ApiScopes": [
+      {
+        "Name": "adminclient_api",
+        "DisplayName": "adminclient_api",
+        "Required": true,
+        "UserClaims": [
+          "role",
+          "name"
+        ]
+      },
+      {
+        "Name": "IdentityServerApi",
+        "DisplayName": "IdentityServer Api",
+        "Required": true,
+        "UserClaims": [
+          "role",
+          "name"
+        ]
+      },
+      {
+        "Name": "ds_mainapiscope",
+        "DisplayName": "ds_mainapiscope",
+        "Required": true,
+        "UserClaims": [
+          "role",
+          "name"
+        ]
+      }
+    ],
+    "ApiResources": [
+      {
+        "Name": "IdentityServerApi",
+        "Scopes": [
+          "IdentityServerApi"
+        ]
+      },
+      {
+        "Name": "adminclient_api",
+        "Scopes": [
+          "adminclient_api"
+        ]
+      },
+      {
+        "Name": "ds_mainapi",
+        "ApiSecrets": [
+          {
+            "Value": "mysecret"
+          }
+        ],
+        "Scopes": [
+          "ds_mainapiscope"
+        ]
+      }
+    ],
+    "Clients": [
+      {
+        "ClientId": "adminclient",
+        "ClientName": "adminclient",
+        "ClientUri": "https://localhost:44303",
+        "AllowedGrantTypes": [
+          "authorization_code"
+        ],
+        "RequirePkce": true,
+        "ClientSecrets": [
+          {
+            "Value": "mysecret"
+          }
+        ],
+        "RedirectUris": [
+          "https://localhost:44303/signin-oidc"
+        ],
+        "FrontChannelLogoutUri": "https://localhost:44303/signout-oidc",
+        "PostLogoutRedirectUris": [
+          "https://localhost:44303/signout-callback-oidc"
+        ],
+        "AllowedCorsOrigins": [
+          "https://localhost:44303"
+        ],
+        "AllowedScopes": [
+          "openid",
+          "email",
+          "profile",
+          "roles"
+        ]
+      },
+      {
+        "ClientId": "adminclient_api_swaggerui",
+        "ClientName": "adminclient_api_swaggerui",
+        "AllowedGrantTypes": [
+          "authorization_code"
+        ],
+        "RequireClientSecret": false,
+        "RequirePkce": true,
+        "RedirectUris": [
+          "https://localhost:44302/swagger/oauth2-redirect.html"
+        ],
+        "AllowedScopes": [
+          "adminclient_api"
+        ],
+        "AllowedCorsOrigins": [
+          "https://localhost:44302"
+        ]
+      },
+      {
+        "ClientId": "designsphereapp",
+        "ClientName": "designsphereapp",
+        "AllowedGrantTypes": [
+          "phonenumber",
+          "google",
+          "facebook",
+          "apple"
+        ],
+        "RequirePkce": false,
+        "RequireClientSecret": true,
+        "ClientSecrets": [
+          {
+            "Value": "mysecret"
+          }
+        ],
+        "AllowOfflineAccess": true,
+        //"AccessTokenType": "Reference",
+        "AccessTokenLifetime": "86400", // one day
+        "AllowedScopes": [
+          "openid",
+          "offline_access ",
+          "profile",
+          "roles",
+          "rider_chargerapiscope",
+          "rider_stationapiscope",
+          "rider_qrapiscope",
+          "rider_financeapiscope",
+          "rider_mechanicapiscope",
+          "rider_locationapiscope",
+          "IdentityServerApi"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,28 @@
+﻿{
+  "IdentityData": {
+    "Roles": [
+      {
+        "Name": "adminrole"
+      },
+      {
+        "Name": "customer1"
+      }
+    ],
+    "Users": [
+      {
+        "Username": "admin",
+        "Password": "!QAZxsw2",
+        "Email": "admin@designsphere.io",
+        "Roles": [
+          "adminrole"
+        ],
+        "Claims": [
+          {
+            "Type": "name",
+            "Value": "admin"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,101 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<UserSecretsId>9c91d295-54c5-4d09-9bd6-f456fb74011b</UserSecretsId>
+		<DockerComposeProjectPath>..\..\docker-compose.dcproj</DockerComposeProjectPath>
+		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+		<DockerfileContext>..\..</DockerfileContext>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="AspNet.Security.OAuth.GitHub" Version="6.0.3" />
+		<PackageReference Include="AspNetCore.HealthChecks.MySql" Version="6.0.1" />
+		<PackageReference Include="AspNetCore.HealthChecks.NpgSql" Version="6.0.1" />
+		<PackageReference Include="AspNetCore.HealthChecks.SqlServer" Version="6.0.1" />
+		<PackageReference Include="AspNetCore.HealthChecks.UI" Version="6.0.2" />
+		<PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="6.0.2" />
+		<PackageReference Include="Google.Apis.Auth" Version="1.66.0" />
+		<PackageReference Include="MassTransit.AspNetCore" Version="7.3.1" />
+		<PackageReference Include="MassTransit.RabbitMQ" Version="8.2.2" />
+		<PackageReference Include="Microsoft.AspNetCore.DataProtection.EntityFrameworkCore" Version="6.0.1" />
+		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.1" />
+		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.1" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.1" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.1" />
+		<PackageReference Include="Microsoft.Extensions.http.Polly" Version="7.0.5" />
+
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.1">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="6.0.1" />
+		<PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="6.0.1" />
+		<PackageReference Include="Microsoft.Identity.Web" Version="1.22.1" />
+		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.1" />
+		<PackageReference Include="IdentityServer4.AspNetIdentity" Version="4.1.2" />
+		<PackageReference Include="IdentityServer4.EntityFramework" Version="4.1.2" />
+		<PackageReference Include="Otp.NET" Version="1.3.0" />
+	
+		<PackageReference Include="Serilog.Sinks.Console" Version="5.0.1" />
+		<PackageReference Include="Serilog.AspNetCore" Version="8.0.1" />
+		<PackageReference Include="Serilog.Sinks.Seq" Version="7.0.0" />
+		<PackageReference Include="Skoruba.AuditLogging.EntityFramework" Version="1.0.0" />
+		<PackageReference Include="NWebsec.AspNetCore.Middleware" Version="3.0.0" />
+		<PackageReference Include="Skoruba.IdentityServer4.Admin.EntityFramework.Configuration" Version="2.1.0" />
+		<PackageReference Include="Skoruba.IdentityServer4.Shared.Configuration" Version="2.1.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\BuildingBlocks\EventBus.Messages.Sts\EventBus.Messages.Sts.csproj" />
+		<ProjectReference Include="..\designsphere_identity.Admin.EntityFramework.Shared\designsphere_identity.Admin.EntityFramework.Shared.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Update="Resources\Views\Account\RegisterConfirmation.ru.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Resources\Views\Account\RegisterConfirmation.zh.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Resources\Views\Account\RegisterConfirmation.sv.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Resources\Views\Account\RegisterConfirmation.fi.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Resources\Views\Account\RegisterConfirmation.fr.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Resources\Views\Account\RegisterConfirmation.fa.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Resources\Views\Account\RegisterConfirmation.es.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Resources\Views\Account\RegisterConfirmation.de.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Resources\Views\Account\RegisterConfirmation.da.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Resources\Views\Account\RegisterConfirmation.en.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+		</EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="CustomGrants\Extensions\" />
+	  <Folder Include="Log\" />
+	</ItemGroup>
+
+</Project>
+
+
+
+
+
+
+
+

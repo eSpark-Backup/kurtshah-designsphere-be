@@ -19,9 +19,29 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DesignSphere.Application", 
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{7F543C1E-CB4D-477F-9D9B-AB692C0D2B60}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlocks.Common", "BuildingBlocks\BuildingBlocks.Common\BuildingBlocks.Common.csproj", "{D9C8250B-EAE5-4C53-A7B8-26D0E3D3D679}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlocks.Common", "BuildingBlocks\BuildingBlocks.Common\BuildingBlocks.Common.csproj", "{D9C8250B-EAE5-4C53-A7B8-26D0E3D3D679}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildingBlocks", "BuildingBlocks", "{2489BF95-B091-451B-AA2B-CADAD69FB171}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identity", "Identity", "{4D7565EF-1883-4EEB-8C25-4079502F5164}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "designsphere_identity.Admin", "Identity\designsphere_identity.Admin\designsphere_identity.Admin.csproj", "{E995D86F-42A5-4304-8514-42C427395CF3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "designsphere_identity.Admin.Api", "Identity\designsphere_identity.Admin.Api\designsphere_identity.Admin.Api.csproj", "{2A69F2AF-454C-45C1-94EF-8256E9E01EEB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "designsphere_identity.Admin.EntityFramework.MySql", "Identity\designsphere_identity.Admin.EntityFramework.MySql\designsphere_identity.Admin.EntityFramework.MySql.csproj", "{CE4146EC-24EF-473F-B8DA-38BEB2DA53A1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "designsphere_identity.Admin.EntityFramework.PostgreSQL", "Identity\designsphere_identity.Admin.EntityFramework.PostgreSQL\designsphere_identity.Admin.EntityFramework.PostgreSQL.csproj", "{2C5A4A5D-AC38-4122-9639-249DF7DC5B6D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "designsphere_identity.Admin.EntityFramework.Shared", "Identity\designsphere_identity.Admin.EntityFramework.Shared\designsphere_identity.Admin.EntityFramework.Shared.csproj", "{5C3BBDA5-6603-4743-88CE-02EF30D10E1B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "designsphere_identity.Admin.EntityFramework.SqlServer", "Identity\designsphere_identity.Admin.EntityFramework.SqlServer\designsphere_identity.Admin.EntityFramework.SqlServer.csproj", "{7BB144A9-2129-4208-B340-9219C37A3D7F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "designsphere_identity.Shared", "Identity\designsphere_identity.Shared\designsphere_identity.Shared.csproj", "{A2600206-FE19-4A2F-8CBE-E876A323EC2F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "designsphere_identity.STS.Identity", "Identity\designsphere_identity.STS.Identity\designsphere_identity.STS.Identity.csproj", "{95B503C5-EFBD-49A0-A279-BD0D4A2A8557}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventBus.Messages.Sts", "BuildingBlocks\EventBus.Messages.Sts\EventBus.Messages.Sts.csproj", "{F0E7938C-3308-476B-8E00-8ABC3875E50B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,12 +73,57 @@ Global
 		{D9C8250B-EAE5-4C53-A7B8-26D0E3D3D679}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D9C8250B-EAE5-4C53-A7B8-26D0E3D3D679}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D9C8250B-EAE5-4C53-A7B8-26D0E3D3D679}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E995D86F-42A5-4304-8514-42C427395CF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E995D86F-42A5-4304-8514-42C427395CF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E995D86F-42A5-4304-8514-42C427395CF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E995D86F-42A5-4304-8514-42C427395CF3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A69F2AF-454C-45C1-94EF-8256E9E01EEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A69F2AF-454C-45C1-94EF-8256E9E01EEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A69F2AF-454C-45C1-94EF-8256E9E01EEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A69F2AF-454C-45C1-94EF-8256E9E01EEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE4146EC-24EF-473F-B8DA-38BEB2DA53A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE4146EC-24EF-473F-B8DA-38BEB2DA53A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE4146EC-24EF-473F-B8DA-38BEB2DA53A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE4146EC-24EF-473F-B8DA-38BEB2DA53A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C5A4A5D-AC38-4122-9639-249DF7DC5B6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C5A4A5D-AC38-4122-9639-249DF7DC5B6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C5A4A5D-AC38-4122-9639-249DF7DC5B6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C5A4A5D-AC38-4122-9639-249DF7DC5B6D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C3BBDA5-6603-4743-88CE-02EF30D10E1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C3BBDA5-6603-4743-88CE-02EF30D10E1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C3BBDA5-6603-4743-88CE-02EF30D10E1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C3BBDA5-6603-4743-88CE-02EF30D10E1B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BB144A9-2129-4208-B340-9219C37A3D7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BB144A9-2129-4208-B340-9219C37A3D7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BB144A9-2129-4208-B340-9219C37A3D7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BB144A9-2129-4208-B340-9219C37A3D7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2600206-FE19-4A2F-8CBE-E876A323EC2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2600206-FE19-4A2F-8CBE-E876A323EC2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2600206-FE19-4A2F-8CBE-E876A323EC2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2600206-FE19-4A2F-8CBE-E876A323EC2F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95B503C5-EFBD-49A0-A279-BD0D4A2A8557}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95B503C5-EFBD-49A0-A279-BD0D4A2A8557}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95B503C5-EFBD-49A0-A279-BD0D4A2A8557}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95B503C5-EFBD-49A0-A279-BD0D4A2A8557}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F0E7938C-3308-476B-8E00-8ABC3875E50B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0E7938C-3308-476B-8E00-8ABC3875E50B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0E7938C-3308-476B-8E00-8ABC3875E50B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0E7938C-3308-476B-8E00-8ABC3875E50B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{D9C8250B-EAE5-4C53-A7B8-26D0E3D3D679} = {2489BF95-B091-451B-AA2B-CADAD69FB171}
+		{E995D86F-42A5-4304-8514-42C427395CF3} = {4D7565EF-1883-4EEB-8C25-4079502F5164}
+		{2A69F2AF-454C-45C1-94EF-8256E9E01EEB} = {4D7565EF-1883-4EEB-8C25-4079502F5164}
+		{CE4146EC-24EF-473F-B8DA-38BEB2DA53A1} = {4D7565EF-1883-4EEB-8C25-4079502F5164}
+		{2C5A4A5D-AC38-4122-9639-249DF7DC5B6D} = {4D7565EF-1883-4EEB-8C25-4079502F5164}
+		{5C3BBDA5-6603-4743-88CE-02EF30D10E1B} = {4D7565EF-1883-4EEB-8C25-4079502F5164}
+		{7BB144A9-2129-4208-B340-9219C37A3D7F} = {4D7565EF-1883-4EEB-8C25-4079502F5164}
+		{A2600206-FE19-4A2F-8CBE-E876A323EC2F} = {4D7565EF-1883-4EEB-8C25-4079502F5164}
+		{95B503C5-EFBD-49A0-A279-BD0D4A2A8557} = {4D7565EF-1883-4EEB-8C25-4079502F5164}
+		{F0E7938C-3308-476B-8E00-8ABC3875E50B} = {2489BF95-B091-451B-AA2B-CADAD69FB171}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9772B10F-8DD7-4952-B477-CDEF17014AA1}

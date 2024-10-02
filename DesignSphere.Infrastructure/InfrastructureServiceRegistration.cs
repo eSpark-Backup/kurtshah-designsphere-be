@@ -1,5 +1,4 @@
-﻿using DesignSphere.Domain.Entites;
-using DesignSphere.Infrastructure.Persistence;
+﻿using DesignSphere.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

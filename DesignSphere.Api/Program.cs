@@ -1,11 +1,9 @@
-using Microsoft.Extensions.Configuration;
 using DesignSphere.Infrastructure;
 using DesignSphere.Application;
 using DesignSphere.Domain.Entites;
 using DesignSphere.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.BearerToken;
-using System.Reflection;
 using BuildingBlocks.Common;
 var builder = WebApplication.CreateBuilder(args);
 

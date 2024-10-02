@@ -1,15 +1,6 @@
 ﻿using DesignSphere.Domain.Common;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore.Query.Internal;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.Design;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Collections.Specialized.BitVector32;
 
 namespace DesignSphere.Domain.Entites;
 public class Address : EntityBase, ICompanyAddress
@@ -84,7 +75,7 @@ public class PowerSupply : EntityBase, IPowerSupply
     public virtual Manufacturer Manufacturer { get; }
     public ICollection<HardwareSet> HardwareSets { get; }
 }
-public interface IPowerSupply 
+public interface IPowerSupply
 {
     float Current { get; set; }
     float VoltageString { get; set; }
@@ -140,7 +131,7 @@ public class DoorOpening : EntityBase, IDoorOpening
     [ForeignKey(nameof(Door))]
     public Guid? DoorId { get; set; }
     public string? DoorDescription { get; set; }
-    public  Door? Door { get; }
+    public Door? Door { get; }
     [ForeignKey(nameof(HardwareSet))]
     public Guid? HardwareSetId { get; set; }
     public string? HardwareSetDescription { get; set; }
@@ -179,7 +170,7 @@ public class Product : EntityBase, IProduct
     [ForeignKey(nameof(Manufacturer))]
     public Guid ManufacturerId { get; set; }
     public string ManufacturerName { get; set; }
-    public virtual Manufacturer Manufacturer{ get; set; }
+    public virtual Manufacturer Manufacturer { get; set; }
     public ICollection<DoorOpening> DoorOpenings { get; set; }
 }
 public interface IProduct : IGeneric, ISize, IUnitPrice, IProductManufacturer
@@ -187,7 +178,7 @@ public interface IProduct : IGeneric, ISize, IUnitPrice, IProductManufacturer
     Guid MaterialId { get; set; }
     string MaterialDescription { get; set; }
 }
-public interface IDoor 
+public interface IDoor
 {
     EDoorPanelType PanelType { get; set; }
     EDoorHand Hand { get; set; }
@@ -196,7 +187,7 @@ public class DoorFrame : Product, IDoorFrame
 {
 
 }
-public interface IDoorFrame 
+public interface IDoorFrame
 {
 }
 
@@ -223,12 +214,36 @@ public class ProjectDetail : EntityBase, IProjectDetail
     public EMUnits Unit { get; set; }
     public DateTime? DueDate { get; set; }
     public virtual Contarctor Comnpany { get; }
-
 }
 public interface IProjectDetail
 {
     Guid ComapanyId { get; set; }
 }
+public class ProjectRole : EntityBase, IProjectRole
+{
+    public string Description { get; set; }
+    public string Name { get; set; }
+    
+}
+public interface IProjectRole : IGeneric
+{
+
+}
+public class ProjectUserRole : EntityBase, IProjectUserRole
+{
+    [ForeignKey(nameof(ProjectRole))]
+    public Guid ProjectRoleId { get; set; }
+    [ForeignKey(nameof(Project))]
+    public Guid ProjectId { get; set; }
+    public ICollection<ProjectRole> ProjectRoles { get; set; }
+    public ICollection<Project> Projects { get; set; }
+}
+public interface IProjectUserRole
+{
+    Guid ProjectRoleId { get; set; }
+    Guid ProjectId { get; set; }
+}
+
 public class Project : EntityBase, IProject
 {
     public string Name { get; set; }
@@ -239,7 +254,7 @@ public class Project : EntityBase, IProject
     public bool? HelpUs { get; set; }
     public string? Comment { get; set; }
     public ICollection<ProjectPlan> ProjectPlans { get; }
-    
+
 
 }
 
@@ -295,7 +310,7 @@ public class HardwareSet : Product, IHardwareSet
     public Guid PowerSupplyId { get; set; }
     public Guid PowerSupplyDescription { get; set; }
 }
-public interface IHardwareSet 
+public interface IHardwareSet
 {
     Guid HardwareCategoryId { get; set; }
     string HardwareCategoryDescription { get; set; }
