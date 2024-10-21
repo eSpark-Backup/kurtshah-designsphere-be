@@ -1,5 +1,7 @@
 ﻿using DesignSphere.Domain.Entites;
+using DesignSphere.Infrastructure.Convertors;
 using Microsoft.EntityFrameworkCore;
+using Polly;
 
 namespace DesignSphere.Infrastructure.Persistence;
 public class SQLContext : DbContext
@@ -7,8 +9,20 @@ public class SQLContext : DbContext
     public SQLContext(DbContextOptions<SQLContext> options) : base(options)
     {
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
-    }
 
+    }
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Product>().UseTpcMappingStrategy();
+    }
+    protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+    {
+        configurationBuilder
+            .Properties<Ulid>()
+            .HaveConversion<UlidToStringConverter>()
+            .HaveConversion<UlidToBytesConverter>();
+    }
+    public DbSet<Product> Products { get; set; }
     public DbSet<UserComnpany> UserComnpanies { get; set; }
     public DbSet<Contarctor> Contarctors { get; set; }
     public DbSet<Project> Projects { get; set; }

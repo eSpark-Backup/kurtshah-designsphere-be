@@ -15,13 +15,13 @@ namespace DesignSphere.Infrastructure.Migrations
                 name: "Address",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<byte[]>(type: "bytea", nullable: false),
                     CountryName = table.Column<string>(type: "text", nullable: false),
                     PostalCode = table.Column<int>(type: "integer", nullable: false),
-                    CreatorId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatorId = table.Column<byte[]>(type: "bytea", nullable: false),
                     CreatorName = table.Column<string>(type: "text", nullable: true),
                     CreationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    LastmodifierId = table.Column<Guid>(type: "uuid", nullable: true),
+                    LastmodifierId = table.Column<byte[]>(type: "bytea", nullable: true),
                     LastmodifierName = table.Column<string>(type: "text", nullable: true),
                     LastmodificationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
@@ -34,14 +34,14 @@ namespace DesignSphere.Infrastructure.Migrations
                 name: "Catalogs",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<byte[]>(type: "bytea", nullable: false),
                     Type = table.Column<int>(type: "integer", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
-                    CreatorId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatorId = table.Column<byte[]>(type: "bytea", nullable: false),
                     CreatorName = table.Column<string>(type: "text", nullable: true),
                     CreationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    LastmodifierId = table.Column<Guid>(type: "uuid", nullable: true),
+                    LastmodifierId = table.Column<byte[]>(type: "bytea", nullable: true),
                     LastmodifierName = table.Column<string>(type: "text", nullable: true),
                     LastmodificationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
@@ -54,13 +54,13 @@ namespace DesignSphere.Infrastructure.Migrations
                 name: "HardwareCategories",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<byte[]>(type: "bytea", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
-                    CreatorId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatorId = table.Column<byte[]>(type: "bytea", nullable: false),
                     CreatorName = table.Column<string>(type: "text", nullable: true),
                     CreationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    LastmodifierId = table.Column<Guid>(type: "uuid", nullable: true),
+                    LastmodifierId = table.Column<byte[]>(type: "bytea", nullable: true),
                     LastmodifierName = table.Column<string>(type: "text", nullable: true),
                     LastmodificationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
@@ -73,13 +73,13 @@ namespace DesignSphere.Infrastructure.Migrations
                 name: "HardwaresSeries",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<byte[]>(type: "bytea", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
-                    CreatorId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatorId = table.Column<byte[]>(type: "bytea", nullable: false),
                     CreatorName = table.Column<string>(type: "text", nullable: true),
                     CreationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    LastmodifierId = table.Column<Guid>(type: "uuid", nullable: true),
+                    LastmodifierId = table.Column<byte[]>(type: "bytea", nullable: true),
                     LastmodifierName = table.Column<string>(type: "text", nullable: true),
                     LastmodificationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
@@ -92,13 +92,13 @@ namespace DesignSphere.Infrastructure.Migrations
                 name: "Manufacturers",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<byte[]>(type: "bytea", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
-                    CreatorId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatorId = table.Column<byte[]>(type: "bytea", nullable: false),
                     CreatorName = table.Column<string>(type: "text", nullable: true),
                     CreationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    LastmodifierId = table.Column<Guid>(type: "uuid", nullable: true),
+                    LastmodifierId = table.Column<byte[]>(type: "bytea", nullable: true),
                     LastmodifierName = table.Column<string>(type: "text", nullable: true),
                     LastmodificationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
@@ -111,13 +111,13 @@ namespace DesignSphere.Infrastructure.Migrations
                 name: "Materials",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<byte[]>(type: "bytea", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
-                    CreatorId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatorId = table.Column<byte[]>(type: "bytea", nullable: false),
                     CreatorName = table.Column<string>(type: "text", nullable: true),
                     CreationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    LastmodifierId = table.Column<Guid>(type: "uuid", nullable: true),
+                    LastmodifierId = table.Column<byte[]>(type: "bytea", nullable: true),
                     LastmodifierName = table.Column<string>(type: "text", nullable: true),
                     LastmodificationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
@@ -130,14 +130,14 @@ namespace DesignSphere.Infrastructure.Migrations
                 name: "ProjectDetails",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    ComapanyId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<byte[]>(type: "bytea", nullable: false),
+                    ComapanyId = table.Column<byte[]>(type: "bytea", nullable: false),
                     Unit = table.Column<int>(type: "integer", nullable: false),
                     DueDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    CreatorId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatorId = table.Column<byte[]>(type: "bytea", nullable: false),
                     CreatorName = table.Column<string>(type: "text", nullable: true),
                     CreationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    LastmodifierId = table.Column<Guid>(type: "uuid", nullable: true),
+                    LastmodifierId = table.Column<byte[]>(type: "bytea", nullable: true),
                     LastmodifierName = table.Column<string>(type: "text", nullable: true),
                     LastmodificationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
@@ -150,13 +150,13 @@ namespace DesignSphere.Infrastructure.Migrations
                 name: "ProjectRoles",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<byte[]>(type: "bytea", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
-                    CreatorId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatorId = table.Column<byte[]>(type: "bytea", nullable: false),
                     CreatorName = table.Column<string>(type: "text", nullable: true),
                     CreationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    LastmodifierId = table.Column<Guid>(type: "uuid", nullable: true),
+                    LastmodifierId = table.Column<byte[]>(type: "bytea", nullable: true),
                     LastmodifierName = table.Column<string>(type: "text", nullable: true),
                     LastmodificationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
@@ -169,7 +169,7 @@ namespace DesignSphere.Infrastructure.Migrations
                 name: "Projects",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<byte[]>(type: "bytea", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     PublishDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
                     DeviverableDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
@@ -177,10 +177,10 @@ namespace DesignSphere.Infrastructure.Migrations
                     Type = table.Column<int>(type: "integer", nullable: false),
                     HelpUs = table.Column<bool>(type: "boolean", nullable: true),
                     Comment = table.Column<string>(type: "text", nullable: true),
-                    CreatorId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatorId = table.Column<byte[]>(type: "bytea", nullable: false),
                     CreatorName = table.Column<string>(type: "text", nullable: true),
                     CreationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    LastmodifierId = table.Column<Guid>(type: "uuid", nullable: true),
+                    LastmodifierId = table.Column<byte[]>(type: "bytea", nullable: true),
                     LastmodifierName = table.Column<string>(type: "text", nullable: true),
                     LastmodificationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
@@ -193,13 +193,13 @@ namespace DesignSphere.Infrastructure.Migrations
                 name: "UserComnpanies",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
-                    CompanyId = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreatorId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<byte[]>(type: "bytea", nullable: false),
+                    UserId = table.Column<byte[]>(type: "bytea", nullable: false),
+                    CompanyId = table.Column<byte[]>(type: "bytea", nullable: false),
+                    CreatorId = table.Column<byte[]>(type: "bytea", nullable: false),
                     CreatorName = table.Column<string>(type: "text", nullable: true),
                     CreationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    LastmodifierId = table.Column<Guid>(type: "uuid", nullable: true),
+                    LastmodifierId = table.Column<byte[]>(type: "bytea", nullable: true),
                     LastmodifierName = table.Column<string>(type: "text", nullable: true),
                     LastmodificationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
@@ -212,13 +212,13 @@ namespace DesignSphere.Infrastructure.Migrations
                 name: "Contarctors",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<byte[]>(type: "bytea", nullable: false),
                     ContarctorName = table.Column<string>(type: "text", nullable: false),
-                    AddressId = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreatorId = table.Column<Guid>(type: "uuid", nullable: false),
+                    AddressId = table.Column<byte[]>(type: "bytea", nullable: false),
+                    CreatorId = table.Column<byte[]>(type: "bytea", nullable: false),
                     CreatorName = table.Column<string>(type: "text", nullable: true),
                     CreationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    LastmodifierId = table.Column<Guid>(type: "uuid", nullable: true),
+                    LastmodifierId = table.Column<byte[]>(type: "bytea", nullable: true),
                     LastmodifierName = table.Column<string>(type: "text", nullable: true),
                     LastmodificationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
@@ -237,14 +237,8 @@ namespace DesignSphere.Infrastructure.Migrations
                 name: "DoorFrames",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreatorId = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreatorName = table.Column<string>(type: "text", nullable: true),
-                    CreationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    LastmodifierId = table.Column<Guid>(type: "uuid", nullable: true),
-                    LastmodifierName = table.Column<string>(type: "text", nullable: true),
-                    LastmodificationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    MaterialId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<byte[]>(type: "bytea", nullable: false),
+                    MaterialId = table.Column<byte[]>(type: "bytea", nullable: false),
                     MaterialDescription = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
@@ -252,8 +246,14 @@ namespace DesignSphere.Infrastructure.Migrations
                     Height = table.Column<float>(type: "real", nullable: false),
                     Thickness = table.Column<float>(type: "real", nullable: false),
                     UnitPrice = table.Column<float>(type: "real", nullable: false),
-                    ManufacturerId = table.Column<Guid>(type: "uuid", nullable: false),
-                    ManufacturerName = table.Column<string>(type: "text", nullable: false)
+                    ManufacturerId = table.Column<byte[]>(type: "bytea", nullable: false),
+                    ManufacturerName = table.Column<string>(type: "text", nullable: false),
+                    CreatorId = table.Column<byte[]>(type: "bytea", nullable: false),
+                    CreatorName = table.Column<string>(type: "text", nullable: true),
+                    CreationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    LastmodifierId = table.Column<byte[]>(type: "bytea", nullable: true),
+                    LastmodifierName = table.Column<string>(type: "text", nullable: true),
+                    LastmodificationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -276,16 +276,8 @@ namespace DesignSphere.Infrastructure.Migrations
                 name: "Doors",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    PanelType = table.Column<int>(type: "integer", nullable: false),
-                    Hand = table.Column<int>(type: "integer", nullable: false),
-                    CreatorId = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreatorName = table.Column<string>(type: "text", nullable: true),
-                    CreationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    LastmodifierId = table.Column<Guid>(type: "uuid", nullable: true),
-                    LastmodifierName = table.Column<string>(type: "text", nullable: true),
-                    LastmodificationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    MaterialId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<byte[]>(type: "bytea", nullable: false),
+                    MaterialId = table.Column<byte[]>(type: "bytea", nullable: false),
                     MaterialDescription = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
@@ -293,8 +285,16 @@ namespace DesignSphere.Infrastructure.Migrations
                     Height = table.Column<float>(type: "real", nullable: false),
                     Thickness = table.Column<float>(type: "real", nullable: false),
                     UnitPrice = table.Column<float>(type: "real", nullable: false),
-                    ManufacturerId = table.Column<Guid>(type: "uuid", nullable: false),
-                    ManufacturerName = table.Column<string>(type: "text", nullable: false)
+                    ManufacturerId = table.Column<byte[]>(type: "bytea", nullable: false),
+                    ManufacturerName = table.Column<string>(type: "text", nullable: false),
+                    PanelType = table.Column<int>(type: "integer", nullable: false),
+                    Hand = table.Column<int>(type: "integer", nullable: false),
+                    CreatorId = table.Column<byte[]>(type: "bytea", nullable: false),
+                    CreatorName = table.Column<string>(type: "text", nullable: true),
+                    CreationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    LastmodifierId = table.Column<byte[]>(type: "bytea", nullable: true),
+                    LastmodifierName = table.Column<string>(type: "text", nullable: true),
+                    LastmodificationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -317,11 +317,8 @@ namespace DesignSphere.Infrastructure.Migrations
                 name: "PowerSupplies",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Current = table.Column<float>(type: "real", nullable: false),
-                    VoltageString = table.Column<float>(type: "real", nullable: false),
-                    Type = table.Column<int>(type: "integer", nullable: false),
-                    MaterialId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<byte[]>(type: "bytea", nullable: false),
+                    MaterialId = table.Column<byte[]>(type: "bytea", nullable: false),
                     MaterialDescription = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
@@ -329,12 +326,15 @@ namespace DesignSphere.Infrastructure.Migrations
                     Height = table.Column<float>(type: "real", nullable: false),
                     Thickness = table.Column<float>(type: "real", nullable: false),
                     UnitPrice = table.Column<float>(type: "real", nullable: false),
-                    ManufacturerId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ManufacturerId = table.Column<byte[]>(type: "bytea", nullable: false),
                     ManufacturerName = table.Column<string>(type: "text", nullable: false),
-                    CreatorId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Current = table.Column<float>(type: "real", nullable: false),
+                    VoltageString = table.Column<float>(type: "real", nullable: false),
+                    Type = table.Column<int>(type: "integer", nullable: false),
+                    CreatorId = table.Column<byte[]>(type: "bytea", nullable: false),
                     CreatorName = table.Column<string>(type: "text", nullable: true),
                     CreationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    LastmodifierId = table.Column<Guid>(type: "uuid", nullable: true),
+                    LastmodifierId = table.Column<byte[]>(type: "bytea", nullable: true),
                     LastmodifierName = table.Column<string>(type: "text", nullable: true),
                     LastmodificationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
@@ -359,14 +359,14 @@ namespace DesignSphere.Infrastructure.Migrations
                 name: "ProjectPlans",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    ProjectId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<byte[]>(type: "bytea", nullable: false),
+                    ProjectId = table.Column<byte[]>(type: "bytea", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
-                    CreatorId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatorId = table.Column<byte[]>(type: "bytea", nullable: false),
                     CreatorName = table.Column<string>(type: "text", nullable: true),
                     CreationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    LastmodifierId = table.Column<Guid>(type: "uuid", nullable: true),
+                    LastmodifierId = table.Column<byte[]>(type: "bytea", nullable: true),
                     LastmodifierName = table.Column<string>(type: "text", nullable: true),
                     LastmodificationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
@@ -385,13 +385,13 @@ namespace DesignSphere.Infrastructure.Migrations
                 name: "ProjectUserRoles",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    ProjectRoleId = table.Column<Guid>(type: "uuid", nullable: false),
-                    ProjectId = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreatorId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<byte[]>(type: "bytea", nullable: false),
+                    ProjectRoleId = table.Column<byte[]>(type: "bytea", nullable: false),
+                    ProjectId = table.Column<byte[]>(type: "bytea", nullable: false),
+                    CreatorId = table.Column<byte[]>(type: "bytea", nullable: false),
                     CreatorName = table.Column<string>(type: "text", nullable: true),
                     CreationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    LastmodifierId = table.Column<Guid>(type: "uuid", nullable: true),
+                    LastmodifierId = table.Column<byte[]>(type: "bytea", nullable: true),
                     LastmodifierName = table.Column<string>(type: "text", nullable: true),
                     LastmodificationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
@@ -416,20 +416,8 @@ namespace DesignSphere.Infrastructure.Migrations
                 name: "HardwareSets",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    HardwareCategoryId = table.Column<Guid>(type: "uuid", nullable: false),
-                    HardwareCategoryDescription = table.Column<string>(type: "text", nullable: false),
-                    HardwareSeriesId = table.Column<Guid>(type: "uuid", nullable: false),
-                    HardwareSeriesDescription = table.Column<string>(type: "text", nullable: false),
-                    PowerSupplyId = table.Column<Guid>(type: "uuid", nullable: false),
-                    PowerSupplyDescription = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreatorId = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreatorName = table.Column<string>(type: "text", nullable: true),
-                    CreationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    LastmodifierId = table.Column<Guid>(type: "uuid", nullable: true),
-                    LastmodifierName = table.Column<string>(type: "text", nullable: true),
-                    LastmodificationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    MaterialId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<byte[]>(type: "bytea", nullable: false),
+                    MaterialId = table.Column<byte[]>(type: "bytea", nullable: false),
                     MaterialDescription = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
@@ -437,8 +425,20 @@ namespace DesignSphere.Infrastructure.Migrations
                     Height = table.Column<float>(type: "real", nullable: false),
                     Thickness = table.Column<float>(type: "real", nullable: false),
                     UnitPrice = table.Column<float>(type: "real", nullable: false),
-                    ManufacturerId = table.Column<Guid>(type: "uuid", nullable: false),
-                    ManufacturerName = table.Column<string>(type: "text", nullable: false)
+                    ManufacturerId = table.Column<byte[]>(type: "bytea", nullable: false),
+                    ManufacturerName = table.Column<string>(type: "text", nullable: false),
+                    HardwareCategoryId = table.Column<byte[]>(type: "bytea", nullable: false),
+                    HardwareCategoryDescription = table.Column<string>(type: "text", nullable: false),
+                    HardwareSeriesId = table.Column<byte[]>(type: "bytea", nullable: false),
+                    HardwareSeriesDescription = table.Column<string>(type: "text", nullable: false),
+                    PowerSupplyId = table.Column<byte[]>(type: "bytea", nullable: false),
+                    PowerSupplyDescription = table.Column<byte[]>(type: "bytea", nullable: false),
+                    CreatorId = table.Column<byte[]>(type: "bytea", nullable: false),
+                    CreatorName = table.Column<string>(type: "text", nullable: true),
+                    CreationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    LastmodifierId = table.Column<byte[]>(type: "bytea", nullable: true),
+                    LastmodifierName = table.Column<string>(type: "text", nullable: true),
+                    LastmodificationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -479,23 +479,23 @@ namespace DesignSphere.Infrastructure.Migrations
                 name: "DoorOpenings",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<byte[]>(type: "bytea", nullable: false),
                     Number = table.Column<long>(type: "bigint", nullable: false),
                     Thickness = table.Column<float>(type: "real", nullable: false),
                     ActiveStopCondition = table.Column<int>(type: "integer", nullable: false),
                     Width = table.Column<float>(type: "real", nullable: false),
                     Height = table.Column<float>(type: "real", nullable: false),
-                    DoorFrameId = table.Column<Guid>(type: "uuid", nullable: true),
+                    DoorFrameId = table.Column<byte[]>(type: "bytea", nullable: true),
                     DoorFrameDescription = table.Column<string>(type: "text", nullable: true),
-                    ProjectPlanId = table.Column<Guid>(type: "uuid", nullable: false),
-                    DoorId = table.Column<Guid>(type: "uuid", nullable: true),
+                    ProjectPlanId = table.Column<byte[]>(type: "bytea", nullable: false),
+                    DoorId = table.Column<byte[]>(type: "bytea", nullable: true),
                     DoorDescription = table.Column<string>(type: "text", nullable: true),
-                    HardwareSetId = table.Column<Guid>(type: "uuid", nullable: true),
+                    HardwareSetId = table.Column<byte[]>(type: "bytea", nullable: true),
                     HardwareSetDescription = table.Column<string>(type: "text", nullable: true),
-                    CreatorId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatorId = table.Column<byte[]>(type: "bytea", nullable: false),
                     CreatorName = table.Column<string>(type: "text", nullable: true),
                     CreationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    LastmodifierId = table.Column<Guid>(type: "uuid", nullable: true),
+                    LastmodifierId = table.Column<byte[]>(type: "bytea", nullable: true),
                     LastmodifierName = table.Column<string>(type: "text", nullable: true),
                     LastmodificationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },

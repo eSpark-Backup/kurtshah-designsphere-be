@@ -10,6 +10,7 @@ using Serilog;
 using BuildingBlocks.Common.Services;
 using Microsoft.AspNetCore.Authentication;
 using BuildingBlocks.Common.Filters;
+using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -54,6 +55,12 @@ if (!app.Environment.IsProduction())
 }
 app.MigrateDatabase<SQLContext>((context, services) =>
 {
+    if (!app.Environment.IsProduction())
+    { 
+        context.Database.EnsureDeleted(); 
+        context.Database.EnsureCreated(); 
+    }
+    
     var logger = services.GetService<ILogger<SqlDbContextSeed>>();
     SqlDbContextSeed.SeedAsync(context, logger).Wait();
 }); 
