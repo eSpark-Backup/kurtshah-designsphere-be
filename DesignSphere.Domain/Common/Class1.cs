@@ -3,18 +3,34 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DesignSphere.Domain.Common;
 
-public interface IEntityBase
+public interface IEntityModifier 
 {
-    DateTime CreationTime { get; set; }
-    Ulid CreatorId { get; set; }
-    string? CreatorName { get; set; }
-    Ulid Id { get; set; }
     DateTime? LastmodificationTime { get; set; }
     Ulid? LastmodifierId { get; set; }
     string? LastmodifierName { get; set; }
 }
+public interface IEntityCreator
+{
+    DateTime CreationTime { get; set; }
+    Ulid CreatorId { get; set; }
+    string? CreatorName { get; set; }
+}
+public interface IEntityId 
+{
+    Ulid Id { get; set; }
 
-public class EntityBase : IEntityBase
+}
+public interface IEntityBase :  IEntityCreator, IEntityModifier
+{
+
+    
+}
+
+public class EntityIdentity : IEntityId
+{
+    public Ulid Id { get; set; }
+}
+public class EntityBase : EntityIdentity, IEntityBase
 {
     [DatabaseGenerated(DatabaseGeneratedOption.None)]
     public Ulid Id { get; set; } = Ulid.NewUlid();

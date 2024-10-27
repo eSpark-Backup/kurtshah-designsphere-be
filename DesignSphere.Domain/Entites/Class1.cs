@@ -1,6 +1,7 @@
 ﻿using DesignSphere.Domain.Common;
 using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Drawing;
 
 namespace DesignSphere.Domain.Entites;
 public class Address : EntityBase, ICompanyAddress
@@ -204,9 +205,11 @@ public class ProjectDetail : EntityBase, IProjectDetail
     public EMUnits Unit { get; set; }
     public DateTime? DueDate { get; set; }
     public virtual Contarctor Comnpany { get; }
+    public Ulid ProjectId { get; set; }
 }
 public interface IProjectDetail
 {
+    Ulid ProjectId { set; get; }
     Ulid ComapanyId { get; set; }
 }
 public class ProjectRole : EntityBase, IProjectRole
@@ -227,6 +230,30 @@ public class ProjectUserRole : EntityBase, IProjectUserRole
     [ForeignKey(nameof(Project))]
     public Ulid ProjectId { get; set; }
 }
+public enum EMileStoneStatus
+{
+    Opened = 0, Closed = 1, Completed = 3,
+}
+public class MileStone : EntityBase, IMileStone
+{
+    [ForeignKey(nameof(ProjectDetail))]
+    public Ulid ProjectDetailId { get; set; }
+    public DateTime DueDate { get; set; }
+    public EMileStoneStatus Status { get; set; }
+    public float Percentage { get; set; }
+    public string Description { get; set; }
+    public string Name { get; set; }
+    [ForeignKey(nameof(Project))]
+    public Ulid ProjectId { get; set; }
+}
+public interface IMileStone : IGeneric
+{
+    Ulid ProjectId { get; set; }
+    DateTime DueDate { get; set; }
+    EMileStoneStatus Status { get; set; }
+    float Percentage { get; set; }
+
+}
 public interface IProjectUserRole
 {
     Ulid ProjectRoleId { get; set; }
@@ -241,11 +268,60 @@ public class Project : EntityBase, IProject
     public EProjectStage Stage { get; set; }
     public EProjectType Type { get; set; }
     public bool? HelpUs { get; set; }
-    public string? Comment { get; set; }
-    public ICollection<ProjectPlan> ProjectPlans { get; }
-    public ICollection<ProjectUserRole> ProjectUserRoles { get; }
+    public ICollection<ProjectPlan>? ProjectPlans { get; }
+    public ICollection<ProjectUserRole>? ProjectUserRoles { get; }
+    public ICollection<ProjectLabel>? ProjectLabels { get; set; }
+    public ICollection<Post>? Posts { get; set; }
+
 }
 
+public class ProjectLabel : EntityBase, IProjectLabel
+{
+    public Color Color { get; set; }
+    public string Description { get; set; }
+    public string Name { get; set; }
+}
+public interface IProjectLabel : IGeneric
+{
+    Color Color { get; set; }
+}
+public enum IReactionType 
+{
+    Like, DisLike
+}
+public class Reaction : EntityBase, IReaction
+{
+    public IReactionType Type { get; set; }
+    [ForeignKey(nameof(Post))]
+    public Ulid PostId { get; set; }
+}
+public interface IReaction
+{
+    IReactionType Type { get; set; }
+    Ulid PostId { get; set; }
+}
+public enum IPostType
+{
+    Comment = 0, Story
+}
+public class Post : EntityBase, IPost
+{
+    public string Title { get; set; }
+    public string Description { get; set; }
+    public IPostType Type { get; set; }
+    [ForeignKey(nameof(Project))]
+    public Ulid ProjectId { get; set; }
+    public ICollection<Ulid> ReactionIds { get; set; }
+}
+public interface IPost
+{
+    string Title { get; set; }
+    string Description { get; set; }
+    IPostType Type { get; set; }
+    Ulid ProjectId { get; set; }
+    ICollection<Ulid> ReactionIds { get; set; }
+
+}
 public interface IProject
 {
     string Name { get; set; }
@@ -254,7 +330,7 @@ public interface IProject
     EProjectStage Stage { get; set; }
     EProjectType Type { get; set; }
     bool? HelpUs { get; set; }
-    string? Comment { get; set; }
+
 }
 public interface IAddress
 {
