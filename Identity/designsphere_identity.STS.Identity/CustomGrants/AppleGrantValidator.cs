@@ -167,7 +167,6 @@ public class AppleGrantValidator : IExtensionGrantValidator
                     UserName = payload["sub"].ToString(),
                     Type = EUserType.apple,
                     Email = payload["email"].ToString(),
-                    CreationDate = DateTime.UtcNow,
                 };
 
                 var result = await userManager.CreateAsync(user);

@@ -302,7 +302,7 @@ public interface IReaction
 }
 public enum IPostType
 {
-    Comment = 0, Story
+    Comment = 0, Story, Issue
 }
 public class Post : EntityBase, IPost
 {
@@ -417,31 +417,16 @@ public interface IContactor
 }
 public class UserComnpany : EntityBase, IUserComnpany
 {
-    [ForeignKey(nameof(AppUser))]
-    public Ulid UserId { get; set; }
+    public string UserId { get; set; }
     [ForeignKey(nameof(Contarctor))]
     public Ulid CompanyId { get; set; }
     public virtual Contarctor AppComnpanyUser { get; }
-    public virtual AppUser AppUser { get; }
 
 }
 public interface IUserComnpany
 {
-    Ulid UserId { get; set; }
+    string UserId { get; set; }
     Ulid CompanyId { get; set; }
 }
-public interface IAppUserExtention
-{
-    string FirstName { get; set; }
-    string LastName { get; set; }
-    string ProfilePictureUrl { get; set; }
-    bool NewsLetterSubscription { get; set; }
-}
 
-public class AppUser : IdentityUser, IAppUserExtention
-{
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
-    public string ProfilePictureUrl { get; set; }
-    public bool NewsLetterSubscription { get; set; } = true;
-}
+

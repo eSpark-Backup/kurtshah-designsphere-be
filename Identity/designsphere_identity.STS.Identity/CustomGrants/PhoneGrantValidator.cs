@@ -116,7 +116,6 @@ public class PhoneGrantValidator : IExtensionGrantValidator
                     UserName = Guid.NewGuid().ToString(),
                     PhoneNumber = request.PhoneNumber,
                     Type = EUserType.phonenumber,
-                    CreationDate = DateTime.UtcNow,
                 };
                 var result = await userManager.CreateAsync(user);
                 if (!result.Succeeded)

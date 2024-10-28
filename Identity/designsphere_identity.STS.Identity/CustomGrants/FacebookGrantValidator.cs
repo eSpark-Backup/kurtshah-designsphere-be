@@ -164,7 +164,6 @@ public class FacebookGrantValidator : IExtensionGrantValidator
                 {
                     UserName = payload.UserId,
                     Type = EUserType.facebook,
-                    CreationDate = DateTime.UtcNow,
                 };
 
                 var result = await userManager.CreateAsync(user);

@@ -159,7 +159,6 @@ public class GoogleGrantValidator : IExtensionGrantValidator
                     UserName = payload.Subject,
                     Type = EUserType.google,
                     Email = payload.Email,
-                    CreationDate = DateTime.UtcNow,
                 };
 
                 var result = await userManager.CreateAsync(user);
