@@ -277,13 +277,13 @@ public class Project : EntityBase, IProject
 
 public class ProjectLabel : EntityBase, IProjectLabel
 {
-    public Color Color { get; set; }
+    public string ColorText { get; set; }
     public string Description { get; set; }
     public string Name { get; set; }
 }
 public interface IProjectLabel : IGeneric
 {
-    Color Color { get; set; }
+    string ColorText { get; set; }
 }
 public enum IReactionType 
 {
@@ -311,7 +311,7 @@ public class Post : EntityBase, IPost
     public IPostType Type { get; set; }
     [ForeignKey(nameof(Project))]
     public Ulid ProjectId { get; set; }
-    public ICollection<Ulid> ReactionIds { get; set; }
+    public ICollection<Reaction> Reactions { get; set; }
 }
 public interface IPost
 {
@@ -319,7 +319,7 @@ public interface IPost
     string Description { get; set; }
     IPostType Type { get; set; }
     Ulid ProjectId { get; set; }
-    ICollection<Ulid> ReactionIds { get; set; }
+    ICollection<Reaction> Reactions { get; set; }
 
 }
 public interface IProject

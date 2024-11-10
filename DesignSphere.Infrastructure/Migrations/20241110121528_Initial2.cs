@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DesignSphere.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class Initial2 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -134,6 +134,7 @@ namespace DesignSphere.Infrastructure.Migrations
                     ComapanyId = table.Column<byte[]>(type: "bytea", nullable: false),
                     Unit = table.Column<int>(type: "integer", nullable: false),
                     DueDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    ProjectId = table.Column<byte[]>(type: "bytea", nullable: false),
                     CreatorId = table.Column<byte[]>(type: "bytea", nullable: false),
                     CreatorName = table.Column<string>(type: "text", nullable: true),
                     CreationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
@@ -176,7 +177,6 @@ namespace DesignSphere.Infrastructure.Migrations
                     Stage = table.Column<int>(type: "integer", nullable: false),
                     Type = table.Column<int>(type: "integer", nullable: false),
                     HelpUs = table.Column<bool>(type: "boolean", nullable: true),
-                    Comment = table.Column<string>(type: "text", nullable: true),
                     CreatorId = table.Column<byte[]>(type: "bytea", nullable: false),
                     CreatorName = table.Column<string>(type: "text", nullable: true),
                     CreationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
@@ -194,7 +194,7 @@ namespace DesignSphere.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<byte[]>(type: "bytea", nullable: false),
-                    UserId = table.Column<byte[]>(type: "bytea", nullable: false),
+                    UserId = table.Column<string>(type: "text", nullable: false),
                     CompanyId = table.Column<byte[]>(type: "bytea", nullable: false),
                     CreatorId = table.Column<byte[]>(type: "bytea", nullable: false),
                     CreatorName = table.Column<string>(type: "text", nullable: true),
@@ -356,6 +356,59 @@ namespace DesignSphere.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Post",
+                columns: table => new
+                {
+                    Id = table.Column<byte[]>(type: "bytea", nullable: false),
+                    Title = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false),
+                    Type = table.Column<int>(type: "integer", nullable: false),
+                    ProjectId = table.Column<byte[]>(type: "bytea", nullable: false),
+                    CreatorId = table.Column<byte[]>(type: "bytea", nullable: false),
+                    CreatorName = table.Column<string>(type: "text", nullable: true),
+                    CreationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    LastmodifierId = table.Column<byte[]>(type: "bytea", nullable: true),
+                    LastmodifierName = table.Column<string>(type: "text", nullable: true),
+                    LastmodificationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Post", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Post_Projects_ProjectId",
+                        column: x => x.ProjectId,
+                        principalTable: "Projects",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProjectLabel",
+                columns: table => new
+                {
+                    Id = table.Column<byte[]>(type: "bytea", nullable: false),
+                    ColorText = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    ProjectId = table.Column<byte[]>(type: "bytea", nullable: true),
+                    CreatorId = table.Column<byte[]>(type: "bytea", nullable: false),
+                    CreatorName = table.Column<string>(type: "text", nullable: true),
+                    CreationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    LastmodifierId = table.Column<byte[]>(type: "bytea", nullable: true),
+                    LastmodifierName = table.Column<string>(type: "text", nullable: true),
+                    LastmodificationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProjectLabel", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ProjectLabel_Projects_ProjectId",
+                        column: x => x.ProjectId,
+                        principalTable: "Projects",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ProjectPlans",
                 columns: table => new
                 {
@@ -471,6 +524,31 @@ namespace DesignSphere.Infrastructure.Migrations
                         name: "FK_HardwareSets_PowerSupplies_PowerSupplyId",
                         column: x => x.PowerSupplyId,
                         principalTable: "PowerSupplies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Reaction",
+                columns: table => new
+                {
+                    Id = table.Column<byte[]>(type: "bytea", nullable: false),
+                    Type = table.Column<int>(type: "integer", nullable: false),
+                    PostId = table.Column<byte[]>(type: "bytea", nullable: false),
+                    CreatorId = table.Column<byte[]>(type: "bytea", nullable: false),
+                    CreatorName = table.Column<string>(type: "text", nullable: true),
+                    CreationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    LastmodifierId = table.Column<byte[]>(type: "bytea", nullable: true),
+                    LastmodifierName = table.Column<string>(type: "text", nullable: true),
+                    LastmodificationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reaction", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Reaction_Post_PostId",
+                        column: x => x.PostId,
+                        principalTable: "Post",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -596,6 +674,11 @@ namespace DesignSphere.Infrastructure.Migrations
                 column: "PowerSupplyId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Post_ProjectId",
+                table: "Post",
+                column: "ProjectId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PowerSupplies_ManufacturerId",
                 table: "PowerSupplies",
                 column: "ManufacturerId");
@@ -604,6 +687,11 @@ namespace DesignSphere.Infrastructure.Migrations
                 name: "IX_PowerSupplies_MaterialId",
                 table: "PowerSupplies",
                 column: "MaterialId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProjectLabel_ProjectId",
+                table: "ProjectLabel",
+                column: "ProjectId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProjectPlans_ProjectId",
@@ -619,6 +707,11 @@ namespace DesignSphere.Infrastructure.Migrations
                 name: "IX_ProjectUserRoles_ProjectRoleId",
                 table: "ProjectUserRoles",
                 column: "ProjectRoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reaction_PostId",
+                table: "Reaction",
+                column: "PostId");
         }
 
         /// <inheritdoc />
@@ -637,7 +730,13 @@ namespace DesignSphere.Infrastructure.Migrations
                 name: "ProjectDetails");
 
             migrationBuilder.DropTable(
+                name: "ProjectLabel");
+
+            migrationBuilder.DropTable(
                 name: "ProjectUserRoles");
+
+            migrationBuilder.DropTable(
+                name: "Reaction");
 
             migrationBuilder.DropTable(
                 name: "UserComnpanies");
@@ -659,6 +758,9 @@ namespace DesignSphere.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "ProjectRoles");
+
+            migrationBuilder.DropTable(
+                name: "Post");
 
             migrationBuilder.DropTable(
                 name: "HardwareCategories");

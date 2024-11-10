@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DesignSphere.Infrastructure.Migrations
 {
     [DbContext(typeof(SQLContext))]
-    [Migration("20241015032356_Initial")]
-    partial class Initial
+    [Migration("20241110121528_Initial2")]
+    partial class Initial2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -362,6 +362,52 @@ namespace DesignSphere.Infrastructure.Migrations
                     b.ToTable("Materials");
                 });
 
+            modelBuilder.Entity("DesignSphere.Domain.Entites.Post", b =>
+                {
+                    b.Property<byte[]>("Id")
+                        .HasColumnType("bytea");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<byte[]>("CreatorId")
+                        .IsRequired()
+                        .HasColumnType("bytea");
+
+                    b.Property<string>("CreatorName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("LastmodificationTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<byte[]>("LastmodifierId")
+                        .HasColumnType("bytea");
+
+                    b.Property<string>("LastmodifierName")
+                        .HasColumnType("text");
+
+                    b.Property<byte[]>("ProjectId")
+                        .IsRequired()
+                        .HasColumnType("bytea");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("Post");
+                });
+
             modelBuilder.Entity("DesignSphere.Domain.Entites.Product", b =>
                 {
                     b.Property<byte[]>("Id")
@@ -433,9 +479,6 @@ namespace DesignSphere.Infrastructure.Migrations
                 {
                     b.Property<byte[]>("Id")
                         .HasColumnType("bytea");
-
-                    b.Property<string>("Comment")
-                        .HasColumnType("text");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("timestamp without time zone");
@@ -511,12 +554,62 @@ namespace DesignSphere.Infrastructure.Migrations
                     b.Property<string>("LastmodifierName")
                         .HasColumnType("text");
 
+                    b.Property<byte[]>("ProjectId")
+                        .IsRequired()
+                        .HasColumnType("bytea");
+
                     b.Property<int>("Unit")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
                     b.ToTable("ProjectDetails");
+                });
+
+            modelBuilder.Entity("DesignSphere.Domain.Entites.ProjectLabel", b =>
+                {
+                    b.Property<byte[]>("Id")
+                        .HasColumnType("bytea");
+
+                    b.Property<string>("ColorText")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<byte[]>("CreatorId")
+                        .IsRequired()
+                        .HasColumnType("bytea");
+
+                    b.Property<string>("CreatorName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("LastmodificationTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<byte[]>("LastmodifierId")
+                        .HasColumnType("bytea");
+
+                    b.Property<string>("LastmodifierName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<byte[]>("ProjectId")
+                        .HasColumnType("bytea");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("ProjectLabel");
                 });
 
             modelBuilder.Entity("DesignSphere.Domain.Entites.ProjectPlan", b =>
@@ -640,6 +733,44 @@ namespace DesignSphere.Infrastructure.Migrations
                     b.ToTable("ProjectUserRoles");
                 });
 
+            modelBuilder.Entity("DesignSphere.Domain.Entites.Reaction", b =>
+                {
+                    b.Property<byte[]>("Id")
+                        .HasColumnType("bytea");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<byte[]>("CreatorId")
+                        .IsRequired()
+                        .HasColumnType("bytea");
+
+                    b.Property<string>("CreatorName")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("LastmodificationTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<byte[]>("LastmodifierId")
+                        .HasColumnType("bytea");
+
+                    b.Property<string>("LastmodifierName")
+                        .HasColumnType("text");
+
+                    b.Property<byte[]>("PostId")
+                        .IsRequired()
+                        .HasColumnType("bytea");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PostId");
+
+                    b.ToTable("Reaction");
+                });
+
             modelBuilder.Entity("DesignSphere.Domain.Entites.UserComnpany", b =>
                 {
                     b.Property<byte[]>("Id")
@@ -668,9 +799,9 @@ namespace DesignSphere.Infrastructure.Migrations
                     b.Property<string>("LastmodifierName")
                         .HasColumnType("text");
 
-                    b.Property<byte[]>("UserId")
+                    b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("bytea");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -798,6 +929,22 @@ namespace DesignSphere.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("DesignSphere.Domain.Entites.Post", b =>
+                {
+                    b.HasOne("DesignSphere.Domain.Entites.Project", null)
+                        .WithMany("Posts")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DesignSphere.Domain.Entites.ProjectLabel", b =>
+                {
+                    b.HasOne("DesignSphere.Domain.Entites.Project", null)
+                        .WithMany("ProjectLabels")
+                        .HasForeignKey("ProjectId");
+                });
+
             modelBuilder.Entity("DesignSphere.Domain.Entites.ProjectPlan", b =>
                 {
                     b.HasOne("DesignSphere.Domain.Entites.Project", null)
@@ -818,6 +965,15 @@ namespace DesignSphere.Infrastructure.Migrations
                     b.HasOne("DesignSphere.Domain.Entites.ProjectRole", null)
                         .WithMany("ProjectUserRoles")
                         .HasForeignKey("ProjectRoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DesignSphere.Domain.Entites.Reaction", b =>
+                {
+                    b.HasOne("DesignSphere.Domain.Entites.Post", null)
+                        .WithMany("Reactions")
+                        .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -948,8 +1104,17 @@ namespace DesignSphere.Infrastructure.Migrations
                     b.Navigation("PowerSupplies");
                 });
 
+            modelBuilder.Entity("DesignSphere.Domain.Entites.Post", b =>
+                {
+                    b.Navigation("Reactions");
+                });
+
             modelBuilder.Entity("DesignSphere.Domain.Entites.Project", b =>
                 {
+                    b.Navigation("Posts");
+
+                    b.Navigation("ProjectLabels");
+
                     b.Navigation("ProjectPlans");
 
                     b.Navigation("ProjectUserRoles");

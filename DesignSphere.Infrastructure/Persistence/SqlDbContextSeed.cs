@@ -11,15 +11,15 @@ public class SqlDbContextSeed
     private static int records = 2;
     public static async Task SeedAsync(SQLContext context, ILogger<SqlDbContextSeed> logger)
     {
-        if (context.Doors.Count() == 0)
-        {
-            var mafucturers = GetManuidfactureFakeData();
-            var materials = GetMaterialFakeData();
+        //if (context.Doors.Count() == 0)
+        //{
+        //    var mafucturers = GetManuidfactureFakeData();
+        //    var materials = GetMaterialFakeData();
 
-            var doors = GetDoorFakeData(materials.FirstOrDefault(), mafucturers.FirstOrDefault());
-            context.Doors.AddRange(doors);
-            context.SaveChanges();
-        }
+        //    var doors = GetDoorFakeData(materials.FirstOrDefault(), mafucturers.FirstOrDefault());
+        //    context.Doors.AddRange(doors);
+        //    context.SaveChanges();
+        //}
     }
     private static IEnumerable<Door> GetDoorFakeData(Material mtr, Manufacturer mfp)
     {

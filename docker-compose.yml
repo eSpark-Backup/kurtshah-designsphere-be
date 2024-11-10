@@ -2,3 +2,5 @@ services:
   pgserver:
     image: postgis/postgis
 
+  rabbitmq:
+    image: rabbitmq:3-management-alpine

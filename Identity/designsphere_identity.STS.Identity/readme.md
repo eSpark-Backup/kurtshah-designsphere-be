@@ -1,6 +1,11 @@
+# Prereq
+run ps with admin
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+
 # Migration
 cd build
 .\add-migrations.ps1 -migration DbInit2 -migrationProviderName PostgreSQL
+.\add-migrations.ps1 -migration DbInit3 -migrationProviderName PostgreSQL
 # run admin for migration 
 
 dotnet ef migrations add exuser --context MylocalContext 
