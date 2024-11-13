@@ -23,3 +23,7 @@
 - dev : htps://localhost:43...
 - staging : htps://devauthapi.medchg.com
 - production : htps://authapi.medchg.com
+
+### Database
+- dev : localhost:5432
+- staging : no need will be configured via kubernates script 
