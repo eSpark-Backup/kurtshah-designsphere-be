@@ -41,12 +41,12 @@ public class DevOtpController : ControllerBase
         if (hostEnvironment.IsProduction())
             return new ApiResponse($"Environment {hostEnvironment.EnvironmentName}", false);
 
-        var user = await userManager.Users.FirstOrDefaultAsync(_ => _.PhoneNumber == req.PhoneNumber);
+        var user = await userManager.Users.FirstOrDefaultAsync(_ => _.Email == req.Email);
         if (user == null)
         {
-            return new ApiResponse(new System.Exception("Phonenumber Not Found"));
+            return new ApiResponse(new System.Exception("Email Not Found"));
         }
-        return new ApiResponse($"Otp for Development pupose only{req.PhoneNumber}", oTPService.GenerateOTP(user.UserName, req.AppHash, req.GrantType));
+        return new ApiResponse($"Otp for Development pupose only{req.Email}", oTPService.GenerateOTP(user.UserName, req.AppHash, req.GrantType));
     }
 
     [HttpPost("[action]")]
@@ -76,4 +76,6 @@ public class DevOtpDto
     public string PhoneNumber { get; set; }
     public string AppHash { get; set; }
     public string GrantType { get; set; }
+    public string Email { get; set; }
+
 }

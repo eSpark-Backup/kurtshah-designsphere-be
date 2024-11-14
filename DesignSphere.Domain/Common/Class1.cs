@@ -6,13 +6,13 @@ namespace DesignSphere.Domain.Common;
 public interface IEntityModifier 
 {
     DateTime? LastmodificationTime { get; set; }
-    Ulid? LastmodifierId { get; set; }
+    string? LastmodifierId { get; set; }
     string? LastmodifierName { get; set; }
 }
 public interface IEntityCreator
 {
     DateTime CreationTime { get; set; }
-    Ulid CreatorId { get; set; }
+    string? CreatorId { get; set; }
     string? CreatorName { get; set; }
 }
 public interface IEntityId 
@@ -34,10 +34,10 @@ public class EntityBase : EntityIdentity, IEntityBase
 {
     [DatabaseGenerated(DatabaseGeneratedOption.None)]
     public Ulid Id { get; set; } = Ulid.NewUlid();
-    public Ulid CreatorId { get; set; }
+    public string? CreatorId { get; set; }
     public string? CreatorName { get; set; }
     public DateTime CreationTime { get; set; }
-    public Ulid? LastmodifierId { get; set; }
+    public string? LastmodifierId { get; set; }
     public string? LastmodifierName { get; set; }
     public DateTime? LastmodificationTime { get; set; }
 }

@@ -173,6 +173,7 @@ public class Startup
             .AddExtensionGrantValidator<AppleGrantValidator>()
             .AddExtensionGrantValidator<FacebookGrantValidator>()
             .AddExtensionGrantValidator<BackendGrantValidator>()
+            .AddExtensionGrantValidator<EmailGrantValidator>()
                 .AddProfileService<IdentityProfileService<UserIdentity>>()//need to be implement if required
                 ;
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
@@ -191,6 +192,11 @@ public class Startup
         services.Configure<SMSConfig>(Configuration.GetSection("SMSConfig"));
         services.AddSingleton<ISMSConfig>(serviceProvider => serviceProvider.GetRequiredService<IOptions<SMSConfig>>().Value);
         services.AddTransient<ISmsService, SmsService>();
+
+        services.Configure<EmailConfig>(Configuration.GetSection("EmailConfig"));
+        services.AddSingleton<IEmailConfig>(serviceProvider => serviceProvider.GetRequiredService<IOptions<EmailConfig>>().Value);
+        services.AddScoped<IEmailService, EmailService>();
+
     }
 
     public virtual void RegisterAuthorization(IServiceCollection services)

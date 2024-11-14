@@ -229,6 +229,7 @@ public class ProjectUserRole : EntityBase, IProjectUserRole
     public Ulid ProjectRoleId { get; set; }
     [ForeignKey(nameof(Project))]
     public Ulid ProjectId { get; set; }
+    public string UserId { get; set; }
 }
 public enum EMileStoneStatus
 {
@@ -256,6 +257,7 @@ public interface IMileStone : IGeneric
 }
 public interface IProjectUserRole
 {
+    string UserId {  get; set; }
     Ulid ProjectRoleId { get; set; }
     Ulid ProjectId { get; set; }
 }

@@ -172,7 +172,8 @@
           "phonenumber",
           "google",
           "facebook",
-          "apple"
+          "apple",
+          "emailpassword"
         ],
         "RequirePkce": false,
         "RequireClientSecret": true,
@@ -189,12 +190,7 @@
           "offline_access ",
           "profile",
           "roles",
-          "rider_chargerapiscope",
-          "rider_stationapiscope",
-          "rider_qrapiscope",
-          "rider_financeapiscope",
-          "rider_mechanicapiscope",
-          "rider_locationapiscope",
+          "designsphereApi_scope",
           "IdentityServerApi"
         ]
       }

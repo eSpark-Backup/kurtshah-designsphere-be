@@ -4,3 +4,10 @@ services:
 
   rabbitmq:
     image: rabbitmq:3-management-alpine
+
+  designsphere_identity.sts.identity:
+    image: ${DOCKER_REGISTRY-}designsphereidentitystsidentity
+    build:
+      context: .
+      dockerfile: Identity/designsphere_identity.STS.Identity/Dockerfile
+

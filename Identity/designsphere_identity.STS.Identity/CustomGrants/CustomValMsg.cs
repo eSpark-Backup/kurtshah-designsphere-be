@@ -18,6 +18,8 @@ public static class CustomValMsg
     public const string InvalidRequest = "Invalid RequestType";
     public const string InvalidAudience = "Invalid audience";
     public const string InvalidIdToken = "Invalid IdToken";
+    public const string InvalidEmailPassword = "Invalid email or password";
+    public const string UserLockedOut = "User is locked out";
 
     public static string RoleNotFound(string role)
     {

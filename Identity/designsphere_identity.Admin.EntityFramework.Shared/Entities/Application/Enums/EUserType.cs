@@ -7,4 +7,5 @@ public enum EUserType
     google = 2,
     facebook = 3,
     apple = 4,
+    email = 5
 }
