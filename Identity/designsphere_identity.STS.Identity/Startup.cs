@@ -168,11 +168,6 @@ public class Startup
     {
         services.AddAuthenticationServices<AdminIdentityDbContext, UserIdentity, UserIdentityRole>(Configuration);
         services.AddIdentityServer<IdentityServerConfigurationDbContext, IdentityServerPersistedGrantDbContext, UserIdentity>(Configuration)
-            .AddExtensionGrantValidator<PhoneGrantValidator>()
-            .AddExtensionGrantValidator<GoogleGrantValidator>()
-            .AddExtensionGrantValidator<AppleGrantValidator>()
-            .AddExtensionGrantValidator<FacebookGrantValidator>()
-            .AddExtensionGrantValidator<BackendGrantValidator>()
             .AddExtensionGrantValidator<EmailGrantValidator>()
                 .AddProfileService<IdentityProfileService<UserIdentity>>()//need to be implement if required
                 ;

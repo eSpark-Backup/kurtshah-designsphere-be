@@ -20,10 +20,8 @@ using designsphere_identity.STS.Identity.CustomGrants.Services;
 using OtpNet;
 using designsphere_identity.Admin.EntityFramework.Shared.Entities.Application;
 using System.Net.Http;
-using static System.Net.WebRequestMethods;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
-using static Google.Apis.Requests.BatchRequest;
 
 namespace designsphere_identity.STS.Identity.CustomGrants;
 
