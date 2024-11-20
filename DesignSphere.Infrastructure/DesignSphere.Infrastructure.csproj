@@ -19,8 +19,4 @@
     <ProjectReference Include="..\DesignSphere.Application\DesignSphere.Application.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Repositries\" />
-  </ItemGroup>
-
 </Project>

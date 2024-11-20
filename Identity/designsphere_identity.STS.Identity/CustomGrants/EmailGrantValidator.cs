@@ -270,18 +270,21 @@ public class EmailGrantValidator : IExtensionGrantValidator
                     if (userdetailCheck.OTPStatus == EOTPStatus.OTPRequested
                      || oTPService.VerifyOTP(user.UserName, request, "testhash", GrantType))
                     {
-                        if (!user.EmailConfirmed)
-                        {
+                      //  if (!user.EmailConfirmed)
+                       // {
                             // Mark email as confirmed after successful OTP validation
                             user.EmailConfirmed = true;
                             var result = await _userManager.UpdateAsync(user);
 
-                            // create claims
-                     
-                            var claims = new List<Claim>
+                        // create claims
+                        const string role = "customer1";
+
+                        var claims = new List<Claim>
                             {
                                 new Claim(ClaimTypes.Name, user.UserName),
-                                new Claim(ClaimTypes.Email, user.Email)
+                                new Claim(ClaimTypes.Email, user.Email),
+                                new Claim(ClaimTypes.Role, role)
+
                             };
                             foreach (var claim in claims)
                             {
@@ -289,7 +292,6 @@ public class EmailGrantValidator : IExtensionGrantValidator
                             }
 
                             //assign role
-                            const string role = "customer1";
                             if (!await _roleManager.RoleExistsAsync(role))
                             {
                                 response = new(CustomValMsg.RoleNotFound(role));
@@ -298,7 +300,8 @@ public class EmailGrantValidator : IExtensionGrantValidator
                             }
                             await _userManager.AddToRoleAsync(user, role);
 
-                        }
+                      //  }
+                
 
                         userdetailCheck.OTPStatus = EOTPStatus.OTPVerified;
 

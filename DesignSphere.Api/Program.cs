@@ -1,9 +1,6 @@
 using DesignSphere.Infrastructure;
 using DesignSphere.Application;
-using DesignSphere.Domain.Entites;
 using DesignSphere.Infrastructure.Persistence;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authentication.BearerToken;
 using BuildingBlocks.Common.Extensions;
 using BuildingBlocks.Common.Infrastructure;
 using Serilog;
@@ -11,6 +8,8 @@ using BuildingBlocks.Common.Services;
 using Microsoft.AspNetCore.Authentication;
 using BuildingBlocks.Common.Filters;
 using Microsoft.EntityFrameworkCore;
+using DesignSphere.Infrastructure.Repositries;
+using DesignSphere.Application.Common;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -28,6 +27,7 @@ builder.Services.AddApplicationServices(configuration);
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped(typeof(IUserService), typeof(UserService));
+builder.Services.AddScoped(typeof(IDbGenericRepository<>), typeof(DbGenericRepository<>));
 
 bool isDevelopment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Testing";
 if (!isDevelopment)
@@ -38,10 +38,6 @@ else
     builder.Services.AddAuthentication("Test")
      .AddScheme<AuthenticationSchemeOptions, TestAuthHandler>("Test", options => { });
 }
-builder.Services.AddAuthorization(options =>
-{
-});
-
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
