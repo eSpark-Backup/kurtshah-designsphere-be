@@ -18,4 +18,8 @@
     <ProjectReference Include="..\DesignSphere.Domain\DesignSphere.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Contracts\" />
+  </ItemGroup>
+
 </Project>
