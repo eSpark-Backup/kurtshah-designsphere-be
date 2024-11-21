@@ -190,8 +190,7 @@
           "offline_access ",
           "profile",
           "roles",
-          "designsphereApi_scope",
-          "IdentityServerApi"
+          "ds_mainapiscope"
         ]
       }
     ]

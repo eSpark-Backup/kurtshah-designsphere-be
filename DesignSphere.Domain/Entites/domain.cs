@@ -1,4 +1,5 @@
 ﻿using DesignSphere.Domain.Common;
+using EventBus.Messages.Contract;
 using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Drawing;
@@ -80,7 +81,16 @@ public class Material : EntityBase, IMaterial
     public ICollection<Door> Doors { get; set; }
     public ICollection<DoorFrame> DoorFrames { get; set; }
 }
+public interface IProject
+{
+    string Name { get; set; }
+    DateTime? PublishDate { get; set; }
+    DateTime? DeviverableDate { get; set; }
+    EProjectStage Stage { get; set; }
+    EProjectType Type { get; set; }
+    bool? HelpUs { get; set; }
 
+}
 public interface IMaterial : IGeneric
 {
 
@@ -324,16 +334,7 @@ public interface IPost
     ICollection<Reaction> Reactions { get; set; }
 
 }
-public interface IProject
-{
-    string Name { get; set; }
-    DateTime? PublishDate { get; set; }
-    DateTime? DeviverableDate { get; set; }
-    EProjectStage Stage { get; set; }
-    EProjectType Type { get; set; }
-    bool? HelpUs { get; set; }
 
-}
 public interface IAddress
 {
     string CountryName { get; set; }

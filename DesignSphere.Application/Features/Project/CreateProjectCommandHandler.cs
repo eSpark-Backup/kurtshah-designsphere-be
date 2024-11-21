@@ -1,13 +1,9 @@
-﻿using DesignSphere.Application.Common;
+﻿using DesignSphere.Application.Contracts;
 using DesignSphere.Domain.Entites;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 namespace DesignSphere.Application.Features.Project;
 
-public class CreateProjectCommandRequest : IRequest<Ulid>
+public class CreateProjectCommandRequest : IRequest<Domain.Entites.Project>
 {
     public string Name { get; set; }
     public DateTime? PublishDate { get; set; }
@@ -18,19 +14,18 @@ public class CreateProjectCommandRequest : IRequest<Ulid>
 
 }
 
-public class CreateProjectCommandHandler : IRequestHandler<CreateProjectCommandRequest, Ulid>
+public class CreateProjectCommandHandler : IRequestHandler<CreateProjectCommandRequest, Domain.Entites.Project>
 
 {
-    private readonly IDbGenericRepository<Domain.Entites.Project> _repository;
+    private readonly IGpsRepository repository;
 
-
-    public CreateProjectCommandHandler(IDbGenericRepository<Domain.Entites.Project> repository)
+    public CreateProjectCommandHandler(IGpsRepository repository)
     {
-        _repository = repository;
+        this.repository = repository;
     }
 
 
-    public async Task<Ulid> Handle(CreateProjectCommandRequest request, CancellationToken cancellationToken)
+    public async Task<Domain.Entites.Project> Handle(CreateProjectCommandRequest request, CancellationToken cancellationToken)
     {
         var project = new Domain.Entites.Project
         {
@@ -43,9 +38,8 @@ public class CreateProjectCommandHandler : IRequestHandler<CreateProjectCommandR
             HelpUs = request.HelpUs
         };
 
-        await _repository.AddAsync(project, cancellationToken);
-        await _repository.SaveChangesAsync(cancellationToken);
+        await repository.AddAsync(project);
 
-        return project.Id;
+        return project;
     }
 }
