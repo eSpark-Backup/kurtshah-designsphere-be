@@ -40,4 +40,10 @@ public class EntityBase : EntityIdentity, IEntityBase
     public string? LastmodifierId { get; set; }
     public string? LastmodifierName { get; set; }
     public DateTime? LastmodificationTime { get; set; }
+
+    protected EntityBase()
+    {
+        CreationTime = DateTime.UtcNow;
+        LastmodificationTime = DateTime.UtcNow;
+    }
 }
