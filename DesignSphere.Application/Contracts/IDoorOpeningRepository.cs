@@ -2,8 +2,6 @@
 
 namespace DesignSphere.Application.Contracts;
 
-public interface IGpsRepository : IAsyncRepository<Project> 
+public interface IDoorOpeningRepository : IAsyncRepository<DoorOpening>
 {
-
 }
-

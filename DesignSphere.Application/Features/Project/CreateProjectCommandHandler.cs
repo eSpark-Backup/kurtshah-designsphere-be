@@ -1,5 +1,6 @@
 ﻿using DesignSphere.Application.Contracts;
 using DesignSphere.Domain.Entites;
+using static EventBus.Messages.Common.Enums.Enumeration;
 
 namespace DesignSphere.Application.Features.Project;
 
@@ -17,9 +18,9 @@ public class CreateProjectCommandRequest : IRequest<Domain.Entites.Project>
 public class CreateProjectCommandHandler : IRequestHandler<CreateProjectCommandRequest, Domain.Entites.Project>
 
 {
-    private readonly IGpsRepository repository;
+    private readonly IProjectRepository repository;
 
-    public CreateProjectCommandHandler(IGpsRepository repository)
+    public CreateProjectCommandHandler(IProjectRepository repository)
     {
         this.repository = repository;
     }

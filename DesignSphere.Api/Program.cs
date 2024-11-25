@@ -8,8 +8,6 @@ using BuildingBlocks.Common.Services;
 using Microsoft.AspNetCore.Authentication;
 using BuildingBlocks.Common.Filters;
 using Microsoft.EntityFrameworkCore;
-using DesignSphere.Infrastructure.Repositries;
-using DesignSphere.Application.Common;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -27,7 +25,6 @@ builder.Services.AddApplicationServices(configuration);
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped(typeof(IUserService), typeof(UserService));
-builder.Services.AddScoped(typeof(IDbGenericRepository<>), typeof(DbGenericRepository<>));
 
 bool isDevelopment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Testing";
 if (!isDevelopment)

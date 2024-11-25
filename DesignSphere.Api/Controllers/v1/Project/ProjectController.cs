@@ -1,5 +1,7 @@
 ﻿using Asp.Versioning;
 using AutoWrapper.Wrappers;
+using BuildingBlocks.Common.Models;
+using DesignSphere.Application.Contracts;
 using DesignSphere.Application.Features.Project;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,24 +16,22 @@ namespace DesignSphere.Api.Controllers.v1.Project;
 [Route("v{version:apiVersion}/project")]
 public class ProjectController : BaseApiController
 {
-    //private readonly IDbGenericRepository<Domain.Entites.Project> _repository;
+    private readonly IProjectRepository _repository;
 
-    //public ProjectController(IDbGenericRepository<Domain.Entites.Project> repository)
-    //{
-    //    _repository = repository;
+    public ProjectController(IProjectRepository repository)
+    {
+        _repository = repository;
 
-    //}
+    }
 
-
-
-    //[HttpGet]
-    //[ProducesResponseType(typeof(IEnumerable<Domain.Entites.Project>), (int)HttpStatusCode.OK)]
-    //[ProducesResponseType(typeof(PagedResponseOffset<Domain.Entites.Project>), StatusCodes.Status200OK)]
-    //public async Task<ActionResult<IEnumerable<Domain.Entites.Project>>> GetAll(CancellationToken cancellationToken)
-    //{
-    //    var result = await _repository.GetAllAsync(cancellationToken);
-    //    return Ok(result);
-    //}
+    [HttpGet]
+    [ProducesResponseType(typeof(IEnumerable<Domain.Entites.Project>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(PagedResponseOffset<Domain.Entites.Project>), StatusCodes.Status200OK)]
+    public async Task<ActionResult<IEnumerable<Domain.Entites.Project>>> GetAll()
+    {
+        var result = await _repository.GetAllAsync();
+        return Ok(result);
+    }
 
     [HttpPost("[action]")]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]

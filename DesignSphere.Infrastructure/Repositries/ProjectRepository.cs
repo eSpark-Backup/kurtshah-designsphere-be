@@ -5,11 +5,11 @@ using Microsoft.Extensions.Logging;
 
 namespace DesignSphere.Infrastructure.Repositories;
 
-public class GpsRepository : RepositoryBase<Project>, IGpsRepository
+public class ProjectRepository : RepositoryBase<Project>, IProjectRepository
 {
-    private readonly ILogger<GpsRepository> logger;
+    private readonly ILogger<ProjectRepository> logger;
 
-    public GpsRepository(SQLContext dbContext, ILogger<GpsRepository> logger) : base(dbContext)
+    public ProjectRepository(SQLContext dbContext, ILogger<ProjectRepository> logger) : base(dbContext)
     {
         this.logger = logger;
     }
