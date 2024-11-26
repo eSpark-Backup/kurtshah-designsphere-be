@@ -1,0 +1,14 @@
+﻿namespace SieveCustom.Models;
+
+public enum FilterOperator
+{
+    Equals,
+    NotEquals,
+    GreaterThan,
+    LessThan,
+    GreaterThanOrEqualTo,
+    LessThanOrEqualTo,
+    Contains,
+    StartsWith,
+    EndsWith,
+}
