@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BuildingBlocks\SieveCustom\SieveCustom.csproj" />
     <ProjectReference Include="..\DesignSphere.Application\DesignSphere.Application.csproj" />
   </ItemGroup>
 

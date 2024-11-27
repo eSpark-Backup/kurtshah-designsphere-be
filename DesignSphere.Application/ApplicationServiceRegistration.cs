@@ -13,6 +13,7 @@ public static class ApplicationServiceRegistration
         var assembly = Assembly.GetExecutingAssembly();
 
         return services
+            .AddAutoMapper(assembly)
             .AddValidatorsFromAssembly(assembly) 
             .AddMediatR(cfg => cfg.RegisterServicesFromAssembly(assembly));
     }

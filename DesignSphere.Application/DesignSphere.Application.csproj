@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.11.0" />
     <PackageReference Include="MediatR" Version="12.4.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="8.0.0" />
@@ -15,6 +16,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BuildingBlocks\BuildingBlocks.Common\BuildingBlocks.Common.csproj" />
+    <ProjectReference Include="..\BuildingBlocks\EventBus.Messages\EventBus.Messages.csproj" />
+    <ProjectReference Include="..\BuildingBlocks\SieveCustom\SieveCustom.csproj" />
     <ProjectReference Include="..\DesignSphere.Domain\DesignSphere.Domain.csproj" />
   </ItemGroup>
 

@@ -54,5 +54,17 @@ public  class Enumeration
     {
         Flush, FullGlass
     }
+    public enum EDoorMode
+    {
+        SingleDoor, SlidingDoor ,DoubleActingDoor
+    }
 
+    public enum EDoorMaterial
+    {
+        HollowMetalDoor, Gate, GlassDoor
+    }
+    public enum EDoorFrameMaterial
+    {
+        HollowMetalFrame, MetalFrame, GlassFrame
+    }
 }

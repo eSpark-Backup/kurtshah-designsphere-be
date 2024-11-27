@@ -3,16 +3,22 @@ using System.Linq.Expressions;
 using DesignSphere.Domain.Common;
 using DesignSphere.Infrastructure.Persistence;
 using DesignSphere.Application.Contracts;
+using BuildingBlocks.Common.Models;
+using SieveCustom.Services;
+using SieveCustom.Models;
+using SieveCustom.Extensions;
 
 namespace DesignSphere.Infrastructure.Repositories;
 
 public class RepositoryBase<T> : IAsyncRepository<T> where T : EntityBase
 {
     protected readonly SQLContext dbContext;
+    private readonly ISieveProcessor sieveProcessor;
 
-    public RepositoryBase(SQLContext dbContext)
+    public RepositoryBase(SQLContext dbContext, ISieveProcessor sieveProcessor)
     {
         this.dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+        this.sieveProcessor = sieveProcessor;
     }
 
     public async Task<IReadOnlyList<T>> GetAllAsync()
@@ -79,5 +85,53 @@ public class RepositoryBase<T> : IAsyncRepository<T> where T : EntityBase
     {
         dbContext.Set<T>().Remove(entity);
         await dbContext.SaveChangesAsync();
+    }
+
+    public async Task<PagedResponseOffset<T>> GetFSPOffset(SieveModel model)
+    {
+        var expression = sieveProcessor.GetFilteringExpression<T>(model);
+
+        var totalRecords = await dbContext.Set<T>()
+            .Where(expression)
+            .AsNoTracking()
+            .CountAsync();
+
+        int page = (int)model.Page;
+        int pageSize = (int)model.PageSize;
+        var data = dbContext.Set<T>()
+            .AsNoTracking()
+            .Where(expression)
+            .OrderBy(model)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToList();
+
+        return new PagedResponseOffset<T>(data, page, pageSize, totalRecords);
+
+    }
+
+
+    public async Task<PagedResponseOffset<TType>> GetFSPOffset<TType>(SieveModel model, Expression<Func<T, TType>> select) where TType : class
+    {
+        var expression = sieveProcessor.GetFilteringExpression<T>(model);
+
+        var totalRecords = await dbContext.Set<T>()
+            .AsNoTracking()
+            .Where(expression)
+            .CountAsync();
+        int page = (int)model.Page;
+        int pageSize = (int)model.PageSize;
+        if (totalRecords == 0)
+            return new PagedResponseOffset<TType>(null, page, pageSize, totalRecords);
+        var data = dbContext.Set<T>()
+            .AsNoTracking()
+            .Where(expression)
+            .Select(select)
+            .OrderBy(model)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToList();
+
+        return new PagedResponseOffset<TType>(data, page, pageSize, totalRecords);
     }
 }

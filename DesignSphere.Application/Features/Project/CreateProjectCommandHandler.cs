@@ -1,10 +1,12 @@
 ﻿using DesignSphere.Application.Contracts;
 using DesignSphere.Domain.Entites;
+using EventBus.Messages.Contract;
+using SieveCustom.Models;
 using static EventBus.Messages.Common.Enums.Enumeration;
 
 namespace DesignSphere.Application.Features.Project;
 
-public class CreateProjectCommandRequest : IRequest<Domain.Entites.Project>
+public class CreateProjectCommandRequest : IRequest<Ulid>
 {
     public string Name { get; set; }
     public DateTime? PublishDate { get; set; }
@@ -15,7 +17,7 @@ public class CreateProjectCommandRequest : IRequest<Domain.Entites.Project>
 
 }
 
-public class CreateProjectCommandHandler : IRequestHandler<CreateProjectCommandRequest, Domain.Entites.Project>
+public class CreateProjectCommandHandler : IRequestHandler<CreateProjectCommandRequest, Ulid>
 
 {
     private readonly IProjectRepository repository;
@@ -26,7 +28,7 @@ public class CreateProjectCommandHandler : IRequestHandler<CreateProjectCommandR
     }
 
 
-    public async Task<Domain.Entites.Project> Handle(CreateProjectCommandRequest request, CancellationToken cancellationToken)
+    public async Task<Ulid> Handle(CreateProjectCommandRequest request, CancellationToken cancellationToken)
     {
         var project = new Domain.Entites.Project
         {
@@ -41,6 +43,8 @@ public class CreateProjectCommandHandler : IRequestHandler<CreateProjectCommandR
 
         await repository.AddAsync(project);
 
-        return project;
+
+        return project.Id;
+        
     }
 }

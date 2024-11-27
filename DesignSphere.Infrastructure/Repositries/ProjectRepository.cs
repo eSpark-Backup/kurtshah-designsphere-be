@@ -1,16 +1,43 @@
 ﻿using DesignSphere.Application.Contracts;
 using DesignSphere.Domain.Entites;
 using DesignSphere.Infrastructure.Persistence;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using SieveCustom.Models;
+using SieveCustom.Services;
 
 namespace DesignSphere.Infrastructure.Repositories;
 
+
 public class ProjectRepository : RepositoryBase<Project>, IProjectRepository
 {
-    private readonly ILogger<ProjectRepository> logger;
+    private readonly ILogger<ProjectRepository> _logger;
+    private readonly SieveProcessor _sieveProcessor;
 
-    public ProjectRepository(SQLContext dbContext, ILogger<ProjectRepository> logger) : base(dbContext)
+    public ProjectRepository(SQLContext dbContext, ILogger<ProjectRepository> logger, SieveProcessor sieveProcessor)
+        : base(dbContext, sieveProcessor)
     {
-        this.logger = logger;
+        _logger = logger;
+        _sieveProcessor = sieveProcessor;
+
+
     }
+
+    public async Task<IReadOnlyList<Project>> GetProjectsAsync(SieveModel sieveModel)
+    {        var query = ApplyFilterAndSort(sieveModel);
+
+        var result = await query.ToListAsync();
+        return result;
+    }
+
+    private IQueryable<Project> ApplyFilterAndSort(SieveModel sieveModel)
+    {
+        var query = dbContext.Projects.AsQueryable();
+
+        query = _sieveProcessor.Apply(sieveModel, query);
+
+        return query;
+    }
+
 }
