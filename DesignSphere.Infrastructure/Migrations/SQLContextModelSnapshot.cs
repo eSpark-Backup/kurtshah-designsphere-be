@@ -34,18 +34,23 @@ namespace DesignSphere.Infrastructure.Migrations
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<byte[]>("CreatorId")
-                        .IsRequired()
-                        .HasColumnType("bytea");
+                    b.Property<string>("CreatorId")
+                        .HasColumnType("text");
 
                     b.Property<string>("CreatorName")
                         .HasColumnType("text");
 
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<DateTime?>("LastmodificationTime")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<byte[]>("LastmodifierId")
-                        .HasColumnType("bytea");
+                    b.Property<string>("LastmodifierId")
+                        .HasColumnType("text");
 
                     b.Property<string>("LastmodifierName")
                         .HasColumnType("text");
@@ -66,22 +71,27 @@ namespace DesignSphere.Infrastructure.Migrations
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<byte[]>("CreatorId")
-                        .IsRequired()
-                        .HasColumnType("bytea");
+                    b.Property<string>("CreatorId")
+                        .HasColumnType("text");
 
                     b.Property<string>("CreatorName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("DeletedBy")
                         .HasColumnType("text");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<DateTime?>("LastmodificationTime")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<byte[]>("LastmodifierId")
-                        .HasColumnType("bytea");
+                    b.Property<string>("LastmodifierId")
+                        .HasColumnType("text");
 
                     b.Property<string>("LastmodifierName")
                         .HasColumnType("text");
@@ -114,18 +124,23 @@ namespace DesignSphere.Infrastructure.Migrations
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<byte[]>("CreatorId")
-                        .IsRequired()
-                        .HasColumnType("bytea");
+                    b.Property<string>("CreatorId")
+                        .HasColumnType("text");
 
                     b.Property<string>("CreatorName")
                         .HasColumnType("text");
 
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<DateTime?>("LastmodificationTime")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<byte[]>("LastmodifierId")
-                        .HasColumnType("bytea");
+                    b.Property<string>("LastmodifierId")
+                        .HasColumnType("text");
 
                     b.Property<string>("LastmodifierName")
                         .HasColumnType("text");
@@ -148,11 +163,13 @@ namespace DesignSphere.Infrastructure.Migrations
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<byte[]>("CreatorId")
-                        .IsRequired()
-                        .HasColumnType("bytea");
+                    b.Property<string>("CreatorId")
+                        .HasColumnType("text");
 
                     b.Property<string>("CreatorName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("DeletedBy")
                         .HasColumnType("text");
 
                     b.Property<string>("DoorDescription")
@@ -167,6 +184,12 @@ namespace DesignSphere.Infrastructure.Migrations
                     b.Property<byte[]>("DoorId")
                         .HasColumnType("bytea");
 
+                    b.Property<int>("DoorMaterial")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("FrameMaterial")
+                        .HasColumnType("integer");
+
                     b.Property<string>("HardwareSetDescription")
                         .HasColumnType("text");
 
@@ -176,14 +199,20 @@ namespace DesignSphere.Infrastructure.Migrations
                     b.Property<float>("Height")
                         .HasColumnType("real");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<DateTime?>("LastmodificationTime")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<byte[]>("LastmodifierId")
-                        .HasColumnType("bytea");
+                    b.Property<string>("LastmodifierId")
+                        .HasColumnType("text");
 
                     b.Property<string>("LastmodifierName")
                         .HasColumnType("text");
+
+                    b.Property<int>("Mode")
+                        .HasColumnType("integer");
 
                     b.Property<long>("Number")
                         .HasColumnType("bigint");
@@ -219,22 +248,27 @@ namespace DesignSphere.Infrastructure.Migrations
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<byte[]>("CreatorId")
-                        .IsRequired()
-                        .HasColumnType("bytea");
+                    b.Property<string>("CreatorId")
+                        .HasColumnType("text");
 
                     b.Property<string>("CreatorName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("DeletedBy")
                         .HasColumnType("text");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<DateTime?>("LastmodificationTime")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<byte[]>("LastmodifierId")
-                        .HasColumnType("bytea");
+                    b.Property<string>("LastmodifierId")
+                        .HasColumnType("text");
 
                     b.Property<string>("LastmodifierName")
                         .HasColumnType("text");
@@ -256,22 +290,27 @@ namespace DesignSphere.Infrastructure.Migrations
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<byte[]>("CreatorId")
-                        .IsRequired()
-                        .HasColumnType("bytea");
+                    b.Property<string>("CreatorId")
+                        .HasColumnType("text");
 
                     b.Property<string>("CreatorName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("DeletedBy")
                         .HasColumnType("text");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<DateTime?>("LastmodificationTime")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<byte[]>("LastmodifierId")
-                        .HasColumnType("bytea");
+                    b.Property<string>("LastmodifierId")
+                        .HasColumnType("text");
 
                     b.Property<string>("LastmodifierName")
                         .HasColumnType("text");
@@ -293,22 +332,27 @@ namespace DesignSphere.Infrastructure.Migrations
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<byte[]>("CreatorId")
-                        .IsRequired()
-                        .HasColumnType("bytea");
+                    b.Property<string>("CreatorId")
+                        .HasColumnType("text");
 
                     b.Property<string>("CreatorName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("DeletedBy")
                         .HasColumnType("text");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<DateTime?>("LastmodificationTime")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<byte[]>("LastmodifierId")
-                        .HasColumnType("bytea");
+                    b.Property<string>("LastmodifierId")
+                        .HasColumnType("text");
 
                     b.Property<string>("LastmodifierName")
                         .HasColumnType("text");
@@ -330,22 +374,27 @@ namespace DesignSphere.Infrastructure.Migrations
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<byte[]>("CreatorId")
-                        .IsRequired()
-                        .HasColumnType("bytea");
+                    b.Property<string>("CreatorId")
+                        .HasColumnType("text");
 
                     b.Property<string>("CreatorName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("DeletedBy")
                         .HasColumnType("text");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<DateTime?>("LastmodificationTime")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<byte[]>("LastmodifierId")
-                        .HasColumnType("bytea");
+                    b.Property<string>("LastmodifierId")
+                        .HasColumnType("text");
 
                     b.Property<string>("LastmodifierName")
                         .HasColumnType("text");
@@ -367,22 +416,27 @@ namespace DesignSphere.Infrastructure.Migrations
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<byte[]>("CreatorId")
-                        .IsRequired()
-                        .HasColumnType("bytea");
+                    b.Property<string>("CreatorId")
+                        .HasColumnType("text");
 
                     b.Property<string>("CreatorName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("DeletedBy")
                         .HasColumnType("text");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<DateTime?>("LastmodificationTime")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<byte[]>("LastmodifierId")
-                        .HasColumnType("bytea");
+                    b.Property<string>("LastmodifierId")
+                        .HasColumnType("text");
 
                     b.Property<string>("LastmodifierName")
                         .HasColumnType("text");
@@ -413,11 +467,13 @@ namespace DesignSphere.Infrastructure.Migrations
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<byte[]>("CreatorId")
-                        .IsRequired()
-                        .HasColumnType("bytea");
+                    b.Property<string>("CreatorId")
+                        .HasColumnType("text");
 
                     b.Property<string>("CreatorName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("DeletedBy")
                         .HasColumnType("text");
 
                     b.Property<string>("Description")
@@ -427,11 +483,14 @@ namespace DesignSphere.Infrastructure.Migrations
                     b.Property<float>("Height")
                         .HasColumnType("real");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<DateTime?>("LastmodificationTime")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<byte[]>("LastmodifierId")
-                        .HasColumnType("bytea");
+                    b.Property<string>("LastmodifierId")
+                        .HasColumnType("text");
 
                     b.Property<string>("LastmodifierName")
                         .HasColumnType("text");
@@ -477,14 +536,20 @@ namespace DesignSphere.Infrastructure.Migrations
                     b.Property<byte[]>("Id")
                         .HasColumnType("bytea");
 
+                    b.Property<string>("Comment")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<byte[]>("CreatorId")
-                        .IsRequired()
-                        .HasColumnType("bytea");
+                    b.Property<string>("CreatorId")
+                        .HasColumnType("text");
 
                     b.Property<string>("CreatorName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("DeletedBy")
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("DeviverableDate")
@@ -493,11 +558,14 @@ namespace DesignSphere.Infrastructure.Migrations
                     b.Property<bool?>("HelpUs")
                         .HasColumnType("boolean");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<DateTime?>("LastmodificationTime")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<byte[]>("LastmodifierId")
-                        .HasColumnType("bytea");
+                    b.Property<string>("LastmodifierId")
+                        .HasColumnType("text");
 
                     b.Property<string>("LastmodifierName")
                         .HasColumnType("text");
@@ -532,21 +600,26 @@ namespace DesignSphere.Infrastructure.Migrations
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<byte[]>("CreatorId")
-                        .IsRequired()
-                        .HasColumnType("bytea");
+                    b.Property<string>("CreatorId")
+                        .HasColumnType("text");
 
                     b.Property<string>("CreatorName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("DeletedBy")
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("DueDate")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<DateTime?>("LastmodificationTime")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<byte[]>("LastmodifierId")
-                        .HasColumnType("bytea");
+                    b.Property<string>("LastmodifierId")
+                        .HasColumnType("text");
 
                     b.Property<string>("LastmodifierName")
                         .HasColumnType("text");
@@ -575,22 +648,27 @@ namespace DesignSphere.Infrastructure.Migrations
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<byte[]>("CreatorId")
-                        .IsRequired()
-                        .HasColumnType("bytea");
+                    b.Property<string>("CreatorId")
+                        .HasColumnType("text");
 
                     b.Property<string>("CreatorName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("DeletedBy")
                         .HasColumnType("text");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<DateTime?>("LastmodificationTime")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<byte[]>("LastmodifierId")
-                        .HasColumnType("bytea");
+                    b.Property<string>("LastmodifierId")
+                        .HasColumnType("text");
 
                     b.Property<string>("LastmodifierName")
                         .HasColumnType("text");
@@ -617,22 +695,27 @@ namespace DesignSphere.Infrastructure.Migrations
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<byte[]>("CreatorId")
-                        .IsRequired()
-                        .HasColumnType("bytea");
+                    b.Property<string>("CreatorId")
+                        .HasColumnType("text");
 
                     b.Property<string>("CreatorName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("DeletedBy")
                         .HasColumnType("text");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<DateTime?>("LastmodificationTime")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<byte[]>("LastmodifierId")
-                        .HasColumnType("bytea");
+                    b.Property<string>("LastmodifierId")
+                        .HasColumnType("text");
 
                     b.Property<string>("LastmodifierName")
                         .HasColumnType("text");
@@ -660,22 +743,27 @@ namespace DesignSphere.Infrastructure.Migrations
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<byte[]>("CreatorId")
-                        .IsRequired()
-                        .HasColumnType("bytea");
+                    b.Property<string>("CreatorId")
+                        .HasColumnType("text");
 
                     b.Property<string>("CreatorName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("DeletedBy")
                         .HasColumnType("text");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<DateTime?>("LastmodificationTime")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<byte[]>("LastmodifierId")
-                        .HasColumnType("bytea");
+                    b.Property<string>("LastmodifierId")
+                        .HasColumnType("text");
 
                     b.Property<string>("LastmodifierName")
                         .HasColumnType("text");
@@ -697,18 +785,23 @@ namespace DesignSphere.Infrastructure.Migrations
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<byte[]>("CreatorId")
-                        .IsRequired()
-                        .HasColumnType("bytea");
+                    b.Property<string>("CreatorId")
+                        .HasColumnType("text");
 
                     b.Property<string>("CreatorName")
                         .HasColumnType("text");
 
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<DateTime?>("LastmodificationTime")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<byte[]>("LastmodifierId")
-                        .HasColumnType("bytea");
+                    b.Property<string>("LastmodifierId")
+                        .HasColumnType("text");
 
                     b.Property<string>("LastmodifierName")
                         .HasColumnType("text");
@@ -720,6 +813,10 @@ namespace DesignSphere.Infrastructure.Migrations
                     b.Property<byte[]>("ProjectRoleId")
                         .IsRequired()
                         .HasColumnType("bytea");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -738,18 +835,23 @@ namespace DesignSphere.Infrastructure.Migrations
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<byte[]>("CreatorId")
-                        .IsRequired()
-                        .HasColumnType("bytea");
+                    b.Property<string>("CreatorId")
+                        .HasColumnType("text");
 
                     b.Property<string>("CreatorName")
                         .HasColumnType("text");
 
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<DateTime?>("LastmodificationTime")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<byte[]>("LastmodifierId")
-                        .HasColumnType("bytea");
+                    b.Property<string>("LastmodifierId")
+                        .HasColumnType("text");
 
                     b.Property<string>("LastmodifierName")
                         .HasColumnType("text");
@@ -780,18 +882,23 @@ namespace DesignSphere.Infrastructure.Migrations
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<byte[]>("CreatorId")
-                        .IsRequired()
-                        .HasColumnType("bytea");
+                    b.Property<string>("CreatorId")
+                        .HasColumnType("text");
 
                     b.Property<string>("CreatorName")
                         .HasColumnType("text");
 
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<DateTime?>("LastmodificationTime")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<byte[]>("LastmodifierId")
-                        .HasColumnType("bytea");
+                    b.Property<string>("LastmodifierId")
+                        .HasColumnType("text");
 
                     b.Property<string>("LastmodifierName")
                         .HasColumnType("text");

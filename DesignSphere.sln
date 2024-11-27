@@ -47,6 +47,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{32
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventBus.Messages", "BuildingBlocks\EventBus.Messages\EventBus.Messages.csproj", "{F3DB5869-FEB0-490F-B9FB-503EA66E4143}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SieveCustom", "BuildingBlocks\SieveCustom\SieveCustom.csproj", "{FA9DD4CA-48CA-4A97-BA1B-8EA2C5E52C0D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -117,6 +119,10 @@ Global
 		{F3DB5869-FEB0-490F-B9FB-503EA66E4143}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F3DB5869-FEB0-490F-B9FB-503EA66E4143}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F3DB5869-FEB0-490F-B9FB-503EA66E4143}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA9DD4CA-48CA-4A97-BA1B-8EA2C5E52C0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA9DD4CA-48CA-4A97-BA1B-8EA2C5E52C0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA9DD4CA-48CA-4A97-BA1B-8EA2C5E52C0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA9DD4CA-48CA-4A97-BA1B-8EA2C5E52C0D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -137,6 +143,7 @@ Global
 		{95B503C5-EFBD-49A0-A279-BD0D4A2A8557} = {4D7565EF-1883-4EEB-8C25-4079502F5164}
 		{F0E7938C-3308-476B-8E00-8ABC3875E50B} = {2489BF95-B091-451B-AA2B-CADAD69FB171}
 		{F3DB5869-FEB0-490F-B9FB-503EA66E4143} = {2489BF95-B091-451B-AA2B-CADAD69FB171}
+		{FA9DD4CA-48CA-4A97-BA1B-8EA2C5E52C0D} = {2489BF95-B091-451B-AA2B-CADAD69FB171}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9772B10F-8DD7-4952-B477-CDEF17014AA1}

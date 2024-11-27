@@ -4,6 +4,7 @@ using DesignSphere.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SieveCustom.Services;
 
 namespace DesignSphere.Infrastructure;
 
@@ -15,8 +16,9 @@ public static class InfrastructureServiceRegistration
            options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
 
         services.AddScoped(typeof(IAsyncRepository<>), typeof(RepositoryBase<>));
-        services.AddScoped(typeof(IProjectRepository), typeof(ProjectRepository));
-        services.AddScoped(typeof(IDoorOpeningRepository), typeof(DoorOpeningRepository));
+        services.AddScoped<IProjectRepository, ProjectRepository>();
+        services.AddScoped<IDoorOpeningRepository, DoorOpeningRepository>();
+        services.AddScoped<ISieveProcessor, SieveProcessor>();
 
         return services;
     }

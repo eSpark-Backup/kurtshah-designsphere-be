@@ -13,9 +13,9 @@ namespace DesignSphere.Infrastructure.Repositories;
 public class ProjectRepository : RepositoryBase<Project>, IProjectRepository
 {
     private readonly ILogger<ProjectRepository> _logger;
-    private readonly SieveProcessor _sieveProcessor;
+    private readonly ISieveProcessor _sieveProcessor;
 
-    public ProjectRepository(SQLContext dbContext, ILogger<ProjectRepository> logger, SieveProcessor sieveProcessor)
+    public ProjectRepository(SQLContext dbContext, ILogger<ProjectRepository> logger, ISieveProcessor sieveProcessor)
         : base(dbContext, sieveProcessor)
     {
         _logger = logger;

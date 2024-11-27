@@ -23,14 +23,14 @@ public class DoorOpeningController : BaseApiController
         _repository = repository;
     }
 
-    [HttpPost("CreateDoorOpening")]
-    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
-    [ProducesResponseType(typeof(Domain.Entites.DoorOpening), (int)HttpStatusCode.OK)]
-    public async Task<Domain.Entites.DoorOpening> CreateDoorOpening([FromBody] CreateDoorOpeningCommandRequest query)
-    {
+    //[HttpPost("CreateDoorOpening")]
+    //[ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+    //[ProducesResponseType(typeof(Domain.Entites.DoorOpening), (int)HttpStatusCode.OK)]
+    //public async Task<Domain.Entites.DoorOpening> CreateDoorOpening([FromBody] CreateDoorOpeningCommandRequest query)
+    //{
 
-        return await Mediator.Send(query);
-    }
+    //    return await Mediator.Send(query);
+    //}
 
 
 }

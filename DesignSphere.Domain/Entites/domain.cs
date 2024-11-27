@@ -54,9 +54,18 @@ public class DoorOpening : EntityBase, IDoorOpening
 {
     public uint Number { get; set; }
     public float Thickness { get; set; }
+
+    public EDoorMode Mode { get; set; }
+
     public EDoorCondition ActiveStopCondition { get; set; }
     public float Width { get; set; }
     public float Height { get; set; }
+
+    public EDoorMaterial DoorMaterial { get; set; }
+
+    public EDoorFrameMaterial FrameMaterial { get; set; }
+
+
     [ForeignKey(nameof(DoorFrame))]
     public Ulid? DoorFrameId { get; set; }
     public string? DoorFrameDescription { get; set; }
@@ -156,6 +165,8 @@ public class Project : EntityBase, IProject
     public EProjectStage Stage { get; set; }
     public EProjectType Type { get; set; }
     public bool? HelpUs { get; set; }
+    public string Comment { get; set; }
+
     public ICollection<ProjectPlan>? ProjectPlans { get; }
     public ICollection<ProjectUserRole>? ProjectUserRoles { get; }
     public ICollection<ProjectLabel>? ProjectLabels { get; set; }

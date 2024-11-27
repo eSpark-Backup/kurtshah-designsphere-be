@@ -9,11 +9,12 @@ using static EventBus.Messages.Common.Enums.Enumeration;
 
 namespace DesignSphere.Application.Features.Door;
 
-public class CreateDoorOpeningCommandRequest : IRequest<DoorOpening>
+public class CreateDoorOpeningCommandRequest : IRequest<Ulid>
 {
     public uint Number { get; set; }
     public float Thickness { get; set; }
     public EDoorCondition ActiveStopCondition { get; set; }
+
     public float Width { get; set; }
     public float Height { get; set; }
     public Ulid? DoorFrameId { get; set; }
@@ -25,7 +26,7 @@ public class CreateDoorOpeningCommandRequest : IRequest<DoorOpening>
     public string? HardwareSetDescription { get; set; }
 }
 
-public class CreateDoorOpeningCommandHandler : IRequestHandler<CreateDoorOpeningCommandRequest, DoorOpening>
+public class CreateDoorOpeningCommandHandler : IRequestHandler<CreateDoorOpeningCommandRequest, Ulid>
 {
     private readonly IDoorOpeningRepository _repository;
 
@@ -34,7 +35,7 @@ public class CreateDoorOpeningCommandHandler : IRequestHandler<CreateDoorOpening
         _repository = repository;
     }
 
-    public async Task<DoorOpening> Handle(CreateDoorOpeningCommandRequest request, CancellationToken cancellationToken)
+    public async Task<Ulid> Handle(CreateDoorOpeningCommandRequest request, CancellationToken cancellationToken)
     {
         var doorOpening = new DoorOpening
         {
@@ -55,6 +56,6 @@ public class CreateDoorOpeningCommandHandler : IRequestHandler<CreateDoorOpening
 
         await _repository.AddAsync(doorOpening);
 
-        return doorOpening;
+        return doorOpening.Id;
     }
 }
