@@ -14,6 +14,8 @@ public class CreateProjectCommandRequest : IRequest<Ulid>
     public EProjectStage Stage { get; set; }
     public EProjectType Type { get; set; }
     public bool? HelpUs { get; set; }
+    public string? Comment { get; set; }
+
 
 }
 
@@ -38,7 +40,8 @@ public class CreateProjectCommandHandler : IRequestHandler<CreateProjectCommandR
             DeviverableDate = request.DeviverableDate,
             Stage = request.Stage,
             Type = request.Type,
-            HelpUs = request.HelpUs
+            HelpUs = request.HelpUs,
+            Comment = request.Comment
         };
 
         await repository.AddAsync(project);

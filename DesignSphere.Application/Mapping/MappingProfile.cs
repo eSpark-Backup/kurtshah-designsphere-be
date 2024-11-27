@@ -1,7 +1,7 @@
 ﻿
 using AutoMapper;
-using DesignSphere.Domain.Entites;  // Domain models
-using EventBus.Messages.Contract;   // DTOs
+using DesignSphere.Application.Features.Project;
+using DesignSphere.Domain.Entites; 
 
 namespace DesignSphere.Application.Mappings
 {
@@ -9,7 +9,7 @@ namespace DesignSphere.Application.Mappings
     {
         public MappingProfile()
         {
-            CreateMap<Project, IProject>().ReverseMap();
+            CreateMap<Project, GetProjectQueryResult>().ReverseMap();
 
         }
     }
