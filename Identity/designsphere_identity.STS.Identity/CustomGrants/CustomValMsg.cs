@@ -20,6 +20,7 @@ public static class CustomValMsg
     public const string InvalidIdToken = "Invalid IdToken";
     public const string InvalidEmailPassword = "Invalid email or password";
     public const string UserLockedOut = "User is locked out";
+    public const string UserNotExist = "User does not exist";
 
     public static string RoleNotFound(string role)
     {

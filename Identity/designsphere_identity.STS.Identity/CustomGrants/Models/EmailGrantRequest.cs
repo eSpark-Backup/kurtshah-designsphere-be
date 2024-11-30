@@ -1,5 +1,6 @@
 ﻿using designsphere_identity.Admin.EntityFramework.Shared.Entities.Application.Enums;
 using designsphere_identity.Admin.EntityFramework.Shared.Entities.Application.Interfaces;
+using System;
 
 namespace designsphere_identity.STS.Identity.CustomGrants.Models;
 
@@ -17,6 +18,7 @@ public class EmailGrantRequest : IOTPToken ,IEmailGrantRequest
     public string? ProtectToken { get; set; }
 
     public string DeviceCode { get; set; }
+    public Boolean ForgotPassword { get; set; }
 
 
 }

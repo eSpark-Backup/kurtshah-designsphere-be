@@ -72,10 +72,120 @@ public class EmailGrantValidator : IExtensionGrantValidator
             request.FirstName = context.Request.Raw.Get("firstName");
             request.LastName = context.Request.Raw.Get("lastName");
             request.DeviceCode = context.Request.Raw.Get("devicecode");
+            request.ForgotPassword = context.Request.Raw.Get("forgotpassword") == "1";
+            request.Otp = context.Request.Raw.Get("otp");
+            request.ProtectToken = context.Request.Raw.Get("protecttoken");
 
             var otptype = context.Request.Raw.Get("otptype");
 
-            if (string.IsNullOrEmpty(request.Email) || string.IsNullOrEmpty(request.Password))
+            var user = await _userManager.Users.FirstOrDefaultAsync(_ => _.Email == request.Email);
+
+            if (request.ForgotPassword)
+            {
+                // Forgot Password Flow
+                if (string.IsNullOrEmpty(request.Email))
+                {
+                    response = new("Email is required for forgot password.");
+                    CustomResult(context, response);
+                    return;
+                }
+
+                if (user == null)
+                {
+                    response = new("User with the given email does not exist.");
+                    CustomResult(context, response);
+                    return;
+                }
+
+                var userdetail = await _userDetailRepository.GetDetailOfUser(user.UserName);
+
+                // OTP Verification
+                if (!string.IsNullOrEmpty(request.Otp) && !string.IsNullOrEmpty(request.ProtectToken))
+                {
+
+                    if (userdetail == null || userdetail.OTPStatus != EOTPStatus.OTPRequested)
+                    {
+                        response = new("Please generate OTP first.");
+                        CustomResult(context, response);
+                        return;
+                    }
+
+                   if (userdetail.OTPStatus == EOTPStatus.OTPRequested
+                        || oTPService.VerifyOTP(user.UserName, request, "testhash", GrantType))
+                        {
+                            // Reset Password
+                            if (string.IsNullOrEmpty(request.Password))
+                        {
+                            response = new("New password is required to reset password.");
+                            CustomResult(context, response);
+                            return;
+                        }
+
+                        var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
+                        var resetResult = await _userManager.ResetPasswordAsync(user, resetToken, request.Password);
+
+                        if (!resetResult.Succeeded)
+                        {
+                            response = new(resetResult.Errors.First().Description);
+                            CustomResult(context, response);
+                            return;
+                        }
+
+                        userdetail.OTPStatus = EOTPStatus.OTPVerified;
+                        await _userDetailRepository.UpdateAndLog(userdetail);
+
+                        response = new("Password has been reset successfully.");
+                        CustomResult(context, response);
+                        return;
+                    }
+                    else
+                    {
+                        response = new("Invalid or expired OTP.");
+                        CustomResult(context, response);
+                        return;
+                    }
+                }
+                else
+                {
+                    // Generate OTP
+                    var forgotOtpResponse = await GenerateOtpApiCall(user.Email);
+
+                    if (forgotOtpResponse.StatusCode == 200)
+                    {
+                        userdetail ??= new UserDetail
+                        {
+                            CreatorId = user.UserName,
+                            UserIdentityId = user.Id,
+                            OTPStatus = EOTPStatus.OTPRequested,
+                            UserName = user.UserName,
+                            OTPRetries = 1,
+                            Name = user.FirstName
+                        };
+
+                        userdetail.OTPStatus = EOTPStatus.OTPRequested;
+                        userdetail.OTPRetries += 1;
+
+                        await _userDetailRepository.UpdateAndLog(userdetail);
+
+                        var apiResponse = JsonConvert.DeserializeObject<JObject>(forgotOtpResponse.Message);
+                        var result = apiResponse["result"] as JObject;
+                        var otp = result["otp"]?.ToString();
+                        var protectToken = result["protectToken"]?.ToString();
+
+                        response = new(CustomValMsg.OtpSent(user, oTPService.Validity), protectToken);
+                        CustomResult(context, response);
+                        return;
+                    }
+                    else
+                    {
+                        response = new(CustomValMsg.MessageServiceUnavailable);
+                        CustomResult(context, response);
+                        return;
+                    }
+                }
+            }
+
+            if ((string.IsNullOrEmpty(request.Email) || string.IsNullOrEmpty(request.Password)) && request.OtpType == EPhoneOtp.Generate)
             {
                 response = new(CustomValMsg.ParamMissing);
                 CustomResult(context, response);
@@ -89,11 +199,21 @@ public class EmailGrantValidator : IExtensionGrantValidator
                 CustomResult(context, response);
                 return;
             }
+            else if(deviceCheck == null && (request.DeviceCode != null))
+            {
+                // If the device does not exist in the database, create a new device
+                var newDevice = new Device
+                {
+                    DeviceCode = request.DeviceCode,
+                    DeviceStatus = EDeviceStatus.Allow
+                };
 
-            var user = await _userManager
-            .Users
-            .FirstOrDefaultAsync(_ => _.Email == request.Email);
-            if (user != null)
+                await _deviceRepository.AddAsync(newDevice);
+
+                deviceCheck = await _deviceRepository.GetDeviceCheck(request.DeviceCode);
+            }
+
+            if (user != null && request.OtpType == EPhoneOtp.Generate)
             {
                 if (user != null && !await _userManager.CheckPasswordAsync(user, request.Password))
                 {
@@ -111,11 +231,15 @@ public class EmailGrantValidator : IExtensionGrantValidator
 
             }
             // Handle new registration
+            if (user == null && (string.IsNullOrEmpty(request.FirstName) || string.IsNullOrEmpty(request.LastName)))
+            {
+                response = new(CustomValMsg.UserNotExist);
+                CustomResult(context, response);
+                return;
+            }
 
             if (user == null)
             {
-           
-
                 if (string.IsNullOrEmpty(request.FirstName) || string.IsNullOrEmpty(request.LastName))
                 {
                     response = new("First name and last name are required for new users.");
