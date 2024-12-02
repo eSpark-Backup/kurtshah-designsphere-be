@@ -24,6 +24,11 @@ public class CreateDoorOpeningCommandRequest : IRequest<Ulid>
     public string? DoorDescription { get; set; }
     public Ulid? HardwareSetId { get; set; }
     public string? HardwareSetDescription { get; set; }
+    public EDoorMode Mode { get; set; }
+    public EDoorMaterial DoorMaterial { get; set; }
+    public EDoorFrameMaterial FrameMaterial { get; set; }
+
+
 }
 
 public class CreateDoorOpeningCommandHandler : IRequestHandler<CreateDoorOpeningCommandRequest, Ulid>
@@ -51,7 +56,11 @@ public class CreateDoorOpeningCommandHandler : IRequestHandler<CreateDoorOpening
             DoorId = request.DoorId,
             DoorDescription = request.DoorDescription,
             HardwareSetId = request.HardwareSetId,
-            HardwareSetDescription = request.HardwareSetDescription
+            HardwareSetDescription = request.HardwareSetDescription,
+            Mode = request.Mode,
+            DoorMaterial = request.DoorMaterial,
+            FrameMaterial=request.FrameMaterial,
+            
         };
 
         await _repository.AddAsync(doorOpening);

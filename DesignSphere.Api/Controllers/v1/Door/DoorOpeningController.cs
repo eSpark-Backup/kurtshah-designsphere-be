@@ -16,21 +16,21 @@ namespace DesignSphere.Api.Controllers.v1.Door;
 [Route("v{version:apiVersion}/door")]
 public class DoorOpeningController : BaseApiController
 {
-    private readonly IProjectRepository _repository;
+    private readonly IDoorOpeningRepository _repository;
 
-    public DoorOpeningController(IProjectRepository repository)
+    public DoorOpeningController(IDoorOpeningRepository repository)
     {
         _repository = repository;
     }
 
-    //[HttpPost("CreateDoorOpening")]
-    //[ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
-    //[ProducesResponseType(typeof(Domain.Entites.DoorOpening), (int)HttpStatusCode.OK)]
-    //public async Task<Domain.Entites.DoorOpening> CreateDoorOpening([FromBody] CreateDoorOpeningCommandRequest query)
-    //{
+    [HttpPost("CreateDoorOpening")]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(Ulid), (int)HttpStatusCode.OK)]
+    public async Task<Ulid> CreateDoorOpening([FromBody] CreateDoorOpeningCommandRequest query)
+    {
 
-    //    return await Mediator.Send(query);
-    //}
+        return await Mediator.Send(query);
+    }
 
 
 }

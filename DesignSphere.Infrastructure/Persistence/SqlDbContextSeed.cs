@@ -1,5 +1,7 @@
 ﻿using Bogus;
+using Bogus.DataSets;
 using DesignSphere.Domain.Entites;
+using EventBus.Messages.Contract;
 using Microsoft.Extensions.Logging;
 using Polly;
 
@@ -21,37 +23,37 @@ public class SqlDbContextSeed
         //    context.SaveChanges();
         //}
     }
-    //private static IEnumerable<Door> GetDoorFakeData(Material mtr, Manufacturer mfp)
-    //{
-    //    return new Faker<Door>()
-    //        .UseSeed(42)
-    //        .Ignore(m => m.Id)
-    //.RuleFor(m => m.CreatorId, m => creatorID)
-    //.RuleFor(m => m.CreatorName, m => creatorName)
-    //.RuleFor(m => m.ManufacturerId, m => mfp.Id)
-    //.RuleFor(m => m.ManufacturerName, m => mfp.Name)
-    //.RuleFor(m => m.MaterialId, m => mtr.Id)
-    //.RuleFor(m => m.MaterialDescription, m => mtr.Description)
-    //.Generate(5);
-    //}
+    private static IEnumerable<Door> GetDoorFakeData(Material mtr, Manufacturer mfp)
+    {
+        return new Faker<Door>()
+            .UseSeed(42)
+            .Ignore(m => m.Id)
+    .RuleFor(m => m.CreatorId, _ => creatorID.ToString())
+    .RuleFor(m => m.CreatorName, m => creatorName)
+    .RuleFor(m => m.ManufacturerId, m => mfp.Id)
+    .RuleFor(m => m.ManufacturerName, m => mfp.Name)
+    .RuleFor(m => m.MaterialId, m => mtr.Id)
+    .RuleFor(m => m.MaterialDescription, m => mtr.Description)
+    .Generate(5);
+    }
 
-    //private static IEnumerable<Manufacturer> GetManuidfactureFakeData()
-    //{
-    //    return new Faker<Manufacturer>()
-    //        .UseSeed(42)
-    //        .Ignore(m => m.Id)
-    //        .RuleFor(m => m.CreatorId, m => creatorID)
-    //        .RuleFor(m => m.CreatorName, m => creatorName)
-    //        .Generate(5);
-    //}
+    private static IEnumerable<Manufacturer> GetManuidfactureFakeData()
+    {
+        return new Faker<Manufacturer>()
+            .UseSeed(42)
+            .Ignore(m => m.Id)
+            .RuleFor(m => m.CreatorId, _ => creatorID.ToString())
+            .RuleFor(m => m.CreatorName, _ => creatorName)
+            .Generate(5);
+    }
 
-    //private static IEnumerable<Material> GetMaterialFakeData()
-    //{
-    //    return new Faker<Material>()
-    //        .UseSeed(42)
-    //        .RuleFor(m => m.CreatorId, m => creatorID)
-    //        .RuleFor(m => m.CreatorName, m => creatorName)
-    //        .Ignore(m => m.Id)
-    //        .Generate(5);
-    //}
+    private static IEnumerable<Material> GetMaterialFakeData()
+    {
+        return new Faker<Material>()
+            .UseSeed(42)
+            .RuleFor(m => m.CreatorId, _ => creatorID.ToString())
+            .RuleFor(m => m.CreatorName, m => creatorName)
+            .Ignore(m => m.Id)
+            .Generate(5);
+    }
 }
