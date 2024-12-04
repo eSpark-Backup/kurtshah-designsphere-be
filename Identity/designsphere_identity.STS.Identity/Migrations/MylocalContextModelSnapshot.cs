@@ -22,6 +22,23 @@ namespace designsphere_identity.STS.Identity.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("designsphere_identity.Admin.EntityFramework.Shared.Entities.Application.Country", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Countries", (string)null);
+                });
+
             modelBuilder.Entity("designsphere_identity.Admin.EntityFramework.Shared.Entities.Application.Device", b =>
                 {
                     b.Property<Guid>("Id")
@@ -45,7 +62,7 @@ namespace designsphere_identity.STS.Identity.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Devices");
+                    b.ToTable("Devices", (string)null);
                 });
 
             modelBuilder.Entity("designsphere_identity.Admin.EntityFramework.Shared.Entities.Application.ExUserIdentity", b =>
@@ -68,11 +85,20 @@ namespace designsphere_identity.STS.Identity.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("boolean");
 
+                    b.Property<string>("FirstName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("text");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("boolean");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool?>("NewsLetterSubscription")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("NormalizedEmail")
                         .HasColumnType("text");
@@ -88,6 +114,9 @@ namespace designsphere_identity.STS.Identity.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("boolean");
+
+                    b.Property<string>("ProfilePictureUrl")
+                        .HasColumnType("text");
 
                     b.Property<string>("Remarks")
                         .HasColumnType("text");
@@ -106,7 +135,30 @@ namespace designsphere_identity.STS.Identity.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ExUserIdentities");
+                    b.ToTable("ExUserIdentities", (string)null);
+                });
+
+            modelBuilder.Entity("designsphere_identity.Admin.EntityFramework.Shared.Entities.Application.JobRole", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("CreatorId")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("LastmodificationTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("JobRole", (string)null);
                 });
 
             modelBuilder.Entity("designsphere_identity.Admin.EntityFramework.Shared.Entities.Application.UserDetail", b =>
@@ -152,7 +204,7 @@ namespace designsphere_identity.STS.Identity.Migrations
 
                     b.HasIndex("DeviceId");
 
-                    b.ToTable("UserDetails");
+                    b.ToTable("UserDetails", (string)null);
                 });
 
             modelBuilder.Entity("designsphere_identity.Admin.EntityFramework.Shared.Entities.Application.UserDetailLog", b =>
@@ -199,7 +251,7 @@ namespace designsphere_identity.STS.Identity.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserDetailLogs");
+                    b.ToTable("UserDetailLogs", (string)null);
                 });
 
             modelBuilder.Entity("designsphere_identity.Admin.EntityFramework.Shared.Entities.Application.UserDetail", b =>

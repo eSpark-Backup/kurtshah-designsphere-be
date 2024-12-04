@@ -17,6 +17,8 @@ public class MylocalContext : DbContext
     public DbSet<UserDetail> UserDetails { get; set; }
     public DbSet<UserDetailLog> UserDetailLogs { get; set; }
     public DbSet<Device> Devices { get; set; }
+    public DbSet<JobRole> JobRole { get; set; }
+    public DbSet<Country> Countries { get; set; }
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {

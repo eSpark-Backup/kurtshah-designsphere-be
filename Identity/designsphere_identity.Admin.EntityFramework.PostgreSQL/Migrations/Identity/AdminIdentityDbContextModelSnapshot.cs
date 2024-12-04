@@ -17,7 +17,7 @@ namespace designsphere_identity.Admin.EntityFramework.PostgreSQL.Migrations.Iden
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.1")
+                .HasAnnotation("ProductVersion", "6.0.12")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -34,6 +34,9 @@ namespace designsphere_identity.Admin.EntityFramework.PostgreSQL.Migrations.Iden
                         .IsConcurrencyToken()
                         .HasColumnType("text");
 
+                    b.Property<Guid?>("CountryId")
+                        .HasColumnType("uuid");
+
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("timestamp without time zone");
 
@@ -46,6 +49,12 @@ namespace designsphere_identity.Admin.EntityFramework.PostgreSQL.Migrations.Iden
 
                     b.Property<string>("FirstName")
                         .HasColumnType("text");
+
+                    b.Property<bool?>("IsPrivacyPolicyAccepted")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid?>("JobRoleId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("LastName")
                         .HasColumnType("text");
@@ -75,6 +84,9 @@ namespace designsphere_identity.Admin.EntityFramework.PostgreSQL.Migrations.Iden
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("boolean");
+
+                    b.Property<string>("PostalCode")
+                        .HasColumnType("text");
 
                     b.Property<string>("ProfilePictureUrl")
                         .HasColumnType("text");
