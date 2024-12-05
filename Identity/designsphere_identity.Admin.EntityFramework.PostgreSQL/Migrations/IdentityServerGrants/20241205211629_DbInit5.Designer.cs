@@ -12,8 +12,8 @@ using designsphere_identity.Admin.EntityFramework.Shared.DbContexts;
 namespace designsphere_identity.Admin.EntityFramework.PostgreSQL.Migrations.IdentityServerGrants
 {
     [DbContext(typeof(IdentityServerPersistedGrantDbContext))]
-    [Migration("20240214070954_dbinit")]
-    partial class dbinit
+    [Migration("20241205211629_DbInit5")]
+    partial class DbInit5
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -36,7 +36,7 @@ namespace designsphere_identity.Admin.EntityFramework.PostgreSQL.Migrations.Iden
                         .HasColumnType("character varying(200)");
 
                     b.Property<DateTime>("CreationTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Data")
                         .IsRequired()
@@ -54,7 +54,7 @@ namespace designsphere_identity.Admin.EntityFramework.PostgreSQL.Migrations.Iden
 
                     b.Property<DateTime?>("Expiration")
                         .IsRequired()
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("SessionId")
                         .HasMaxLength(100)
@@ -86,10 +86,10 @@ namespace designsphere_identity.Admin.EntityFramework.PostgreSQL.Migrations.Iden
                         .HasColumnType("character varying(200)");
 
                     b.Property<DateTime?>("ConsumedTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<DateTime>("CreationTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Data")
                         .IsRequired()
@@ -101,7 +101,7 @@ namespace designsphere_identity.Admin.EntityFramework.PostgreSQL.Migrations.Iden
                         .HasColumnType("character varying(200)");
 
                     b.Property<DateTime?>("Expiration")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("SessionId")
                         .HasMaxLength(100)

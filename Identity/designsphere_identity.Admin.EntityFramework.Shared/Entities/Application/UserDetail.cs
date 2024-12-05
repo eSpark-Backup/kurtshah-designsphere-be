@@ -19,4 +19,11 @@ public class UserDetail : EntityBase, IUserDetailBase, IOTP, IName
     public Guid DeviceId { get; set; }
 
     public string Name { get; set; }
+
+    public string PostalCode { get; set; } = string.Empty;
+    public Guid? CountryId { get; set; }
+    public Guid? JobRoleId { get; set; }
+    public bool? IsPrivacyPolicyAccepted { get; set; }
+
+    public string CompanyName { get; set; } = string.Empty;
 }

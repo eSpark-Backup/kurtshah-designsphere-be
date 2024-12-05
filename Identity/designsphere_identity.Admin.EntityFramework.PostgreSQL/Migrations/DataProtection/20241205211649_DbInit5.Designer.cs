@@ -11,8 +11,8 @@ using designsphere_identity.Admin.EntityFramework.Shared.DbContexts;
 namespace designsphere_identity.Admin.EntityFramework.PostgreSQL.Migrations.DataProtection
 {
     [DbContext(typeof(IdentityServerDataProtectionDbContext))]
-    [Migration("20241110124529_DbInit3")]
-    partial class DbInit3
+    [Migration("20241205211649_DbInit5")]
+    partial class DbInit5
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

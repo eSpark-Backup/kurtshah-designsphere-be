@@ -83,4 +83,6 @@ public class SQLContext : DbContext
     public DbSet<ProjectRole> ProjectRoles{ get; set; }
     public DbSet<ProjectUserRole> ProjectUserRoles{ get; set; }
 
+    public DbSet<Address> Addresses { get; set; }
+
 }

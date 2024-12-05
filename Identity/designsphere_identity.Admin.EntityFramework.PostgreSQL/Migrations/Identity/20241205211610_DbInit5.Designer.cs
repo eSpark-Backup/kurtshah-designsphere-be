@@ -12,8 +12,8 @@ using designsphere_identity.Admin.EntityFramework.Shared.DbContexts;
 namespace designsphere_identity.Admin.EntityFramework.PostgreSQL.Migrations.Identity
 {
     [DbContext(typeof(AdminIdentityDbContext))]
-    [Migration("20240214070941_dbinit")]
-    partial class dbinit
+    [Migration("20241205211610_DbInit5")]
+    partial class DbInit5
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -36,6 +36,9 @@ namespace designsphere_identity.Admin.EntityFramework.PostgreSQL.Migrations.Iden
                         .IsConcurrencyToken()
                         .HasColumnType("text");
 
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("timestamp without time zone");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
@@ -43,11 +46,20 @@ namespace designsphere_identity.Admin.EntityFramework.PostgreSQL.Migrations.Iden
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("boolean");
 
+                    b.Property<string>("FirstName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("text");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("boolean");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool?>("NewsLetterSubscription")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
@@ -65,6 +77,9 @@ namespace designsphere_identity.Admin.EntityFramework.PostgreSQL.Migrations.Iden
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("boolean");
+
+                    b.Property<string>("ProfilePictureUrl")
+                        .HasColumnType("text");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("text");

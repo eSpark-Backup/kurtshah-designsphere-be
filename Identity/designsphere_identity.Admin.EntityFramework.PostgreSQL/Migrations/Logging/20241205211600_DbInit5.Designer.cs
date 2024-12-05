@@ -12,8 +12,8 @@ using designsphere_identity.Admin.EntityFramework.Shared.DbContexts;
 namespace designsphere_identity.Admin.EntityFramework.PostgreSQL.Migrations.Logging
 {
     [DbContext(typeof(AdminLogDbContext))]
-    [Migration("20240214070933_dbinit")]
-    partial class dbinit
+    [Migration("20241205211600_DbInit5")]
+    partial class DbInit5
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

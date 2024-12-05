@@ -3,33 +3,39 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace designsphere_identity.Admin.EntityFramework.PostgreSQL.Migrations.Identity
+namespace designsphere_identity.STS.Identity.Migrations
 {
-    public partial class DbInit4 : Migration
+    public partial class useridentitydetailcolumnadded : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AddColumn<string>(
+                name: "CompanyName",
+                table: "UserDetails",
+                type: "text",
+                nullable: true);
+
             migrationBuilder.AddColumn<Guid>(
                 name: "CountryId",
-                table: "Users",
+                table: "UserDetails",
                 type: "uuid",
                 nullable: true);
 
             migrationBuilder.AddColumn<bool>(
                 name: "IsPrivacyPolicyAccepted",
-                table: "Users",
+                table: "UserDetails",
                 type: "boolean",
                 nullable: true);
 
             migrationBuilder.AddColumn<Guid>(
                 name: "JobRoleId",
-                table: "Users",
+                table: "UserDetails",
                 type: "uuid",
                 nullable: true);
 
             migrationBuilder.AddColumn<string>(
                 name: "PostalCode",
-                table: "Users",
+                table: "UserDetails",
                 type: "text",
                 nullable: true);
         }
@@ -37,20 +43,24 @@ namespace designsphere_identity.Admin.EntityFramework.PostgreSQL.Migrations.Iden
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
+                name: "CompanyName",
+                table: "UserDetails");
+
+            migrationBuilder.DropColumn(
                 name: "CountryId",
-                table: "Users");
+                table: "UserDetails");
 
             migrationBuilder.DropColumn(
                 name: "IsPrivacyPolicyAccepted",
-                table: "Users");
+                table: "UserDetails");
 
             migrationBuilder.DropColumn(
                 name: "JobRoleId",
-                table: "Users");
+                table: "UserDetails");
 
             migrationBuilder.DropColumn(
                 name: "PostalCode",
-                table: "Users");
+                table: "UserDetails");
         }
     }
 }

@@ -190,7 +190,8 @@
           "offline_access ",
           "profile",
           "roles",
-          "ds_mainapiscope"
+          "ds_mainapiscope",
+          "IdentityServerApi"
         ]
       }
     ]

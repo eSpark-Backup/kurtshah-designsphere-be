@@ -9,10 +9,7 @@ public interface IAppUserExtention
     string LastName { get; set; }
     string ProfilePictureUrl { get; set; }
     bool? NewsLetterSubscription { get; set; }
-    string PostalCode { get; set; }
-    Guid? CountryId { get; set; }  
-    Guid? JobRoleId { get; set; }
-    bool? IsPrivacyPolicyAccepted { get; set; }
+ 
 }
 public class UserIdentity : IdentityUser, IAppUserExtention
 {
@@ -22,9 +19,6 @@ public class UserIdentity : IdentityUser, IAppUserExtention
     public string LastName { get; set; } = string.Empty;
     public string ProfilePictureUrl { get; set; } = string.Empty;
     public bool? NewsLetterSubscription { get; set; }
-    public string PostalCode { get; set; } =  string.Empty;
-    public Guid? CountryId { get; set; } 
-    public Guid? JobRoleId { get; set; }
-    public bool? IsPrivacyPolicyAccepted { get; set; }
+  
 
 }

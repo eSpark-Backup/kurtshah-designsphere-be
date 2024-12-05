@@ -36,7 +36,7 @@ namespace designsphere_identity.STS.Identity.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Countries", (string)null);
+                    b.ToTable("Countries");
                 });
 
             modelBuilder.Entity("designsphere_identity.Admin.EntityFramework.Shared.Entities.Application.Device", b =>
@@ -62,7 +62,7 @@ namespace designsphere_identity.STS.Identity.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Devices", (string)null);
+                    b.ToTable("Devices");
                 });
 
             modelBuilder.Entity("designsphere_identity.Admin.EntityFramework.Shared.Entities.Application.ExUserIdentity", b =>
@@ -135,7 +135,7 @@ namespace designsphere_identity.STS.Identity.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ExUserIdentities", (string)null);
+                    b.ToTable("ExUserIdentities");
                 });
 
             modelBuilder.Entity("designsphere_identity.Admin.EntityFramework.Shared.Entities.Application.JobRole", b =>
@@ -158,7 +158,7 @@ namespace designsphere_identity.STS.Identity.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("JobRole", (string)null);
+                    b.ToTable("JobRole");
                 });
 
             modelBuilder.Entity("designsphere_identity.Admin.EntityFramework.Shared.Entities.Application.UserDetail", b =>
@@ -170,6 +170,12 @@ namespace designsphere_identity.STS.Identity.Migrations
                     b.Property<string>("AppHash")
                         .HasColumnType("text");
 
+                    b.Property<string>("CompanyName")
+                        .HasColumnType("text");
+
+                    b.Property<Guid?>("CountryId")
+                        .HasColumnType("uuid");
+
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("timestamp without time zone");
 
@@ -177,6 +183,12 @@ namespace designsphere_identity.STS.Identity.Migrations
                         .HasColumnType("text");
 
                     b.Property<Guid>("DeviceId")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool?>("IsPrivacyPolicyAccepted")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid?>("JobRoleId")
                         .HasColumnType("uuid");
 
                     b.Property<DateTime?>("LastmodificationTime")
@@ -194,6 +206,9 @@ namespace designsphere_identity.STS.Identity.Migrations
                     b.Property<int>("OTPStatus")
                         .HasColumnType("integer");
 
+                    b.Property<string>("PostalCode")
+                        .HasColumnType("text");
+
                     b.Property<string>("UserIdentityId")
                         .HasColumnType("text");
 
@@ -204,7 +219,7 @@ namespace designsphere_identity.STS.Identity.Migrations
 
                     b.HasIndex("DeviceId");
 
-                    b.ToTable("UserDetails", (string)null);
+                    b.ToTable("UserDetails");
                 });
 
             modelBuilder.Entity("designsphere_identity.Admin.EntityFramework.Shared.Entities.Application.UserDetailLog", b =>
@@ -251,7 +266,7 @@ namespace designsphere_identity.STS.Identity.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserDetailLogs", (string)null);
+                    b.ToTable("UserDetailLogs");
                 });
 
             modelBuilder.Entity("designsphere_identity.Admin.EntityFramework.Shared.Entities.Application.UserDetail", b =>

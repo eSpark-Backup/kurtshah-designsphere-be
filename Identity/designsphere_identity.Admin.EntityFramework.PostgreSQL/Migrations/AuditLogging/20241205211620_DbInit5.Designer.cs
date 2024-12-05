@@ -9,11 +9,11 @@ using designsphere_identity.Admin.EntityFramework.Shared.DbContexts;
 
 #nullable disable
 
-namespace designsphere_identity.Admin.EntityFramework.PostgreSQL.Migrations.Logging
+namespace designsphere_identity.Admin.EntityFramework.PostgreSQL.Migrations.AuditLogging
 {
-    [DbContext(typeof(AdminLogDbContext))]
-    [Migration("20241110124452_DbInit3")]
-    partial class DbInit3
+    [DbContext(typeof(AdminAuditLogDbContext))]
+    [Migration("20241205211620_DbInit5")]
+    partial class DbInit5
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,7 +24,7 @@ namespace designsphere_identity.Admin.EntityFramework.PostgreSQL.Migrations.Logg
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Skoruba.IdentityServer4.Admin.EntityFramework.Entities.Log", b =>
+            modelBuilder.Entity("Skoruba.AuditLogging.EntityFramework.Entities.AuditLog", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -32,31 +32,39 @@ namespace designsphere_identity.Admin.EntityFramework.PostgreSQL.Migrations.Logg
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<string>("Exception")
+                    b.Property<string>("Action")
                         .HasColumnType("text");
 
-                    b.Property<string>("Level")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)");
-
-                    b.Property<string>("LogEvent")
+                    b.Property<string>("Category")
                         .HasColumnType("text");
 
-                    b.Property<string>("Message")
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Data")
                         .HasColumnType("text");
 
-                    b.Property<string>("MessageTemplate")
+                    b.Property<string>("Event")
                         .HasColumnType("text");
 
-                    b.Property<string>("Properties")
+                    b.Property<string>("Source")
                         .HasColumnType("text");
 
-                    b.Property<DateTimeOffset>("TimeStamp")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<string>("SubjectAdditionalData")
+                        .HasColumnType("text");
+
+                    b.Property<string>("SubjectIdentifier")
+                        .HasColumnType("text");
+
+                    b.Property<string>("SubjectName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("SubjectType")
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Log", (string)null);
+                    b.ToTable("AuditLog");
                 });
 #pragma warning restore 612, 618
         }
