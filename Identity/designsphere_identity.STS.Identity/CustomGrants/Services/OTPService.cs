@@ -73,6 +73,8 @@ public class OTPService : IOTPService
         return new OTPToken() { Otp = otp, ProtectToken = protectOtp };
     }
 
+   
+
     public async Task<ApiResponse> ValidateOTPAsync(string userName)
     {
         var userDetail = await _userDetailRepository.GetDetailOfUser(userName);
@@ -102,7 +104,7 @@ public class OTPService : IOTPService
         }
 
         if (userDetail.OTPStatus == EOTPStatus.OTPSent &&
-            userDetail.CreationTime <= DateTime.UtcNow.AddSeconds(180))
+            userDetail.CreationTime <= DateTime.UtcNow.AddSeconds(300))
         {
             userDetail.OTPRetries++;
             await _userDetailRepository.UpdateAndLog(userDetail);

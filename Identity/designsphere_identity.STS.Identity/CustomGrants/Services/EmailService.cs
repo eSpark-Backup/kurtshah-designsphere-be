@@ -18,11 +18,12 @@ public class EmailService : IEmailService
         _emailConfig = emailConfig.Value;
     }
 
-    public string GetMessageBody(EmailGrantRequest model, string verificationtoken)
+  
+    public string GetMessageBody(EmailGrantRequest model, string verificationUrl)
     {
-        return $"<#>{Environment.NewLine}Your OTP code for designsphere " +
-            $"app is {verificationtoken} {Environment.NewLine} For any issues, contact " +
-            $"us at phonenumber or info@designsphere.com ";
+        var emailBody = $"Hi {model.FirstName},<br><br>Please confirm your email by clicking the link below:<br><a href='{verificationUrl}'>Verify Email</a>";
+
+        return emailBody;
     }
     public async Task<bool> SendEmailAsync(string toEmail, string subject, string body)
     {

@@ -16,6 +16,7 @@ public class EmailGrantRequest : IOTPToken ,IEmailGrantRequest
 
     public string? Otp { get; set; }
     public string? ProtectToken { get; set; }
+    public string? Token { get; set; }
 
     public string DeviceCode { get; set; }
     public Boolean ForgotPassword { get; set; }

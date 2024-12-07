@@ -14,6 +14,9 @@ using designsphere_identity.Admin.EntityFramework.Shared.Entities.Identity;
 using designsphere_identity.STS.Identity.CustomGrants.Models;
 using designsphere_identity.STS.Identity.CustomGrants.Repository.Contracts;
 using designsphere_identity.STS.Identity.CustomGrants.Services;
+using designsphere_identity.STS.Identity.Dtos;
+using System.IO;
+using Microsoft.Extensions.Configuration;
 
 namespace designsphere_identity.STS.Identity.Controllers;
 
@@ -27,18 +30,22 @@ public class UserInfoController : ControllerBase
     private readonly IExExUserIdentityRepository exExUserIdentityRepository;
     private readonly UserManager<UserIdentity> userManager;
     private readonly IUserDetailRepository userDetailRepository;
+    private readonly IConfiguration configuration;
+
 
     public UserInfoController(IUserService userService,
         IBus messageBroker,
         IExExUserIdentityRepository exExUserIdentityRepository,
         UserManager<UserIdentity> userManager,
-        IUserDetailRepository userDetailRepository)
+        IUserDetailRepository userDetailRepository,
+        IConfiguration configuration)
     {
         this.userService = userService;
         this.messageBroker = messageBroker;
         this.exExUserIdentityRepository = exExUserIdentityRepository;
         this.userManager = userManager;
         this.userDetailRepository = userDetailRepository;
+        this.configuration = configuration;
     }
     [HttpPost("[action]")]
     [ProducesResponseType(typeof(bool), StatusCodes.Status400BadRequest)]
@@ -101,6 +108,57 @@ public class UserInfoController : ControllerBase
             UserId = userDetail.UserIdentityId
         };
         await messageBroker.Publish(uupdateEvent);
+        return new ApiResponse($"Record Udpated Sucessfully", true);
+    }
+
+    [HttpPut("UpdateUserProfile")]
+    [ProducesResponseType(typeof(bool), StatusCodes.Status400BadRequest)]
+    public async Task<ApiResponse> UpdateUserProfile([FromForm] UserProfileDto userProfile)
+    {
+        var userDetail = await userDetailRepository.GetDetailOfUser(userService.GetUserName());
+        if (userDetail == null)
+            return new ApiResponse(new System.Exception("User detail not found"));
+
+        var user = await userManager.Users.FirstOrDefaultAsync(_ => _.Id == userDetail.UserIdentityId);
+
+
+        if (userDetail == null)
+            return new ApiResponse(new System.Exception("User detail not found"));
+
+        userDetail.JobRoleId = userProfile.JobRoleId;
+        userDetail.CountryId = userProfile.CountryId;
+        userDetail.PostalCode = userProfile.PostalCode;
+        userDetail.IsPrivacyPolicyAccepted = userProfile.IsPrivacyPolicyAccepted;
+
+
+        user.NewsLetterSubscription = user.NewsLetterSubscription;
+
+        if (userProfile.ProfilePicture != null && userProfile.ProfilePicture.Length > 0)
+        {
+            // Read the base path from configuration
+            var basePath = Path.Combine(Directory.GetCurrentDirectory(), configuration["AppSettings:ProfilePicturePath"]);
+
+            // Generate a unique filename for the profile picture
+            var fileName = $"{Guid.NewGuid()}{Path.GetExtension(userProfile.ProfilePicture.FileName)}";
+            var savePath = Path.Combine(basePath, fileName);
+
+            // Ensure the directory exists
+            var directory = Path.GetDirectoryName(savePath);
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+
+            // Save the file to the path
+            using (var fileStream = new FileStream(savePath, FileMode.Create))
+            {
+                await userProfile.ProfilePicture.CopyToAsync(fileStream);
+            }
+
+            // Save the relative path in the database (ProfilePictureUrl)
+            user.ProfilePictureUrl = $"/{configuration["AppSettings:ProfilePicturePath"].TrimStart('/')}/{fileName}";
+        }
+        //await userManager.UpdateAsync(userDetail);
         return new ApiResponse($"Record Udpated Sucessfully", true);
     }
 }
