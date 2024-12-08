@@ -130,7 +130,7 @@ public class UserInfoController : ControllerBase
         userDetail.PostalCode = userProfile.PostalCode;
         userDetail.IsPrivacyPolicyAccepted = userProfile.IsPrivacyPolicyAccepted;
 
-
+        await userDetailRepository.UpdateAsync(userDetail);
         user.NewsLetterSubscription = user.NewsLetterSubscription;
 
         if (userProfile.ProfilePicture != null && userProfile.ProfilePicture.Length > 0)
@@ -157,8 +157,10 @@ public class UserInfoController : ControllerBase
 
             // Save the relative path in the database (ProfilePictureUrl)
             user.ProfilePictureUrl = $"/{configuration["AppSettings:ProfilePicturePath"].TrimStart('/')}/{fileName}";
+        
         }
-        //await userManager.UpdateAsync(userDetail);
+        await userManager.UpdateAsync(user);
+
         return new ApiResponse($"Record Udpated Sucessfully", true);
     }
 }
