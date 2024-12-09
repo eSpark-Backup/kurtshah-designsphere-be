@@ -1,0 +1,14 @@
+{
+  "profiles": {
+    "Docker Compose": {
+      "commandName": "DockerCompose",
+      "commandVersion": "1.0",
+      "serviceActions": {
+        "designsphere_identity.admin": "StartDebugging",
+        "designsphere_identity.sts.identity": "StartDebugging",
+        "designsphere_identity.admin.api": "StartDebugging",
+        "designsphere.api": "StartDebugging"
+      }
+    }
+  }
+}

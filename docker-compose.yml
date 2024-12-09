@@ -11,3 +11,24 @@ services:
       context: .
       dockerfile: Identity/designsphere_identity.STS.Identity/Dockerfile
 
+
+  designsphere_identity.admin:
+    image: ${DOCKER_REGISTRY-}designsphereidentityadmin
+    build:
+      context: .
+      dockerfile: Identity/designsphere_identity.Admin/Dockerfile
+
+
+  designsphere_identity.admin.api:
+    image: ${DOCKER_REGISTRY-}designsphereidentityadminapi
+    build:
+      context: .
+      dockerfile: Identity/designsphere_identity.Admin.Api/Dockerfile
+
+
+  designsphere.api:
+    image: ${DOCKER_REGISTRY-}designsphereapi
+    build:
+      context: .
+      dockerfile: DesignSphere.Api/Dockerfile
+

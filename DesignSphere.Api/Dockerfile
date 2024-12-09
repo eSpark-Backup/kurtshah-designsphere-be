@@ -2,7 +2,7 @@
 
 # This stage is used when running from VS in fast mode (Default for Debug configuration)
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
-USER app
+USER $APP_UID
 WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
@@ -14,7 +14,10 @@ ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["DesignSphere.Api/DesignSphere.Api.csproj", "DesignSphere.Api/"]
 COPY ["DesignSphere.Infrastructure/DesignSphere.Infrastructure.csproj", "DesignSphere.Infrastructure/"]
+COPY ["BuildingBlocks/SieveCustom/SieveCustom.csproj", "BuildingBlocks/SieveCustom/"]
 COPY ["DesignSphere.Application/DesignSphere.Application.csproj", "DesignSphere.Application/"]
+COPY ["BuildingBlocks/BuildingBlocks.Common/BuildingBlocks.Common.csproj", "BuildingBlocks/BuildingBlocks.Common/"]
+COPY ["BuildingBlocks/EventBus.Messages/EventBus.Messages.csproj", "BuildingBlocks/EventBus.Messages/"]
 COPY ["DesignSphere.Domain/DesignSphere.Domain.csproj", "DesignSphere.Domain/"]
 RUN dotnet restore "./DesignSphere.Api/DesignSphere.Api.csproj"
 COPY . .
