@@ -17,6 +17,7 @@ using designsphere_identity.STS.Identity.CustomGrants.Services;
 using designsphere_identity.STS.Identity.Dtos;
 using System.IO;
 using Microsoft.Extensions.Configuration;
+using System.Linq;
 
 namespace designsphere_identity.STS.Identity.Controllers;
 
@@ -157,11 +158,47 @@ public class UserInfoController : ControllerBase
 
             // Save the relative path in the database (ProfilePictureUrl)
             user.ProfilePictureUrl = $"/{configuration["AppSettings:ProfilePicturePath"].TrimStart('/')}/{fileName}";
-        
+
         }
         await userManager.UpdateAsync(user);
 
         return new ApiResponse($"Record Udpated Sucessfully", true);
+    }
+
+
+    [HttpGet("GetCountriesAndJobRoles")]
+    [ProducesResponseType(typeof(CountryAndJobroleDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+    public async Task<ApiResponse> GetCountriesAndJobRoles()
+    {
+        try
+        {
+            var countries = await userDetailRepository.GetCountries();
+            var jobRoles = await userDetailRepository.GetJobRoles();
+
+            var result = new CountryAndJobroleDto
+            {
+                Countries = countries.Select(c => new CountryDto
+                {
+                    Id = c.Id,
+                    Name = c.Name
+                }).ToList(),
+                JobRoles = jobRoles.Select(j => new JobRoleDto
+                {
+                    Id = j.Id,
+                    Name = j.Name
+                }).ToList()
+            };
+
+            var response = new ApiResponse("Countries and jobRoles",result);
+            
+            return response;
+        }
+        catch (Exception ex)
+        {
+            return new ApiResponse(ex);
+
+        }
     }
 }
 

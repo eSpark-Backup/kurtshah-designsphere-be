@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using designsphere_identity.Admin.EntityFramework.Shared.Entities.Application;
 using designsphere_identity.STS.Identity.CustomGrants.Persistance;
 using designsphere_identity.STS.Identity.CustomGrants.Repository.Contracts;
+using System.Collections.Generic;
 
 namespace designsphere_identity.STS.Identity.CustomGrants.Repository;
 
@@ -44,5 +45,17 @@ public class UserDetailRepository : RepositoryBase<UserDetail>, IUserDetailRepos
         });
         await dbContext.SaveChangesAsync();
     }
-}
 
+
+    public async Task<List<Country>> GetCountries()
+    {
+        return await dbContext.Countries
+            .OrderBy(c => c.Name) 
+            .ToListAsync(); 
+    }
+    public async Task<List<JobRole>> GetJobRoles()
+    {
+        return await dbContext.JobRole
+            .ToListAsync();
+    }
+}
