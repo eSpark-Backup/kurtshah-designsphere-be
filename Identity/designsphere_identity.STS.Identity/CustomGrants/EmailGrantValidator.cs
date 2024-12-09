@@ -377,26 +377,11 @@ public class EmailGrantValidator : IExtensionGrantValidator
 
     private async void CustomResult(ExtensionGrantValidationContext context, ApiResponse response)
     {
-        if (response.IsError == false)
-        {
-            context.Result = new GrantValidationResult(
-            customResponse: new Dictionary<string, object>
-            {
-                { "success", true },
-                { "message", response.Message }
-            }
-        );
-            // Log the event (optional)
-            await _events.RaiseAsync(new UserLoginSuccessEvent("email",null, "true"));
-        }
-        else
-        {
             Dictionary<string, object> errorResult = GrantHelper.ClassToDict(response);
 
             context.Result = new GrantValidationResult(TokenRequestErrors.InvalidRequest, customResponse: errorResult);
 
             await _events.RaiseAsync(new UserLoginFailureEvent("email", response.Message, false));
-        }
     }
 
     public string CreateConnectTokenRequest(string userName, string appHash, string grantType,string email)
