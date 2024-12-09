@@ -24,6 +24,8 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Web;
 using Org.BouncyCastle.Asn1.IsisMtt.Ocsp;
+using static designsphere_identity.STS.Identity.CustomGrants.Models.ApiResponse;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace designsphere_identity.STS.Identity.CustomGrants;
 
@@ -60,6 +62,10 @@ public class EmailGrantValidator : IExtensionGrantValidator
 
     public string GrantType => "emailpassword";
     private EmailGrantRequest request = new();
+
+    public string? otp;
+    public string? protectToken;
+
 
     public async Task ValidateAsync(ExtensionGrantValidationContext context)
     {
@@ -213,7 +219,11 @@ public class EmailGrantValidator : IExtensionGrantValidator
                     
                     await _userDetailRepository.UpdateAndLog(userdetails);
                     response = new ApiResponse("check Email to verify the account",null);
-                    response.IsError = false;
+                    response.Result = new
+                    {
+                        Otp = otp,
+                        ProtectToken = protectToken
+                    };
                     CustomResult(context, response);
                     return ;
                 }
@@ -240,7 +250,7 @@ public class EmailGrantValidator : IExtensionGrantValidator
                     return;
                 }
             }
-            if (!user.EmailConfirmed && string.IsNullOrEmpty(otptype))
+            if (!user.EmailConfirmed && otptype == "Generate")
             {
                 response = new(CustomValMsg.UserNotVerified);
                 CustomResult(context, response);
@@ -384,7 +394,7 @@ public class EmailGrantValidator : IExtensionGrantValidator
             await _events.RaiseAsync(new UserLoginFailureEvent("email", response.Message, false));
     }
 
-    public string CreateConnectTokenRequest(string userName, string appHash, string grantType,string email)
+    public string  CreateConnectTokenRequest(string userName, string appHash, string grantType,string email)
     {
         var otpToken = oTPService.GenerateOTP(userName, appHash, grantType);
 
@@ -396,6 +406,9 @@ public class EmailGrantValidator : IExtensionGrantValidator
 
         // Construct the URL with the OTP and Protect Token
         string connectUrl = $"{baseUrl}?UserName={userName}&Email={email}&Otp={otpEncoded}&ProtectToken={protectTokenEncoded}&AppHash={appHash}&GrantType={grantType}";
+
+        otp = otpToken.Otp;
+        protectToken = otpToken.ProtectToken;
 
         return connectUrl;
     }
