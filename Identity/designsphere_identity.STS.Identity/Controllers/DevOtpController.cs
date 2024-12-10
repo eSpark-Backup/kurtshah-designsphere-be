@@ -46,9 +46,9 @@ public class DevOtpController : ControllerBase
         return new ApiResponse($"Environment {hostEnvironment.EnvironmentName}", false);
     }
 
-    [HttpGet]
+    [HttpGet("GetOtp")]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-    public async Task<ApiResponse> GenerateOTP([FromQuery] DevOtpDto req)
+    public async Task<ApiResponse> GetOTP([FromQuery] DevOtpDto req)
     {
         if (hostEnvironment.IsProduction())
             return new ApiResponse($"Environment {hostEnvironment.EnvironmentName}", false);
@@ -60,44 +60,6 @@ public class DevOtpController : ControllerBase
         }
         return new ApiResponse($"Otp for Development pupose only{req.Email}", oTPService.GenerateOTP(user.UserName, req.AppHash, req.GrantType));
     }
-
-    [HttpGet("VerifyOtp")]
-    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-    public async Task<ApiResponse> VerifyOTP([FromQuery] DevOtpDto req)
-    {
-        ApiResponse response;
-        if (hostEnvironment.IsProduction())
-            return new ApiResponse($"Environment {hostEnvironment.EnvironmentName}", false);
-
-        var user = await userManager.Users.FirstOrDefaultAsync(_ => _.Email == req.Email);
-        if (user == null)
-        {
-            return new ApiResponse(new System.Exception("Email Not Found"));
-        }
-        
-
-        var token = new EmailGrantRequest
-        {
-            Otp = req.Otp,
-            ProtectToken = req.ProtectToken
-        };
-        var otpVerify = oTPService.VerifyOTP(user.UserName, token, "testhash", req.GrantType);
-
-        if (otpVerify)
-        {
-            user.EmailConfirmed = true;
-            var result = await userManager.UpdateAsync(user);
-            response = new ApiResponse("OTP verified successfully!",null);
-     
-        }
-        else
-        {
-            response = new ApiResponse("Invalid OTP or Expired");
-        }
-
-        return response;
-    }
-   
 
     [HttpPost("[action]")]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
@@ -127,9 +89,5 @@ public class DevOtpDto
     public string AppHash { get; set; }
     public string GrantType { get; set; }
     public string Email { get; set; }
-    public string Otp { get; set; }
-    public string ProtectToken { get; set; }
-
-
 
 }

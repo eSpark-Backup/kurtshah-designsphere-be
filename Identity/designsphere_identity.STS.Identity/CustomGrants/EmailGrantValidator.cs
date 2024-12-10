@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using designsphere_identity.Admin.EntityFramework.Shared.Entities.Identity;
@@ -15,17 +14,9 @@ using designsphere_identity.STS.Identity.CustomGrants.Models;
 using designsphere_identity.STS.Identity.CustomGrants.Helpers;
 using Microsoft.EntityFrameworkCore;
 using designsphere_identity.Admin.EntityFramework.Shared.Entities.Application.Enums;
-using designsphere_identity.STS.Identity.CustomGrants.Repository;
 using designsphere_identity.STS.Identity.CustomGrants.Services;
-using OtpNet;
 using designsphere_identity.Admin.EntityFramework.Shared.Entities.Application;
-using System.Net.Http;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
 using System.Web;
-using Org.BouncyCastle.Asn1.IsisMtt.Ocsp;
-using static designsphere_identity.STS.Identity.CustomGrants.Models.ApiResponse;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace designsphere_identity.STS.Identity.CustomGrants;
 
@@ -221,7 +212,6 @@ public class EmailGrantValidator : IExtensionGrantValidator
                     response = new ApiResponse("check Email to verify the account",null);
                     response.Result = new
                     {
-                        Otp = otp,
                         ProtectToken = protectToken
                     };
                     CustomResult(context, response);
@@ -237,7 +227,7 @@ public class EmailGrantValidator : IExtensionGrantValidator
             {
                 // Validate OTP retries and status
                 response = await oTPService.ValidateOTPAsync(user.UserName);
-                if (response != null)
+                if (response != null) 
                 {
                     CustomResult(context, response);
                     return;
