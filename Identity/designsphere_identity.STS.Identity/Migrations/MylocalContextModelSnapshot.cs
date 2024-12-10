@@ -185,6 +185,12 @@ namespace designsphere_identity.STS.Identity.Migrations
                     b.Property<Guid>("DeviceId")
                         .HasColumnType("uuid");
 
+                    b.Property<bool>("IsEmailMFA")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsGoogleMFA")
+                        .HasColumnType("boolean");
+
                     b.Property<bool?>("IsPrivacyPolicyAccepted")
                         .HasColumnType("boolean");
 

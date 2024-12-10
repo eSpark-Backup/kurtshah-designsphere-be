@@ -18,6 +18,11 @@ using designsphere_identity.STS.Identity.Dtos;
 using System.IO;
 using Microsoft.Extensions.Configuration;
 using System.Linq;
+using MassTransit.Initializers;
+using Microsoft.AspNetCore.Authentication;
+using IdentityServer4.Events;
+using IdentityServer4.Extensions;
+using IdentityServer4.Services;
 
 namespace designsphere_identity.STS.Identity.Controllers;
 
@@ -32,14 +37,15 @@ public class UserInfoController : ControllerBase
     private readonly UserManager<UserIdentity> userManager;
     private readonly IUserDetailRepository userDetailRepository;
     private readonly IConfiguration configuration;
-
+    private readonly IEventService events;
 
     public UserInfoController(IUserService userService,
         IBus messageBroker,
         IExExUserIdentityRepository exExUserIdentityRepository,
         UserManager<UserIdentity> userManager,
         IUserDetailRepository userDetailRepository,
-        IConfiguration configuration)
+        IConfiguration configuration,
+                IEventService events)
     {
         this.userService = userService;
         this.messageBroker = messageBroker;
@@ -47,6 +53,7 @@ public class UserInfoController : ControllerBase
         this.userManager = userManager;
         this.userDetailRepository = userDetailRepository;
         this.configuration = configuration;
+        this.events = events;
     }
     [HttpPost("[action]")]
     [ProducesResponseType(typeof(bool), StatusCodes.Status400BadRequest)]
@@ -130,17 +137,19 @@ public class UserInfoController : ControllerBase
         userDetail.CountryId = userProfile.CountryId;
         userDetail.PostalCode = userProfile.PostalCode;
         userDetail.IsPrivacyPolicyAccepted = userProfile.IsPrivacyPolicyAccepted;
-
+        userDetail.CompanyName = userProfile.CompanyName;
         await userDetailRepository.UpdateAsync(userDetail);
         user.NewsLetterSubscription = user.NewsLetterSubscription;
 
         if (userProfile.ProfilePicture != null && userProfile.ProfilePicture.Length > 0)
         {
-            // Read the base path from configuration
+            // Read base path from configuration
             var basePath = Path.Combine(Directory.GetCurrentDirectory(), configuration["AppSettings:ProfilePicturePath"]);
 
-            // Generate a unique filename for the profile picture
-            var fileName = $"{Guid.NewGuid()}{Path.GetExtension(userProfile.ProfilePicture.FileName)}";
+            // Generate a filename with the username
+            var username = userService.GetUserName().Replace(" ", "_"); // Replace spaces with underscores
+            var fileExtension = Path.GetExtension(userProfile.ProfilePicture.FileName);
+            var fileName = $"{username}{fileExtension}";
             var savePath = Path.Combine(basePath, fileName);
 
             // Ensure the directory exists
@@ -150,21 +159,79 @@ public class UserInfoController : ControllerBase
                 Directory.CreateDirectory(directory);
             }
 
-            // Save the file to the path
+            // Save the file
             using (var fileStream = new FileStream(savePath, FileMode.Create))
             {
                 await userProfile.ProfilePicture.CopyToAsync(fileStream);
             }
 
-            // Save the relative path in the database (ProfilePictureUrl)
+            // Save the relative path in the database
             user.ProfilePictureUrl = $"/{configuration["AppSettings:ProfilePicturePath"].TrimStart('/')}/{fileName}";
-
         }
         await userManager.UpdateAsync(user);
 
         return new ApiResponse($"Record Udpated Sucessfully", true);
     }
+    [HttpGet("GetUserDetails")]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+    public async Task<ApiResponse> GetUserDetails()
+    {
+        var id = userService.GetUserIdentity();
+        var user = await userManager.Users.FirstOrDefaultAsync(_ => _.Id == id);
 
+        var userDetail = await userDetailRepository.GetDetailOfUser(userService.GetUserName());
+
+
+        // Handle Profile Picture
+        var profilePictureDto = new UserPicture();
+        var basePath = configuration["AppSettings:ProfilePicturePath"];
+        var directoryPath = Path.Combine(Directory.GetCurrentDirectory(), basePath);
+        var imageFile = Path.Combine(directoryPath, $"{user.UserName.Replace(" ", "_")}{Path.GetExtension(user.ProfilePictureUrl)}");
+        var profilePicturePath = Path.Combine(Directory.GetCurrentDirectory(), user.ProfilePictureUrl.TrimStart('/'));
+
+        if (System.IO.File.Exists(imageFile))
+        {
+            try
+            {
+                // Read the image file into a byte array
+                byte[] fileContents = await System.IO.File.ReadAllBytesAsync(imageFile);
+
+                // Assign the ProfilePictureDto with the file data
+                profilePictureDto.FileName = Path.GetFileName(imageFile);
+                profilePictureDto.File = new FormFile(new MemoryStream(fileContents), 0, fileContents.Length, "file", Path.GetFileName(imageFile))
+                {
+                    Headers = new HeaderDictionary(),
+                    ContentType = "image/jpeg", // Adjust the content type based on the actual image type
+                    ContentDisposition = $"inline; filename={Path.GetFileName(imageFile)}"
+                };
+                profilePictureDto.bytes = fileContents;
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse($"Error reading file: {ex.Message}", false);
+            }
+        }
+
+        var countries = await userDetailRepository.GetCountries();
+        var jobFunctions = await userDetailRepository.GetJobRoles();
+
+        var userDto = new UserDetailDto
+        {
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            Email = user.Email,
+            PhoneNo = user.PhoneNumber,
+            CompanyName = userDetail.CompanyName,
+            Country = countries.FirstOrDefault(c => c.Id == userDetail.CountryId)?.Name,
+            JobFunction = jobFunctions.FirstOrDefault(c => c.Id == userDetail.JobRoleId)?.Name,
+            PostalCode = userDetail.PostalCode,
+            IsEmailMFA = userDetail.IsEmailMFA,
+            IsGoogleMFA = userDetail.IsGoogleMFA,
+            ProfilePicture = profilePictureDto
+        };
+
+        return new ApiResponse("get user details", userDto); 
+    }
 
     [HttpGet("GetCountriesAndJobRoles")]
     [ProducesResponseType(typeof(CountryAndJobroleDto), StatusCodes.Status200OK)]
@@ -199,6 +266,51 @@ public class UserInfoController : ControllerBase
             return new ApiResponse(ex);
 
         }
+    }
+
+    [HttpPost("ResetPassword")]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+    public async Task<ApiResponse> ResetPassword([FromForm]ResetPasswordRequest request)
+    {
+        var user = await userManager.FindByEmailAsync(request.Email);
+
+        var isOldPasswordValid = await userManager.CheckPasswordAsync(user, request.OldPassword);
+        if (!isOldPasswordValid)
+        {
+            return new ApiResponse("Invalid old password.");
+        }
+
+        var resetPasswordResult = await userManager.ChangePasswordAsync(user, request.OldPassword, request.NewPassword);
+        if (!resetPasswordResult.Succeeded)
+        {
+            var errors = string.Join(", ", resetPasswordResult.Errors.Select(e => e.Description));
+            return new ApiResponse($"Password reset failed: {errors}");
+        }
+
+        return new ApiResponse("Password reset successful.", true);
+
+    }
+
+    [HttpPost("LogOut")]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+    public async Task<ApiResponse> LogOut()
+    {
+        try
+        {
+            // Sign the user out
+            await HttpContext.SignOutAsync(IdentityConstants.ApplicationScheme);
+
+            await HttpContext.SignOutAsync();
+
+            await events.RaiseAsync(new UserLogoutSuccessEvent(User.GetSubjectId(), User.GetDisplayName()));
+
+            return new ApiResponse("User logged out successfully.", true);
+        }
+        catch (Exception ex)
+        {
+            return new ApiResponse($"An error occurred during logout: {ex.Message}");
+        }
+
     }
 }
 

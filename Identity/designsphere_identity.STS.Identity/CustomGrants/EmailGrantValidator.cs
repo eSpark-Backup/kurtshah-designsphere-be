@@ -17,6 +17,7 @@ using designsphere_identity.Admin.EntityFramework.Shared.Entities.Application.En
 using designsphere_identity.STS.Identity.CustomGrants.Services;
 using designsphere_identity.Admin.EntityFramework.Shared.Entities.Application;
 using System.Web;
+using designsphere_identity.STS.Identity.Migrations;
 
 namespace designsphere_identity.STS.Identity.CustomGrants;
 
@@ -193,18 +194,37 @@ public class EmailGrantValidator : IExtensionGrantValidator
                     CustomResult(context, response);
                     return;
                 }
+                var newUser = new UserIdentity
+                {
+                    UserName = Guid.NewGuid().ToString(),
+                    Email = request.Email,
+                    EmailConfirmed = false,
+                    FirstName = request.FirstName,
+                    LastName = request.LastName,
+                    Type = EUserType.email
 
-                var createdUser = await CreateNewUserAsync(context);
-                if (createdUser != null)
+                };
+
+                var createdUser = await _userManager.CreateAsync(newUser, request.Password);
+                if (!createdUser.Succeeded)
+                {
+                    response = new ApiResponse("user not created");
+                    CustomResult(context, response);
+                    return;
+                }
+                bool IsEmailDelivered = await SendOtpAsync(user);
+
+
+                if (createdUser != null && IsEmailDelivered)
                 {
                        var userdetails = new UserDetail()
                         {
-                            CreatorId = createdUser.UserName,
-                            UserIdentityId = createdUser.Id,
+                            CreatorId = newUser.UserName,
+                            UserIdentityId = newUser.Id,
                             OTPStatus = EOTPStatus.OTPRequested,
-                            UserName = createdUser.UserName,
+                            UserName = newUser.UserName,
                             OTPRetries = +1,
-                            Name = createdUser.FirstName,
+                            Name = newUser.FirstName,
                             DeviceId = deviceCheck.Id,
                         };
                     
@@ -240,14 +260,43 @@ public class EmailGrantValidator : IExtensionGrantValidator
                     return;
                 }
             }
-            if (!user.EmailConfirmed && otptype == "Generate")
+            if (!user.EmailConfirmed && !string.IsNullOrEmpty(request.FirstName))
             {
                 response = new(CustomValMsg.UserNotVerified);
                 CustomResult(context, response);
                 return;
             }
+            else if (!user.EmailConfirmed &&  otptype != "Verify")
+            {
+                bool IsEmailDelivered = await SendOtpAsync(user);
+
+                if (IsEmailDelivered)
+                {
+                    userdetailCheck.OTPStatus = EOTPStatus.OTPRequested;
+                    userdetailCheck.OTPRetries = +1;
+
+                    await _userDetailRepository.UpdateAndLog(userdetailCheck);
+                    response = new ApiResponse("check Email to verify the account", null);
+                    response.Result = new
+                    {
+                        ProtectToken = protectToken
+                    };
+                    CustomResult(context, response);
+                    return;
+                }
+                CustomResult(context, new ApiResponse(CustomValMsg.InvalidRequest));
+                return;
+
+            }
             else if(user.EmailConfirmed)
             {
+                //if(userdetailCheck.IsEmailMFA == true)
+                //{
+                //    bool IsEmailDelivered = await SendOtpAsync(user);
+                //    response = new("verify account through email");
+                //    CustomResult(context, response);
+                //    return;
+                //}
                 // create claims
                 const string role = "customer1";
 
@@ -404,25 +453,9 @@ public class EmailGrantValidator : IExtensionGrantValidator
     }
 
     
-    private async Task<UserIdentity> CreateNewUserAsync(ExtensionGrantValidationContext context)
+    private async Task<bool> SendOtpAsync(UserIdentity user)
     {
-        var user = new UserIdentity
-        {
-            UserName = Guid.NewGuid().ToString(),
-            Email = request.Email,
-            EmailConfirmed = false,
-            FirstName = request.FirstName,
-            LastName = request.LastName,
-            Type = EUserType.email
-
-        };
-
-        var createUserResult = await _userManager.CreateAsync(user, request.Password);
-        if (!createUserResult.Succeeded)
-        {
-            return null;
-        }
-
+     
         var verificationUrl = CreateConnectTokenRequest(user.UserName, "testhash", GrantType,user.Email);
 
         var emailBody = emailService.GetMessageBody(new EmailGrantRequest
@@ -437,10 +470,10 @@ public class EmailGrantValidator : IExtensionGrantValidator
 
         if (!emailSent)
         {
-            return null;
+            return false;
         }
 
-        return user;
+        return true;
     }
 
 
