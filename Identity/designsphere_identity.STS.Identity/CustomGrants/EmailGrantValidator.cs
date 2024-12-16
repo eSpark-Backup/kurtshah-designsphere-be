@@ -208,11 +208,11 @@ public class EmailGrantValidator : IExtensionGrantValidator
                 var createdUser = await _userManager.CreateAsync(newUser, request.Password);
                 if (!createdUser.Succeeded)
                 {
-                    response = new ApiResponse("user not created");
+                    response = new ApiResponse("user not created",createdUser.Errors,true);
                     CustomResult(context, response);
                     return;
                 }
-                bool IsEmailDelivered = await SendOtpAsync(user);
+                bool IsEmailDelivered = await SendOtpAsync(newUser);
 
 
                 if (createdUser != null && IsEmailDelivered)
