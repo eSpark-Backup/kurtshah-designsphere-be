@@ -20,6 +20,7 @@ public class EmailGrantRequest : IOTPToken ,IEmailGrantRequest
 
     public string DeviceCode { get; set; }
     public Boolean ForgotPassword { get; set; }
+    public Boolean IsAggrementAccepted { get; set; }
 
 
 }

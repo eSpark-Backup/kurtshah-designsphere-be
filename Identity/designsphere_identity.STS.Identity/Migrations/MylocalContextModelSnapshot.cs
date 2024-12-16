@@ -194,6 +194,9 @@ namespace designsphere_identity.STS.Identity.Migrations
                     b.Property<bool?>("IsPrivacyPolicyAccepted")
                         .HasColumnType("boolean");
 
+                    b.Property<bool>("IsServiceAggrementAccepted")
+                        .HasColumnType("boolean");
+
                     b.Property<Guid?>("JobRoleId")
                         .HasColumnType("uuid");
 

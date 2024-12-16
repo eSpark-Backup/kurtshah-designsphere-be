@@ -27,5 +27,7 @@ public class UserDetail : EntityBase, IUserDetailBase, IOTP, IName
     public string CompanyName { get; set; } = string.Empty;
     public bool IsEmailMFA { get; set; } = false;
     public bool IsGoogleMFA { get; set; } = false;
+    public bool IsServiceAggrementAccepted { get; set; }
+
 
 }

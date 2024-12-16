@@ -73,6 +73,7 @@ public class EmailGrantValidator : IExtensionGrantValidator
             request.Otp = context.Request.Raw.Get("otp");
             request.ProtectToken = context.Request.Raw.Get("protecttoken");
             request.Token = context.Request.Raw.Get("token");
+            request.IsAggrementAccepted  = context.Request.Raw.Get("termsofserviceagreement") == "0";
 
             var otptype = context.Request.Raw.Get("otptype");
 
@@ -226,6 +227,7 @@ public class EmailGrantValidator : IExtensionGrantValidator
                             OTPRetries = +1,
                             Name = newUser.FirstName,
                             DeviceId = deviceCheck.Id,
+                            IsServiceAggrementAccepted = request.IsAggrementAccepted
                         };
                     
                     await _userDetailRepository.UpdateAndLog(userdetails);
