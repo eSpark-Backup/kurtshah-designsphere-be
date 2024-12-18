@@ -33,4 +33,9 @@ public class UserInfo : IUserDetailBase, IName
     public string Name { get; set; }
     public string AppHash { get; set; }
     public string NotificationId { get; set; }
+    public bool TwoFactorEnabled { get; set; }
+    public bool Is_Email_Authenticated { get; set; }
+    public bool Is_Google_Authenticated { get; set; }
+    public bool UserProfile { get; set; }
+
 }

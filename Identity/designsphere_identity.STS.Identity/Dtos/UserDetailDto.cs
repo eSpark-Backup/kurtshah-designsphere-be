@@ -17,6 +17,9 @@ public class UserDetailDto
     public bool IsEmailMFA { get; set; }
     public bool IsGoogleMFA { get; set; }
     public UserPicture ProfilePicture { get; set; }
+    public bool? IsNewsLetterSubscription { get; set; }
+
+
 }
 
 public class UserPicture

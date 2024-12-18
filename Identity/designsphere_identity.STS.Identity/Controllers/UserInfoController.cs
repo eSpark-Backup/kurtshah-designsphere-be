@@ -137,14 +137,24 @@ public class UserInfoController : ControllerBase
         if (userProfile.CountryId != null)
             userDetail.CountryId = userProfile.CountryId;
 
-        if (userProfile.PostalCode != null)
+        if (!string.IsNullOrEmpty(userProfile.PostalCode))
             userDetail.PostalCode = userProfile.PostalCode;
 
         if (userProfile.IsPrivacyPolicyAccepted != null)
             userDetail.IsPrivacyPolicyAccepted = userProfile.IsPrivacyPolicyAccepted;
 
-        if (userProfile.CompanyName != null)
+        if (!string.IsNullOrEmpty(userProfile.CompanyName))
             userDetail.CompanyName = userProfile.CompanyName;
+
+        if (userProfile.IsGoogleMFA || userProfile.IsEmailMFA)
+            user.TwoFactorEnabled = true;
+
+        if (userProfile.IsEmailMFA != userDetail.IsEmailMFA) 
+            userDetail.IsEmailMFA = userProfile.IsEmailMFA;
+            
+
+        if (userProfile.IsGoogleMFA != userDetail.IsGoogleMFA)
+            userDetail.IsGoogleMFA = userProfile.IsGoogleMFA;
 
         // Update the user profile picture if a new one is provided
         if (userProfile.ProfilePicture != null && userProfile.ProfilePicture.Length > 0)
@@ -238,7 +248,8 @@ public class UserInfoController : ControllerBase
             PostalCode = userDetail.PostalCode,
             IsEmailMFA = userDetail.IsEmailMFA,
             IsGoogleMFA = userDetail.IsGoogleMFA,
-            ProfilePicture = profilePictureDto
+            ProfilePicture = profilePictureDto,
+            IsNewsLetterSubscription=user.NewsLetterSubscription
         };
 
         return new ApiResponse("get user details", userDto); 

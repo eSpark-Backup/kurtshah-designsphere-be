@@ -14,6 +14,8 @@ public class UserProfileDto
     public bool? NewsLetterSubscription { get; set; }
     public string CompanyName { get; set; }
 
-    public IFormFile? ProfilePicture { get; set; } 
+    public IFormFile? ProfilePicture { get; set; }
 
+    public bool IsEmailMFA { get; set; } = false;
+    public bool IsGoogleMFA { get; set; } = false;
 }

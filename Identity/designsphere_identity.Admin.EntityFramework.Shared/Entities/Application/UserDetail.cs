@@ -20,11 +20,11 @@ public class UserDetail : EntityBase, IUserDetailBase, IOTP, IName
 
     public string Name { get; set; }
 
-    public string PostalCode { get; set; } = string.Empty;
+    public string PostalCode { get; set; } 
     public Guid? CountryId { get; set; }
     public Guid? JobRoleId { get; set; }
     public bool? IsPrivacyPolicyAccepted { get; set; }
-    public string CompanyName { get; set; } = string.Empty;
+    public string CompanyName { get; set; } 
     public bool IsEmailMFA { get; set; } = false;
     public bool IsGoogleMFA { get; set; } = false;
     public bool IsServiceAggrementAccepted { get; set; }

@@ -20,6 +20,10 @@ public static class GrantHelper
             AppHash = userdetailCheck.AppHash,
             Name = userdetailCheck.Name,
             NotificationId = userdetailCheck.NotificationId,
+            TwoFactorEnabled = user.TwoFactorEnabled,
+            Is_Email_Authenticated = userdetailCheck.IsEmailMFA,
+            Is_Google_Authenticated = userdetailCheck.IsGoogleMFA,
+            UserProfile = !string.IsNullOrEmpty(userdetailCheck.CompanyName)? true : false
         };
     }
 

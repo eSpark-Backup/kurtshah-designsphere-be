@@ -82,12 +82,13 @@ public class EmailGrantValidator : IExtensionGrantValidator
 
             if(request.ForgotPassword)
             {
-                if (user != null && user.Email.ToUpper() != request.Email.ToUpper() )
+                if (user == null && !string.IsNullOrEmpty(request.Email))
                 {
-                    response = new(CustomValMsg.EmailNotCorrect);
+                    response = new(CustomValMsg.UserNotExist);
                     CustomResult(context, response);
                     return;
                 }
+                
                 if (otptype == "Generate")
                 {
                     var forgotPasswordResponse = await GenerateForgotPasswordTokenAsync(user);
@@ -119,8 +120,7 @@ public class EmailGrantValidator : IExtensionGrantValidator
                         return;
                     }
 
-                    response = (new ApiResponse("Password reset successfully.",null));
-                    response.IsError = false;
+                    response = (new ApiResponse("Password reset successfully.",result));
                     CustomResult(context, response);
                     return;
 
@@ -128,14 +128,14 @@ public class EmailGrantValidator : IExtensionGrantValidator
 
             }
             // Check if user already exists with the same email and FirstName is provided (and OTP Type is Generate)
-            if (user != null && user.Email.ToUpper() == request.Email.ToUpper() && !string.IsNullOrEmpty(request.FirstName) && request.OtpType == EPhoneOtp.Generate)
+            if (user != null && user.Email.ToUpper() == request.Email.ToUpper() && !string.IsNullOrEmpty(request.FirstName) && otptype == "Generate")
             {
                 response = new(CustomValMsg.UserExist);
                 CustomResult(context, response);
                 return;
             }
 
-            if ((string.IsNullOrEmpty(request.Email) || string.IsNullOrEmpty(request.Password)) && request.OtpType == EPhoneOtp.Generate)
+            if (user != null && (string.IsNullOrEmpty(request.Email) || string.IsNullOrEmpty(request.Password)) && otptype == "Generate")
             {
                 response = new(CustomValMsg.ParamMissing);
                 CustomResult(context, response);
@@ -290,15 +290,10 @@ public class EmailGrantValidator : IExtensionGrantValidator
                 return;
 
             }
-            else if(user.EmailConfirmed)
+ 
+            else if(user.EmailConfirmed )
             {
-                //if(userdetailCheck.IsEmailMFA == true)
-                //{
-                //    bool IsEmailDelivered = await SendOtpAsync(user);
-                //    response = new("verify account through email");
-                //    CustomResult(context, response);
-                //    return;
-                //}
+               
                 // create claims
                 const string role = "customer1";
 
@@ -489,7 +484,7 @@ public class EmailGrantValidator : IExtensionGrantValidator
 
         // Generate the reset password URL
         string baseUrl = _configuration["ResetPasswordUrl"] ?? "https://localhost:44310";
-        string resetUrl = $"{baseUrl}?email={HttpUtility.UrlEncode(user.Email)}&token={encodedToken}";
+        string resetUrl = $"{baseUrl}?email={user.Email}&token={encodedToken}";
 
         // Send email with reset password link
         var emailBody = emailService.GetMessageBody(new EmailGrantRequest
