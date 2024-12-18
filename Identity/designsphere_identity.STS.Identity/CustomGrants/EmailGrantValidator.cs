@@ -18,6 +18,7 @@ using designsphere_identity.STS.Identity.CustomGrants.Services;
 using designsphere_identity.Admin.EntityFramework.Shared.Entities.Application;
 using System.Web;
 using designsphere_identity.STS.Identity.Migrations;
+using Google.Authenticator;
 
 namespace designsphere_identity.STS.Identity.CustomGrants;
 
@@ -75,6 +76,7 @@ public class EmailGrantValidator : IExtensionGrantValidator
             request.Token = context.Request.Raw.Get("token");
             request.IsAggrementAccepted  = context.Request.Raw.Get("termsofserviceagreement") == "0";
             request.EmailTwoFactor = context.Request.Raw.Get("emailtwofactor") == "1";
+            request.GoogleTwoFactor = context.Request.Raw.Get("googletwofactor") == "1";
 
             var otptype = context.Request.Raw.Get("otptype");
 
@@ -291,38 +293,78 @@ public class EmailGrantValidator : IExtensionGrantValidator
                 return;
 
             }
-            else if (user.EmailConfirmed && request.EmailTwoFactor)
+            else if (user.EmailConfirmed && (request.EmailTwoFactor || request.GoogleTwoFactor))
             {
-                if(!string.IsNullOrEmpty(request.Otp) && !string.IsNullOrEmpty(request.ProtectToken))
+                if (request.EmailTwoFactor)
                 {
-                    var isVerfied = oTPService.VerifyOTP(user.UserName, request, "testhash", GrantType);
-
-                    if (isVerfied)
+                    if (!string.IsNullOrEmpty(request.Otp) && !string.IsNullOrEmpty(request.ProtectToken))
                     {
-                        response = new("otp verified successfully",true);
+                        var isVerfied = oTPService.VerifyOTP(user.UserName, request, "testhash", GrantType);
+
+                        if (isVerfied)
+                        {
+                            response = new("otp verified successfully", true);
+                            CustomResult(context, response);
+                            return;
+                        }
+                        CustomResult(context, new ApiResponse("Entered otp is incorrect"));
+                        return;
+                    }
+
+                    bool IsEmailDelivered = await SendOtpAsync(user, "true");
+
+                    if (IsEmailDelivered)
+                    {
+                        response = new ApiResponse("check Email for otp", null);
+                        response.Result = new
+                        {
+                            ProtectToken = protectToken
+                        };
                         CustomResult(context, response);
                         return;
                     }
-                    CustomResult(context, new ApiResponse("Entered otp is incorrect"));
-                    return;
                 }
-
-                bool IsEmailDelivered = await SendOtpAsync(user,"true");
-
-                if (IsEmailDelivered)
+                else
                 {
-                    response = new ApiResponse("check Email for otp", null);
-                    response.Result = new
+                    if (string.IsNullOrEmpty(request.Otp))
                     {
-                        ProtectToken = protectToken
-                    };
-                    CustomResult(context, response);
-                    return;
+                        var (secretKey, qrCodeUrl) = GenerateGoogleAuthenticatorSecret(user.Email);
+
+                        userdetailCheck.GoogleTwoFactorSecretKey = secretKey;
+                         await _userDetailRepository.UpdateAsync(userdetailCheck);
+
+                        response = new ApiResponse("2FA setup initiated.",true)
+                        {
+                            Result = new
+                            {
+                                QrCodeUrl = qrCodeUrl,
+                                SecretKey = secretKey // Optional for debugging
+                            }
+                        };
+
+                        CustomResult(context, response);
+                        return;
+                    }
+                    else
+                    {
+                        if (!VerifyGoogleAuthenticatorCode(userdetailCheck.GoogleTwoFactorSecretKey, request.Otp))
+                        {
+                            response = new ApiResponse("Invalid or expired OTP code.");
+                            CustomResult(context, response);
+                            return;
+                        }
+
+                        response = new ApiResponse("2FA verification successful.",true);
+                        CustomResult(context, response);
+                        return;
+                    }
+
                 }
                 CustomResult(context, new ApiResponse(CustomValMsg.InvalidRequest));
                 return;
 
             }
+
             else if (user.EmailConfirmed)
             {
 
@@ -551,5 +593,26 @@ public class EmailGrantValidator : IExtensionGrantValidator
         response.IsError = false;
 
         return response;
+    }
+
+
+    private (string SecretKey, string QrCodeUrl) GenerateGoogleAuthenticatorSecret(string email)
+    {
+        // Step 1: Generate the secret key
+        TwoFactorAuthenticator tfa = new TwoFactorAuthenticator();
+        string secretKey = Guid.NewGuid().ToString("N").Substring(0, 10); // 10-character secret key
+
+        // Step 2: Generate QR Code URL
+        string issuer = "designsphere";
+        string accountTitle = $"{issuer}:{email}";
+        var setupCode = tfa.GenerateSetupCode(issuer, email, secretKey, false);
+
+        return (SecretKey: secretKey, QrCodeUrl: setupCode.QrCodeSetupImageUrl);
+    }
+
+    private bool VerifyGoogleAuthenticatorCode(string secretKey, string otpCode)
+    {
+        TwoFactorAuthenticator tfa = new TwoFactorAuthenticator();
+        return tfa.ValidateTwoFactorPIN(secretKey, otpCode);
     }
 }

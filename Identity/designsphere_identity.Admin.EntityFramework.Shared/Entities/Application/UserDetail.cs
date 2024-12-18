@@ -29,5 +29,7 @@ public class UserDetail : EntityBase, IUserDetailBase, IOTP, IName
     public bool IsGoogleMFA { get; set; } = false;
     public bool IsServiceAggrementAccepted { get; set; }
 
+    public string GoogleTwoFactorSecretKey { get; set; }
+
 
 }

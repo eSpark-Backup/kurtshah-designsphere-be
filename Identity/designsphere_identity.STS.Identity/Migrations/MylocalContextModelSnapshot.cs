@@ -185,6 +185,9 @@ namespace designsphere_identity.STS.Identity.Migrations
                     b.Property<Guid>("DeviceId")
                         .HasColumnType("uuid");
 
+                    b.Property<string>("GoogleTwoFactorSecretKey")
+                        .HasColumnType("text");
+
                     b.Property<bool>("IsEmailMFA")
                         .HasColumnType("boolean");
 
