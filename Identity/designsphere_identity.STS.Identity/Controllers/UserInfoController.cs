@@ -118,8 +118,7 @@ public class UserInfoController : ControllerBase
         await messageBroker.Publish(uupdateEvent);
         return new ApiResponse($"Record Udpated Sucessfully", true);
     }
-
-    [HttpPut("UpdateUserProfile")]
+    [HttpPatch("UpdateUserProfile")]
     [ProducesResponseType(typeof(bool), StatusCodes.Status400BadRequest)]
     public async Task<ApiResponse> UpdateUserProfile([FromForm] UserProfileDto userProfile)
     {
@@ -128,19 +127,26 @@ public class UserInfoController : ControllerBase
             return new ApiResponse(new System.Exception("User detail not found"));
 
         var user = await userManager.Users.FirstOrDefaultAsync(_ => _.Id == userDetail.UserIdentityId);
+        if (user == null)
+            return new ApiResponse(new System.Exception("User not found"));
 
+        // Update the fields only if the corresponding value is provided in the request
+        if (userProfile.JobRoleId != null)
+            userDetail.JobRoleId = userProfile.JobRoleId;
 
-        if (userDetail == null)
-            return new ApiResponse(new System.Exception("User detail not found"));
+        if (userProfile.CountryId != null)
+            userDetail.CountryId = userProfile.CountryId;
 
-        userDetail.JobRoleId = userProfile.JobRoleId;
-        userDetail.CountryId = userProfile.CountryId;
-        userDetail.PostalCode = userProfile.PostalCode;
-        userDetail.IsPrivacyPolicyAccepted = userProfile.IsPrivacyPolicyAccepted;
-        userDetail.CompanyName = userProfile.CompanyName;
-        await userDetailRepository.UpdateAsync(userDetail);
-        user.NewsLetterSubscription = user.NewsLetterSubscription;
+        if (userProfile.PostalCode != null)
+            userDetail.PostalCode = userProfile.PostalCode;
 
+        if (userProfile.IsPrivacyPolicyAccepted != null)
+            userDetail.IsPrivacyPolicyAccepted = userProfile.IsPrivacyPolicyAccepted;
+
+        if (userProfile.CompanyName != null)
+            userDetail.CompanyName = userProfile.CompanyName;
+
+        // Update the user profile picture if a new one is provided
         if (userProfile.ProfilePicture != null && userProfile.ProfilePicture.Length > 0)
         {
             // Read base path from configuration
@@ -168,9 +174,14 @@ public class UserInfoController : ControllerBase
             // Save the relative path in the database
             user.ProfilePictureUrl = $"/{configuration["AppSettings:ProfilePicturePath"].TrimStart('/')}/{fileName}";
         }
+
+        // Update the user details in the repository
+        await userDetailRepository.UpdateAsync(userDetail);
+
+        // Update user details in the user manager
         await userManager.UpdateAsync(user);
 
-        return new ApiResponse($"Record Udpated Sucessfully", true);
+        return new ApiResponse("Record Updated Successfully", true);
     }
     [HttpGet("GetUserDetails")]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
