@@ -9,4 +9,5 @@ public interface IEmailService
 
     string GetMessageBody(EmailGrantRequest model, string verificationtoken);
 
+    string GetMessageBodyForOtpRequest(EmailGrantRequest model, string otp);
 }

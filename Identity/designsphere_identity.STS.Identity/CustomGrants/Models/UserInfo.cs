@@ -37,5 +37,6 @@ public class UserInfo : IUserDetailBase, IName
     public bool Is_Email_Authenticated { get; set; }
     public bool Is_Google_Authenticated { get; set; }
     public bool UserProfile { get; set; }
+    public bool Is_Email_Confirmed { get; set; }
 
 }

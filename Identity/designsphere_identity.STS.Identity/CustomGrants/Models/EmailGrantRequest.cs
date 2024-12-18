@@ -22,5 +22,9 @@ public class EmailGrantRequest : IOTPToken ,IEmailGrantRequest
     public Boolean ForgotPassword { get; set; }
     public Boolean IsAggrementAccepted { get; set; }
 
+    public Boolean EmailTwoFactor { get; set; }
+
+    public Boolean GoogleTwoFactor { get; set; }
+
 
 }

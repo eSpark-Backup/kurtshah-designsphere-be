@@ -23,7 +23,8 @@ public static class GrantHelper
             TwoFactorEnabled = user.TwoFactorEnabled,
             Is_Email_Authenticated = userdetailCheck.IsEmailMFA,
             Is_Google_Authenticated = userdetailCheck.IsGoogleMFA,
-            UserProfile = !string.IsNullOrEmpty(userdetailCheck.CompanyName)? true : false
+            UserProfile = !string.IsNullOrEmpty(userdetailCheck.CompanyName)? true : false,
+            Is_Email_Confirmed = user.EmailConfirmed
         };
     }
 

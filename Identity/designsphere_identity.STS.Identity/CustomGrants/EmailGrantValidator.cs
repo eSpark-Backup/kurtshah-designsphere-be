@@ -74,6 +74,7 @@ public class EmailGrantValidator : IExtensionGrantValidator
             request.ProtectToken = context.Request.Raw.Get("protecttoken");
             request.Token = context.Request.Raw.Get("token");
             request.IsAggrementAccepted  = context.Request.Raw.Get("termsofserviceagreement") == "0";
+            request.EmailTwoFactor = context.Request.Raw.Get("emailtwofactor") == "1";
 
             var otptype = context.Request.Raw.Get("otptype");
 
@@ -268,7 +269,7 @@ public class EmailGrantValidator : IExtensionGrantValidator
                 CustomResult(context, response);
                 return;
             }
-            else if (!user.EmailConfirmed &&  otptype != "Verify")
+            else if (!user.EmailConfirmed && otptype != "Verify")
             {
                 bool IsEmailDelivered = await SendOtpAsync(user);
 
@@ -290,10 +291,41 @@ public class EmailGrantValidator : IExtensionGrantValidator
                 return;
 
             }
- 
-            else if(user.EmailConfirmed )
+            else if (user.EmailConfirmed && request.EmailTwoFactor)
             {
-               
+                if(!string.IsNullOrEmpty(request.Otp) && !string.IsNullOrEmpty(request.ProtectToken))
+                {
+                    var isVerfied = oTPService.VerifyOTP(user.UserName, request, "testhash", GrantType);
+
+                    if (isVerfied)
+                    {
+                        response = new("otp verified successfully",true);
+                        CustomResult(context, response);
+                        return;
+                    }
+                    CustomResult(context, new ApiResponse("Entered otp is incorrect"));
+                    return;
+                }
+
+                bool IsEmailDelivered = await SendOtpAsync(user,"true");
+
+                if (IsEmailDelivered)
+                {
+                    response = new ApiResponse("check Email for otp", null);
+                    response.Result = new
+                    {
+                        ProtectToken = protectToken
+                    };
+                    CustomResult(context, response);
+                    return;
+                }
+                CustomResult(context, new ApiResponse(CustomValMsg.InvalidRequest));
+                return;
+
+            }
+            else if (user.EmailConfirmed)
+            {
+
                 // create claims
                 const string role = "customer1";
 
@@ -450,18 +482,31 @@ public class EmailGrantValidator : IExtensionGrantValidator
     }
 
     
-    private async Task<bool> SendOtpAsync(UserIdentity user)
+    private async Task<bool> SendOtpAsync(UserIdentity user ,string twoFactorEmailEnabled = null)
     {
      
         var verificationUrl = CreateConnectTokenRequest(user.UserName, "testhash", GrantType,user.Email);
 
-        var emailBody = emailService.GetMessageBody(new EmailGrantRequest
-        {
-            FirstName = user.FirstName,
-            LastName = user.LastName,
-            Email = user.Email
-        }, verificationUrl);
+        var emailBody = "";
 
+        if (twoFactorEmailEnabled == "true")
+        {
+             emailBody = emailService.GetMessageBodyForOtpRequest(new EmailGrantRequest
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email
+            }, otp);
+        }
+        else
+        {
+             emailBody = emailService.GetMessageBody(new EmailGrantRequest
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email
+            }, verificationUrl);
+        }
         // Send the verification email
         var emailSent = await emailService.SendEmailAsync(user.Email, "Email Verification", emailBody);
 
@@ -472,7 +517,7 @@ public class EmailGrantValidator : IExtensionGrantValidator
 
         return true;
     }
-
+    
 
     public async Task<ApiResponse> GenerateForgotPasswordTokenAsync(UserIdentity user)
     {

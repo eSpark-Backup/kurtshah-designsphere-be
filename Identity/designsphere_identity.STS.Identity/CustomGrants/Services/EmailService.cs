@@ -25,6 +25,14 @@ public class EmailService : IEmailService
 
         return emailBody;
     }
+
+
+    public string GetMessageBodyForOtpRequest(EmailGrantRequest model, string otp)
+    {
+        var emailBody = $"Hi {model.FirstName},<br><br>verification otp:<br><a>{otp}</a>";
+
+        return emailBody;
+    }
     public async Task<bool> SendEmailAsync(string toEmail, string subject, string body)
     {
         try
