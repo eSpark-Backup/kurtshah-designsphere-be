@@ -313,6 +313,27 @@ public class UserInfoController : ControllerBase
 
     }
 
+    [HttpPost("DeleteAccount")]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+    public async Task<ApiResponse> DeleteAccount([FromForm] DeleteAccountRequest request)
+    {
+        // Step 1: Find the user by email
+        var user = await userManager.FindByEmailAsync(request.Email);
+        if (user == null)
+        {
+            return new ApiResponse("User not found.");
+        }
+
+        // Step 3: Delete the user account
+        var deleteResult = await userManager.DeleteAsync(user);
+        if (!deleteResult.Succeeded)
+        {
+            var errors = string.Join(", ", deleteResult.Errors.Select(e => e.Description));
+            return new ApiResponse($"Account deletion failed: {errors}");
+        }
+        return new ApiResponse("Account deleted successfully.", true);
+    }
+
     [HttpPost("LogOut")]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     public async Task<ApiResponse> LogOut()
