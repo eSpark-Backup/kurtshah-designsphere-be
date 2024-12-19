@@ -156,6 +156,8 @@ public class UserInfoController : ControllerBase
         if (userProfile.IsGoogleMFA != userDetail.IsGoogleMFA)
             userDetail.IsGoogleMFA = userProfile.IsGoogleMFA;
 
+        if (userProfile.NewsLetterSubscription != null)
+            user.NewsLetterSubscription = userProfile.NewsLetterSubscription;
         // Update the user profile picture if a new one is provided
         if (userProfile.ProfilePicture != null && userProfile.ProfilePicture.Length > 0)
         {
