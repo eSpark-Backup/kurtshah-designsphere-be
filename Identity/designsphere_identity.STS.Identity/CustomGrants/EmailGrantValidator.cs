@@ -19,6 +19,7 @@ using designsphere_identity.Admin.EntityFramework.Shared.Entities.Application;
 using System.Web;
 using designsphere_identity.STS.Identity.Migrations;
 using Google.Authenticator;
+using designsphere_identity.STS.Identity.CustomGrants.Repository;
 
 namespace designsphere_identity.STS.Identity.CustomGrants;
 
@@ -299,6 +300,12 @@ public class EmailGrantValidator : IExtensionGrantValidator
                 {
                     if (!string.IsNullOrEmpty(request.Otp) && !string.IsNullOrEmpty(request.ProtectToken))
                     {
+                        if (!userdetailCheck.IsEmailMFA)
+                        {
+                            userdetailCheck.IsEmailMFA = true;
+                            await _userDetailRepository.UpdateAsync(userdetailCheck);
+                        }
+
                         var isVerfied = oTPService.VerifyOTP(user.UserName, request, "testhash", GrantType);
 
                         if (isVerfied)
@@ -328,6 +335,12 @@ public class EmailGrantValidator : IExtensionGrantValidator
                 {
                     if (string.IsNullOrEmpty(request.Otp))
                     {
+                        if (!userdetailCheck.IsGoogleMFA)
+                        {
+                            userdetailCheck.IsGoogleMFA = true;
+                            await _userDetailRepository.UpdateAsync(userdetailCheck);
+                        }
+
                         var (secretKey, qrCodeUrl) = GenerateGoogleAuthenticatorSecret(user.Email);
 
                         userdetailCheck.GoogleTwoFactorSecretKey = secretKey;
