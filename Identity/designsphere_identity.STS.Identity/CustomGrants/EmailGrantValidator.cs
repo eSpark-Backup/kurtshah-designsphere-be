@@ -303,7 +303,9 @@ public class EmailGrantValidator : IExtensionGrantValidator
                         if (!userdetailCheck.IsEmailMFA)
                         {
                             userdetailCheck.IsEmailMFA = true;
+                            user.TwoFactorEnabled = true;
                             await _userDetailRepository.UpdateAsync(userdetailCheck);
+                            await _userManager.UpdateAsync(user);
                         }
 
                         var isVerfied = oTPService.VerifyOTP(user.UserName, request, "testhash", GrantType);
@@ -338,7 +340,9 @@ public class EmailGrantValidator : IExtensionGrantValidator
                         if (!userdetailCheck.IsGoogleMFA)
                         {
                             userdetailCheck.IsGoogleMFA = true;
+                            user.TwoFactorEnabled = true;
                             await _userDetailRepository.UpdateAsync(userdetailCheck);
+                            await _userManager.UpdateAsync(user);
                         }
 
                         var (secretKey, qrCodeUrl) = GenerateGoogleAuthenticatorSecret(user.Email);

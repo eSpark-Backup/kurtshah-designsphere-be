@@ -146,15 +146,18 @@ public class UserInfoController : ControllerBase
         if (!string.IsNullOrEmpty(userProfile.CompanyName))
             userDetail.CompanyName = userProfile.CompanyName;
 
-        if (userProfile.IsGoogleMFA || userProfile.IsEmailMFA)
-            user.TwoFactorEnabled = true;
+        if ((userProfile.IsGoogleMFA == "false" && !userDetail.IsEmailMFA) ||
+          (userProfile.IsEmailMFA == "false" && !userDetail.IsGoogleMFA))
+        {
+            user.TwoFactorEnabled = false;
+        }
 
-        if (userProfile.IsEmailMFA != userDetail.IsEmailMFA) 
-            userDetail.IsEmailMFA = userProfile.IsEmailMFA;
+        if (!string.IsNullOrEmpty(userProfile.IsEmailMFA)) 
+            userDetail.IsEmailMFA = userProfile.IsEmailMFA == "true" ?true:false;
             
 
-        if (userProfile.IsGoogleMFA != userDetail.IsGoogleMFA)
-            userDetail.IsGoogleMFA = userProfile.IsGoogleMFA;
+        if (!string.IsNullOrEmpty(userProfile.IsGoogleMFA))
+            userDetail.IsGoogleMFA = userProfile.IsGoogleMFA == "true"?true:false;
 
         if (userProfile.NewsLetterSubscription != null)
             user.NewsLetterSubscription = userProfile.NewsLetterSubscription;
