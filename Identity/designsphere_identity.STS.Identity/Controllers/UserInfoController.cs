@@ -146,6 +146,15 @@ public class UserInfoController : ControllerBase
         if (!string.IsNullOrEmpty(userProfile.CompanyName))
             userDetail.CompanyName = userProfile.CompanyName;
 
+        if (!string.IsNullOrEmpty(userProfile.FirstName))
+            user.FirstName = userProfile.FirstName;
+
+        if (!string.IsNullOrEmpty(userProfile.LastName))
+            user.LastName = userProfile.LastName;
+
+        if (!string.IsNullOrEmpty(userProfile.PhoneNumber))
+            user.PhoneNumber = userProfile.PhoneNumber;
+
         if ((userProfile.IsGoogleMFA == "false" && !userDetail.IsEmailMFA) ||
           (userProfile.IsEmailMFA == "false" && !userDetail.IsGoogleMFA))
         {

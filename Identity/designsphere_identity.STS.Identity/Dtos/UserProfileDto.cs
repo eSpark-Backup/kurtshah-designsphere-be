@@ -17,5 +17,9 @@ public class UserProfileDto
     public IFormFile? ProfilePicture { get; set; }
 
     public string IsEmailMFA { get; set; } 
-    public string IsGoogleMFA { get; set; } 
+    public string IsGoogleMFA { get; set; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public string PhoneNumber { get; set; }
+
 }
