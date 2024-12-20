@@ -300,18 +300,18 @@ public class EmailGrantValidator : IExtensionGrantValidator
                 {
                     if (!string.IsNullOrEmpty(request.Otp) && !string.IsNullOrEmpty(request.ProtectToken))
                     {
-                        if (!userdetailCheck.IsEmailMFA)
-                        {
-                            userdetailCheck.IsEmailMFA = true;
-                            user.TwoFactorEnabled = true;
-                            await _userDetailRepository.UpdateAsync(userdetailCheck);
-                            await _userManager.UpdateAsync(user);
-                        }
-
+                    
                         var isVerfied = oTPService.VerifyOTP(user.UserName, request, "testhash", GrantType);
 
                         if (isVerfied)
                         {
+                            if (!userdetailCheck.IsEmailMFA)
+                            {
+                                userdetailCheck.IsEmailMFA = true;
+                                user.TwoFactorEnabled = true;
+                                await _userDetailRepository.UpdateAsync(userdetailCheck);
+                                await _userManager.UpdateAsync(user);
+                            }
                             response = new("otp verified successfully", true);
                             CustomResult(context, response);
                             return;
@@ -337,14 +337,7 @@ public class EmailGrantValidator : IExtensionGrantValidator
                 {
                     if (string.IsNullOrEmpty(request.Otp))
                     {
-                        if (!userdetailCheck.IsGoogleMFA)
-                        {
-                            userdetailCheck.IsGoogleMFA = true;
-                            user.TwoFactorEnabled = true;
-                            await _userDetailRepository.UpdateAsync(userdetailCheck);
-                            await _userManager.UpdateAsync(user);
-                        }
-
+                        
                         var (secretKey, qrCodeUrl) = GenerateGoogleAuthenticatorSecret(user.Email);
 
                         userdetailCheck.GoogleTwoFactorSecretKey = secretKey;
@@ -371,6 +364,13 @@ public class EmailGrantValidator : IExtensionGrantValidator
                             return;
                         }
 
+                        if (!userdetailCheck.IsGoogleMFA)
+                        {
+                            userdetailCheck.IsGoogleMFA = true;
+                            user.TwoFactorEnabled = true;
+                            await _userDetailRepository.UpdateAsync(userdetailCheck);
+                            await _userManager.UpdateAsync(user);
+                        }
                         response = new ApiResponse("2FA verification successful.",true);
                         CustomResult(context, response);
                         return;
