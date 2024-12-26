@@ -23,6 +23,9 @@ using Microsoft.AspNetCore.Authentication;
 using IdentityServer4.Events;
 using IdentityServer4.Extensions;
 using IdentityServer4.Services;
+using OtpNet;
+using Pomelo.EntityFrameworkCore.MySql.Query.Internal;
+using System.Text;
 
 namespace designsphere_identity.STS.Identity.Controllers;
 
@@ -369,6 +372,26 @@ public class UserInfoController : ControllerBase
         }
 
     }
+
+    [HttpPost("ReSync")]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+    public async Task<bool> ResyncDevice([FromForm ]ResyncRequest request)
+    {
+        var userDetail = await userDetailRepository.GetDetailOfUser(userService.GetUserName());
+
+        var secretKeyBytes = Encoding.UTF8.GetBytes(userDetail.GoogleTwoFactorSecretKey);
+
+        var totp = new Totp(secretKeyBytes);
+
+        // Validate the first code
+        bool isCode1Valid = totp.VerifyTotp(request.Code1, out long timeStepMatched1, VerificationWindow.RfcSpecifiedNetworkDelay);
+
+        // Validate the second code
+        bool isCode2Valid = totp.VerifyTotp(request.Code2, out long timeStepMatched2, VerificationWindow.RfcSpecifiedNetworkDelay);
+
+        return isCode1Valid && isCode2Valid && timeStepMatched2 == timeStepMatched1 + 1;
+    }
+
 }
 
 public class UpdateInfoDto : IName
