@@ -338,7 +338,7 @@ public class EmailGrantValidator : IExtensionGrantValidator
                     bool IsEmailDelivered;
                     if (request.ReVeriyEmail)
                     {
-                        IsEmailDelivered = await SendOtpAsync(user);
+                        IsEmailDelivered = await SendOtpAsync(user,null,"true");
 
                     }
                     else
@@ -554,7 +554,7 @@ public class EmailGrantValidator : IExtensionGrantValidator
             await _events.RaiseAsync(new UserLoginFailureEvent("email", response.Message, false));
     }
 
-    public string  CreateConnectTokenRequest(string userName, string appHash, string grantType,string email)
+    public string  CreateConnectTokenRequest(string userName, string appHash, string grantType,string email,string reVerify =null)
     {
         var otpToken = oTPService.GenerateOTP(userName, appHash, grantType);
 
@@ -562,10 +562,18 @@ public class EmailGrantValidator : IExtensionGrantValidator
         string otpEncoded = HttpUtility.UrlEncode(otpToken.Otp);
         string protectTokenEncoded = HttpUtility.UrlEncode(otpToken.ProtectToken);
 
-        string baseUrl = _configuration["VerificationUrl"] ?? "https://localhost:44310"; 
+        string baseUrl = _configuration["VerificationUrl"] ?? "https://localhost:44310";
 
+        string connectUrl = string.Empty;
+        if (reVerify == "true")
+        {
+          connectUrl = $"{baseUrl}?UserName={userName}&Email={email}&Otp={otpEncoded}&ProtectToken={protectTokenEncoded}&AppHash={appHash}&GrantType={grantType}&ReVerify={reVerify}";
+        }
+        else
+        {
+           connectUrl = $"{baseUrl}?UserName={userName}&Email={email}&Otp={otpEncoded}&ProtectToken={protectTokenEncoded}&AppHash={appHash}&GrantType={grantType}";
+        }
         // Construct the URL with the OTP and Protect Token
-        string connectUrl = $"{baseUrl}?UserName={userName}&Email={email}&Otp={otpEncoded}&ProtectToken={protectTokenEncoded}&AppHash={appHash}&GrantType={grantType}";
 
         otp = otpToken.Otp;
         protectToken = otpToken.ProtectToken;
@@ -574,10 +582,10 @@ public class EmailGrantValidator : IExtensionGrantValidator
     }
 
     
-    private async Task<bool> SendOtpAsync(UserIdentity user ,string twoFactorEmailEnabled = null)
+    private async Task<bool> SendOtpAsync(UserIdentity user ,string twoFactorEmailEnabled = null,string IsReverify = null)
     {
      
-        var verificationUrl = CreateConnectTokenRequest(user.UserName, "testhash", GrantType,user.Email);
+        var verificationUrl = CreateConnectTokenRequest(user.UserName, "testhash", GrantType,user.Email,IsReverify);
 
         var emailBody = "";
 
