@@ -26,5 +26,6 @@ public class EmailGrantRequest : IOTPToken ,IEmailGrantRequest
 
     public Boolean GoogleTwoFactor { get; set; }
 
+    public Boolean ReVeriyEmail { get; set; }
 
 }

@@ -78,6 +78,7 @@ public class EmailGrantValidator : IExtensionGrantValidator
             request.IsAggrementAccepted  = context.Request.Raw.Get("termsofserviceagreement") == "0";
             request.EmailTwoFactor = context.Request.Raw.Get("emailtwofactor") == "1";
             request.GoogleTwoFactor = context.Request.Raw.Get("googletwofactor") == "1";
+            request.ReVeriyEmail = context.Request.Raw.Get("reverifyemail") == "1";
 
             var otptype = context.Request.Raw.Get("otptype");
 
@@ -294,14 +295,20 @@ public class EmailGrantValidator : IExtensionGrantValidator
                 return;
 
             }
-            else if (user.EmailConfirmed && (request.EmailTwoFactor || request.GoogleTwoFactor))
+            else if (user.EmailConfirmed && (request.EmailTwoFactor || request.GoogleTwoFactor || request.ReVeriyEmail))
             {
-                if (request.EmailTwoFactor)
+                if (request.EmailTwoFactor || request.ReVeriyEmail)
                 {
                     if (!string.IsNullOrEmpty(request.Otp) && !string.IsNullOrEmpty(request.ProtectToken))
                     {
-                    
+                        
                         var isVerfied = oTPService.VerifyOTP(user.UserName, request, "testhash", GrantType);
+
+                        if (isVerfied && request.ReVeriyEmail) {
+                            response = new("otp verified successfully", true);
+                            CustomResult(context, response);
+                            return;
+                        }
 
                         if (isVerfied)
                         {
@@ -316,21 +323,47 @@ public class EmailGrantValidator : IExtensionGrantValidator
                             CustomResult(context, response);
                             return;
                         }
-                        CustomResult(context, new ApiResponse("Entered otp is incorrect"));
-                        return;
+                        if (!isVerfied && request.ReVeriyEmail)
+                        {
+                            CustomResult(context, new ApiResponse("Email not able to verify because of Incorrect otp or expired"));
+                            return;
+                        }
+                        else
+                        {
+                            CustomResult(context, new ApiResponse("Entered otp is incorrect"));
+                            return;
+                        }  
                     }
 
-                    bool IsEmailDelivered = await SendOtpAsync(user, "true");
+                    bool IsEmailDelivered;
+                    if (request.ReVeriyEmail)
+                    {
+                        IsEmailDelivered = await SendOtpAsync(user);
+
+                    }
+                    else
+                    {
+                        IsEmailDelivered = await SendOtpAsync(user, "true");
+
+                    }
 
                     if (IsEmailDelivered)
                     {
-                        response = new ApiResponse("check Email for otp", null);
-                        response.Result = new
+                        if (request.ReVeriyEmail)
                         {
-                            ProtectToken = protectToken
-                        };
-                        CustomResult(context, response);
-                        return;
+                            response = new ApiResponse("check Verification Email", null);
+                            CustomResult(context, response);
+                            return;
+                        }
+                        else {
+                            response = new ApiResponse("check Email for otp", null);
+                            response.Result = new
+                            {
+                                ProtectToken = protectToken
+                            };
+                            CustomResult(context, response);
+                            return;
+                        }
                     }
                 }
                 else
