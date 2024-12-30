@@ -1,0 +1,443 @@
+{
+	"info": {
+		"_postman_id": "efc8cc45-1d50-4898-8e36-f90072a10d31",
+		"name": "Designspher Apis",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32702877",
+		"_collection_link": "https://www.postman.com/bold-comet-875963/workspace/designsp/collection/32702877-efc8cc45-1d50-4898-8e36-f90072a10d31?action=share&source=collection_link&creator=32702877"
+	},
+	"item": [
+		{
+			"name": "1 SignUp Request (Generate code)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "{{grant_type}}",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "{{client_id}}",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "{{client_secret}}",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "{{email}}",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "{{password}}",
+							"type": "text"
+						},
+						{
+							"key": "scope",
+							"value": "{{scope}}",
+							"type": "text"
+						},
+						{
+							"key": "firstname",
+							"value": "Masood",
+							"type": "text"
+						},
+						{
+							"key": "lastname",
+							"value": "ahmed",
+							"type": "text"
+						},
+						{
+							"key": "otpType",
+							"value": "Generate",
+							"type": "text"
+						},
+						{
+							"key": "devicecode",
+							"value": "{{devicecode}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/connect/token",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"connect",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "2 Sign Up Request(Verify Code)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "{{grant_type}}",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "{{client_id}}",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "{{client_secret}}",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "{{email}}",
+							"type": "text"
+						},
+						{
+							"key": "scope",
+							"value": "{{scope}}",
+							"type": "text"
+						},
+						{
+							"key": "devicecode",
+							"value": "{{devicecode}}",
+							"type": "text"
+						},
+						{
+							"key": "otpType",
+							"value": "Verify",
+							"type": "text"
+						},
+						{
+							"key": "otp",
+							"value": "046917",
+							"type": "text"
+						},
+						{
+							"key": "protecttoken",
+							"value": "1907073749",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/connect/token",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"connect",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "3 SignIn Request",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "{{grant_type}}",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "{{client_id}}",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "{{client_secret}}",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "{{email}}",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "{{password}}",
+							"type": "text"
+						},
+						{
+							"key": "scope",
+							"value": "{{scope}}",
+							"type": "text"
+						},
+						{
+							"key": "devicecode",
+							"value": "{{devicecode}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/connect/token",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"connect",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ForgotPassword(GenerateEmail)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "emailpassword",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "designsphereapp",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "mysecret",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "msj.rbk@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "scope",
+							"value": "openid profile offline_access ds_mainapiscope",
+							"type": "text"
+						},
+						{
+							"key": "otpType",
+							"value": "Generate",
+							"type": "text"
+						},
+						{
+							"key": "forgotpassword",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/connect/token",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"connect",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ForgotPassword(VerifyEmail)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "emailpassword",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "designsphereapp",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "mysecret",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "msj.rbk@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "scope",
+							"value": "openid profile offline_access ds_mainapiscope",
+							"type": "text"
+						},
+						{
+							"key": "otpType",
+							"value": "Verify",
+							"type": "text"
+						},
+						{
+							"key": "forgotpassword",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "token",
+							"value": "CfDJ8Dk5iZkp6Z5JnpGNNGYvkGatpzypd8DRme6qWxM2dbhKVcUG3RvE7KsHpAGXM8hCnL8AX7yPRKT00Bi71%2b0U0mTskrRDiAfibhVWneNzxbLyPdtAeeYix8eJjFJlhAf15GAl7gNNdnWgKxPOERdVD2xmS9Ge2ZSDGHkPAJaKHeZcOxJWTX52OUCJPil7OHPfffLnTRKOXQnBdr3juCou7vSiSIRQkRQsbXiQwX5VXf5D",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "East6758@",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/connect/token",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"connect",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateUserProfileRequest",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiIsImtpZCI6IkJEQTFFRURDNjNDQkVDNDY4N0Q5MzdDNThCM0ZBQjYxIiwidHlwIjoiYXQrand0In0.eyJuYmYiOjE3MzM2MDczOTYsImV4cCI6MTczMzY5Mzc5NiwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzMTAiLCJhdWQiOlsiZHNfbWFpbmFwaSIsIklkZW50aXR5U2VydmVyQXBpIl0sImNsaWVudF9pZCI6ImRlc2lnbnNwaGVyZWFwcCIsInN1YiI6IjFlM2I2MmMyLWYwZDYtNGQxZi1hYTMxLWJhZGRhNzVjMmJiZiIsImF1dGhfdGltZSI6MTczMzYwNzM5NiwiaWRwIjoibG9jYWwiLCJyb2xlIjoiY3VzdG9tZXIxIiwibmFtZSI6Ijg3YjA3NTQ1LTE1NjEtNGZlMC1iN2MxLWMyNjU5YzNlOTYzNCIsImp0aSI6Ijk3QkE0RUMwNjhCNDU2QURFMjk0OTkzN0U2RjRDRjJBIiwiaWF0IjoxNzMzNjA3Mzk2LCJzY29wZSI6WyJkc19tYWluYXBpc2NvcGUiLCJJZGVudGl0eVNlcnZlckFwaSIsIm9wZW5pZCIsInByb2ZpbGUiLCJvZmZsaW5lX2FjY2VzcyJdLCJhbXIiOlsiZW1haWxwYXNzd29yZCJdfQ.kCAoTSDNwAqgeU8iUPtTcz_r1NC6AAKmuxH-1Zz_Y_yu25HTGjgxuHj2JL9RmwWCNV-8EZtOcWLvD-6RRBkdYUr9dReGhqylxk6uVWRWfvIVAmX4LWl-Pd-HjqfAzXomDGGrIDRA8S-wN30DIcorMJmQ5cQ0bUGkeAUHtu3OpON_67-N49F5cHe9-bXUTulrYuzvePYZt2mgFn0b8AvDB9ssArrf5Kccrvz7BiCVcTtY8afVb_WAlU38DwVbRoe1rdZF0rRmymVSyicqcGSDrL-cA93CB7fZ7XRjH-n9IwP9VCcYAspPmC1A0FH7eIDWEJY6R1-HSHnjD-AjCMa9ww",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "ProfilePicture",
+							"type": "file",
+							"src": []
+						},
+						{
+							"key": "JobRoleId",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "CountryId",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "PostalCode",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "IsPrivacyPolicyAccepted",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "CompanyName",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/UserInfo/UpdateUserProfile",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"UserInfo",
+						"UpdateUserProfile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetCountiresAndJobRoles",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiIsImtpZCI6IkJEQTFFRURDNjNDQkVDNDY4N0Q5MzdDNThCM0ZBQjYxIiwidHlwIjoiYXQrand0In0.eyJuYmYiOjE3MzM2MDczOTYsImV4cCI6MTczMzY5Mzc5NiwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzMTAiLCJhdWQiOlsiZHNfbWFpbmFwaSIsIklkZW50aXR5U2VydmVyQXBpIl0sImNsaWVudF9pZCI6ImRlc2lnbnNwaGVyZWFwcCIsInN1YiI6IjFlM2I2MmMyLWYwZDYtNGQxZi1hYTMxLWJhZGRhNzVjMmJiZiIsImF1dGhfdGltZSI6MTczMzYwNzM5NiwiaWRwIjoibG9jYWwiLCJyb2xlIjoiY3VzdG9tZXIxIiwibmFtZSI6Ijg3YjA3NTQ1LTE1NjEtNGZlMC1iN2MxLWMyNjU5YzNlOTYzNCIsImp0aSI6Ijk3QkE0RUMwNjhCNDU2QURFMjk0OTkzN0U2RjRDRjJBIiwiaWF0IjoxNzMzNjA3Mzk2LCJzY29wZSI6WyJkc19tYWluYXBpc2NvcGUiLCJJZGVudGl0eVNlcnZlckFwaSIsIm9wZW5pZCIsInByb2ZpbGUiLCJvZmZsaW5lX2FjY2VzcyJdLCJhbXIiOlsiZW1haWxwYXNzd29yZCJdfQ.kCAoTSDNwAqgeU8iUPtTcz_r1NC6AAKmuxH-1Zz_Y_yu25HTGjgxuHj2JL9RmwWCNV-8EZtOcWLvD-6RRBkdYUr9dReGhqylxk6uVWRWfvIVAmX4LWl-Pd-HjqfAzXomDGGrIDRA8S-wN30DIcorMJmQ5cQ0bUGkeAUHtu3OpON_67-N49F5cHe9-bXUTulrYuzvePYZt2mgFn0b8AvDB9ssArrf5Kccrvz7BiCVcTtY8afVb_WAlU38DwVbRoe1rdZF0rRmymVSyicqcGSDrL-cA93CB7fZ7XRjH-n9IwP9VCcYAspPmC1A0FH7eIDWEJY6R1-HSHnjD-AjCMa9ww",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/UserInfo/GetCountriesAndJobRoles",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"UserInfo",
+						"GetCountriesAndJobRoles"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

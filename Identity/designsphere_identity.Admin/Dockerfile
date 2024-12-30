@@ -31,4 +31,5 @@ RUN dotnet publish "./designsphere_identity.Admin.csproj" -c $BUILD_CONFIGURATIO
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+ENV ASPNETCORE_FORWARDEDHEADERS_ENABLED=true
 ENTRYPOINT ["dotnet", "designsphere_identity.Admin.dll"]

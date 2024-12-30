@@ -1,6 +1,6 @@
 services:
-  pgserver:
-    container_name: pgserver
+  db:
+    container_name: db
     restart: always
     # volumes:
       # - pg_data:/var/lib/postgresql/data
@@ -38,12 +38,13 @@ services:
       'log_error_verbosity=verbose',
       ]
     environment:
-      - POSTGRES_USER=admin
+      - POSTGRES_USER=sa
       - POSTGRES_PASSWORD=admin1234
       - POSTGRES_DB=postgres
       - POSTGRES_HOST_AUTH_METHOD=md5
       - POSTGRES_INITDB_ARGS=--auth=md5
-
+    networks:
+      identityserverui: null
   rabbitmq:
     container_name: rabbitmq
     restart: always
@@ -53,6 +54,8 @@ services:
     environment:
       - "RABBITMQ_DEFAULT_PASS=dev"
       - "RABBITMQ_DEFAULT_USER=admin"
+    networks:
+      identityserverui: null
   # designsphere_identity.sts.identity:
   #   environment:
   #     - ASPNETCORE_ENVIRONMENT=Development
@@ -97,3 +100,20 @@ services:
   #   volumes:
   #     - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
   #     - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+  skoruba.identityserver4.admin:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+  
+  skoruba.identityserver4.admin.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+
+  skoruba.identityserver4.sts.identity:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
