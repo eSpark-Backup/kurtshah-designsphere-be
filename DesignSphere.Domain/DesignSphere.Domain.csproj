@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BuildingBlocks\EventBus.Messages\EventBus.Messages.csproj" />
+    <ProjectReference Include="..\BuildingBlocks\SieveCustom\SieveCustom.csproj" />
   </ItemGroup>
 
 </Project>

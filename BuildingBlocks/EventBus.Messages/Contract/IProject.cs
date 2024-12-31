@@ -1,10 +1,13 @@
-﻿using static EventBus.Messages.Common.Enums.Enumeration;
+﻿using SieveCustom.Attributes;
+using static EventBus.Messages.Common.Enums.Enumeration;
 
 namespace EventBus.Messages.Contract;
 
     public interface IProject
     {
-        string Name { get; set; }
+    [Sieve(CanFilter = true)]
+    string Name { get; set; }
+
         DateTime? PublishDate { get; set; }
         DateTime? DeviverableDate { get; set; }
         EProjectStage Stage { get; set; }

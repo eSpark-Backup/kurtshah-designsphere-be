@@ -1,5 +1,6 @@
 ﻿using DesignSphere.Domain.Common;
 using EventBus.Messages.Contract;
+using SieveCustom.Attributes;
 using System.ComponentModel.DataAnnotations.Schema;
 using static EventBus.Messages.Common.Enums.Enumeration;
 
@@ -129,7 +130,7 @@ public class ProjectRole : EntityBase, IProjectRole
 {
     public string Description { get; set; }
     public string Name { get; set; }
-    public ICollection<ProjectUserRole> ProjectUserRoles { get; set; }
+    public ICollection<ProjectUserRole> ProjectUserRoles { get; set; }   ///colabrators
 
 }
 
@@ -159,7 +160,9 @@ public class MileStone : EntityBase, IMileStone
 
 public class Project : EntityBase, IProject
 {
+    [Sieve(CanFilter = true)]
     public string Name { get; set; }
+
     public DateTime? PublishDate { get; set; }
     public DateTime? DeviverableDate { get; set; }
     public EProjectStage Stage { get; set; }

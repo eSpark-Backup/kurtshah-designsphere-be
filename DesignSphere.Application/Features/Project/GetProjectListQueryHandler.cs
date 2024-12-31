@@ -46,7 +46,7 @@ public class GetProjectListQueryHandler : IRequestHandler<GetProjectQueryRequest
         var sieveModel = new SieveModel
         {
             Filters = request.Filters,
-            Sorts = request.Sorts,      
+            Sorts = string.IsNullOrEmpty(request.Sorts) ? "CreationTime" : request.Sorts, // Default to CreatedOn if Sorts is empty
             Page = request.Page,       
             PageSize = request.PageSize 
         };

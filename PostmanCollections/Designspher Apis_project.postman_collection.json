@@ -1,0 +1,1247 @@
+{
+	"info": {
+		"_postman_id": "7aa889b8-c199-43d8-988d-2fc3b214414b",
+		"name": "Designspher Apis",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "4998263"
+	},
+	"item": [
+		{
+			"name": "Identity",
+			"item": [
+				{
+					"name": "VerifyOtpRequest",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "{{grant_type}}",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "{{client_id}}",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "{{client_secret}}",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "msj.mdkio@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "{{scope}}",
+									"type": "text"
+								},
+								{
+									"key": "devicecode",
+									"value": "testdevice",
+									"type": "text"
+								},
+								{
+									"key": "otpType",
+									"value": "Verify",
+									"type": "text"
+								},
+								{
+									"key": "otp",
+									"value": "587326",
+									"type": "text"
+								},
+								{
+									"key": "protecttoken",
+									"value": "1729873704",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://{{base_url}}/connect/token",
+							"protocol": "https",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SignIn Request",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "{{grant_type}}",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "{{client_id}}",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "{{client_secret}}",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "msj.mdkio@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "East6758@",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "{{scope}}",
+									"type": "text"
+								},
+								{
+									"key": "devicecode",
+									"value": "testdevice",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://{{base_url}}/connect/token",
+							"protocol": "https",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GenerateOtpRequest",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "{{grant_type}}",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "{{client_id}}",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "msj.mdkio@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "{{scope}}",
+									"type": "text"
+								},
+								{
+									"key": "otpType",
+									"value": "Generate",
+									"type": "text"
+								},
+								{
+									"key": "devicecode",
+									"value": "testdevice",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "{{client_secret}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://{{base_url}}/connect/token",
+							"protocol": "https",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SignUp Request (Generate code)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "{{grant_type}}",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "{{client_id}}",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "{{client_secret}}",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "msj.mdkio@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "Smeb@nk1",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "{{scope}}",
+									"type": "text"
+								},
+								{
+									"key": "firstname",
+									"value": "Masood",
+									"type": "text"
+								},
+								{
+									"key": "lastname",
+									"value": "ahmed",
+									"type": "text"
+								},
+								{
+									"key": "otpType",
+									"value": "Generate",
+									"type": "text"
+								},
+								{
+									"key": "devicecode",
+									"value": "testdevice",
+									"type": "text"
+								},
+								{
+									"key": "termsofserviceagreement",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://{{base_url}}/connect/token",
+							"protocol": "https",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sign Up Request(Verify Code)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "{{grant_type}}",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "{{client_id}}",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "{{client_secret}}",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "msj.masoodsdiq@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "{{scope}}",
+									"type": "text"
+								},
+								{
+									"key": "devicecode",
+									"value": "testdevice",
+									"type": "text"
+								},
+								{
+									"key": "otpType",
+									"value": "Verify",
+									"type": "text"
+								},
+								{
+									"key": "otp",
+									"value": "752749",
+									"type": "text"
+								},
+								{
+									"key": "protecttoken",
+									"value": "1727374119",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://{{base_url}}/connect/token",
+							"protocol": "https",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ForgotPassword(VerifyEmail)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "emailpassword",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "designsphereapp",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "mysecret",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "msj.mdkio@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "openid profile offline_access ds_mainapiscope",
+									"type": "text"
+								},
+								{
+									"key": "otpType",
+									"value": "Verify",
+									"type": "text"
+								},
+								{
+									"key": "forgotpassword",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "token",
+									"value": "CfDJ8MrkyGtmeeZIneYlErBU9J6qj19UPaEfDpgK07AwV7y%2fH4ye9JSb2DAqPU0mHyAcNk%2fz7smjzGIgiWWiJfBku%2fPwevUk9kThO8G5RAURTfFZcWs5MUonAqkWx3YAtGOA0E%2b43UV%2fWL07quAmQhQ3osjywFlEOQ9Tqdp5mSxmAME0oWnkGP4DolmFEp4F%2bYGVqkaz8tgFwKm%2fA%2bPqK%2bDftjmasboI1Wm7gSmI3NjCeQ9n",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "East6758@",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://{{base_url}}/connect/token",
+							"protocol": "https",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateUserProfileRequest",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsImtpZCI6IkJEQTFFRURDNjNDQkVDNDY4N0Q5MzdDNThCM0ZBQjYxIiwidHlwIjoiYXQrand0In0.eyJuYmYiOjE3MzQ2MTMwOTgsImV4cCI6MTczNDY5OTQ5OCwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzMTAiLCJhdWQiOlsiZHNfbWFpbmFwaSIsIklkZW50aXR5U2VydmVyQXBpIl0sImNsaWVudF9pZCI6ImRlc2lnbnNwaGVyZWFwcCIsInN1YiI6IjM1OTYyZGQ4LTM4ODctNGJkMi1hZDNjLTFmZmMxNThkN2UyNiIsImF1dGhfdGltZSI6MTczNDYxMzA5NywiaWRwIjoibG9jYWwiLCJyb2xlIjoiY3VzdG9tZXIxIiwibmFtZSI6IjAxN2JkMDQyLTAyZTYtNDY4ZS1iYjIzLTAzOTEzMjA2ZDkzZCIsImp0aSI6IkE1NUZDRjE1MkE0RTUzODBBRDY4QzkyRkREMUM4OEE3IiwiaWF0IjoxNzM0NjEzMDk4LCJzY29wZSI6WyJkc19tYWluYXBpc2NvcGUiLCJJZGVudGl0eVNlcnZlckFwaSIsIm9wZW5pZCIsInByb2ZpbGUiLCJvZmZsaW5lX2FjY2VzcyJdLCJhbXIiOlsiZW1haWxwYXNzd29yZCJdfQ.BmbMR4A1eNWGs4feYoOQwb2Dr4pOCfJdUyGvLF4Ul1uCzlE8UW6McCosfn1n9budeZrLUR2pWZmguVfnlGTLoAiOVUOkiFqraOVHhK6TveIMv4lohhzWx7Szbe0EFa_1lHEIWwI8hUxguWL59BkGZwLKjUZ-1g2MSo-fkTsK_FVlfxPbaqPUZ-qFN_Q7Ps3aBtX-En70jAjMc0Yp9jigFzfYrPhC8t-h0FfL8KRf3CkvsE4jel7SyIQ0qR88WaQAriOMoW1fPQDfHLcwqIdcDL6OakUvi6ItieUuJR3m5a5TxpRwb_8gcmeUJFGprEqg6dRlKWBxtQEda309TVLYRQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "ProfilePicture",
+									"type": "file",
+									"src": "/C:/Users/msjma/OneDrive/Pictures/Screenshots/Screenshot 2024-12-07 141911.png"
+								},
+								{
+									"key": "JobRoleId",
+									"value": "185f8413-cb5b-492f-9fa7-28ef2d51182d",
+									"type": "text"
+								},
+								{
+									"key": "CountryId",
+									"value": "98edca28-d7a6-4db0-8d92-5e33f6599957",
+									"type": "text"
+								},
+								{
+									"key": "PostalCode",
+									"value": "2332323",
+									"type": "text"
+								},
+								{
+									"key": "IsPrivacyPolicyAccepted",
+									"value": "true",
+									"type": "text"
+								},
+								{
+									"key": "CompanyName",
+									"value": "Designsphere",
+									"type": "text"
+								},
+								{
+									"key": "NewsLetterSubscription",
+									"value": "true",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://{{base_url}}/UserInfo/UpdateUserProfile",
+							"protocol": "https",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"UserInfo",
+								"UpdateUserProfile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetCountiresAndJobRoles",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsImtpZCI6IkJEQTFFRURDNjNDQkVDNDY4N0Q5MzdDNThCM0ZBQjYxIiwidHlwIjoiYXQrand0In0.eyJuYmYiOjE3MzM4NTU3OTEsImV4cCI6MTczMzk0MjE5MSwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzMTAiLCJhdWQiOlsiZHNfbWFpbmFwaSIsIklkZW50aXR5U2VydmVyQXBpIl0sImNsaWVudF9pZCI6ImRlc2lnbnNwaGVyZWFwcCIsInN1YiI6Ijk3MWI4ZjU1LThkODYtNGQyYS1iMTA0LTk5ZmE5NmVlNDc1MCIsImF1dGhfdGltZSI6MTczMzg1NTc5MSwiaWRwIjoibG9jYWwiLCJyb2xlIjoiY3VzdG9tZXIxIiwibmFtZSI6IjgxNmEwZjc0LWEyMGYtNDljMi1hNWM4LWEwYzVlZjAyZjE3NCIsImp0aSI6IjkzMTkwNUQ3Q0ZFMzU2OUJCQkUxQjQ2NzI2RTVDRTU2IiwiaWF0IjoxNzMzODU1NzkxLCJzY29wZSI6WyJkc19tYWluYXBpc2NvcGUiLCJJZGVudGl0eVNlcnZlckFwaSIsIm9wZW5pZCIsInByb2ZpbGUiLCJvZmZsaW5lX2FjY2VzcyJdLCJhbXIiOlsiZW1haWxwYXNzd29yZCJdfQ.b9_YAo-voZnl3pzOC4VOWZYbWI5OQdubVq751tNdN0cfQ67rl9uMRbxKZ9AVTwqO56Nbh6q7lj18GoPadtSo5vb53Nz-9vsAuxDIf3kGfVAaXkiGzeMquWVIgT9ZKpsWxvKyOx9bgjKak9i1clj88QJJao-g52M4HMLLpwyRUmaDc-9SVNwbU8TNgFDntVclqwcOo_Fb1kJyoHtINZEu05CCB3VMgdprjyQrI33TFrywZA4iqBdyN08gjorzGu5F0mm0uFfoDtGY8UxaP9juG7Mz4ynY4VIOK1xxeBWjWFo2a_n-Mus7g8XUZ6hhLk23qFEzCr1VXULMJFD5AHzNyg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{base_url}}/UserInfo/GetCountriesAndJobRoles",
+							"protocol": "https",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"UserInfo",
+								"GetCountriesAndJobRoles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetOTP Request",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true,
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "https://{{base_url}}/DevOtp/GetOtp?GrantType={{grant_type}}&Email=msj.mdkio@gmail.com&AppHash=testhash",
+							"protocol": "https",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"DevOtp",
+								"GetOtp"
+							],
+							"query": [
+								{
+									"key": "GrantType",
+									"value": "{{grant_type}}"
+								},
+								{
+									"key": "Email",
+									"value": "msj.mdkio@gmail.com"
+								},
+								{
+									"key": "AppHash",
+									"value": "testhash"
+								},
+								{
+									"key": null,
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ForgotPassword(GenerateEmail)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "emailpassword",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "designsphereapp",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "mysecret",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "msj.mdkio@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "openid profile offline_access ds_mainapiscope",
+									"type": "text"
+								},
+								{
+									"key": "otpType",
+									"value": "Generate",
+									"type": "text"
+								},
+								{
+									"key": "forgotpassword",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "https://{{base_url}}/connect/token",
+							"protocol": "https",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ResetPasswordRequest",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsImtpZCI6IkJEQTFFRURDNjNDQkVDNDY4N0Q5MzdDNThCM0ZBQjYxIiwidHlwIjoiYXQrand0In0.eyJuYmYiOjE3MzM4NTU3OTEsImV4cCI6MTczMzk0MjE5MSwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzMTAiLCJhdWQiOlsiZHNfbWFpbmFwaSIsIklkZW50aXR5U2VydmVyQXBpIl0sImNsaWVudF9pZCI6ImRlc2lnbnNwaGVyZWFwcCIsInN1YiI6Ijk3MWI4ZjU1LThkODYtNGQyYS1iMTA0LTk5ZmE5NmVlNDc1MCIsImF1dGhfdGltZSI6MTczMzg1NTc5MSwiaWRwIjoibG9jYWwiLCJyb2xlIjoiY3VzdG9tZXIxIiwibmFtZSI6IjgxNmEwZjc0LWEyMGYtNDljMi1hNWM4LWEwYzVlZjAyZjE3NCIsImp0aSI6IjkzMTkwNUQ3Q0ZFMzU2OUJCQkUxQjQ2NzI2RTVDRTU2IiwiaWF0IjoxNzMzODU1NzkxLCJzY29wZSI6WyJkc19tYWluYXBpc2NvcGUiLCJJZGVudGl0eVNlcnZlckFwaSIsIm9wZW5pZCIsInByb2ZpbGUiLCJvZmZsaW5lX2FjY2VzcyJdLCJhbXIiOlsiZW1haWxwYXNzd29yZCJdfQ.b9_YAo-voZnl3pzOC4VOWZYbWI5OQdubVq751tNdN0cfQ67rl9uMRbxKZ9AVTwqO56Nbh6q7lj18GoPadtSo5vb53Nz-9vsAuxDIf3kGfVAaXkiGzeMquWVIgT9ZKpsWxvKyOx9bgjKak9i1clj88QJJao-g52M4HMLLpwyRUmaDc-9SVNwbU8TNgFDntVclqwcOo_Fb1kJyoHtINZEu05CCB3VMgdprjyQrI33TFrywZA4iqBdyN08gjorzGu5F0mm0uFfoDtGY8UxaP9juG7Mz4ynY4VIOK1xxeBWjWFo2a_n-Mus7g8XUZ6hhLk23qFEzCr1VXULMJFD5AHzNyg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "Email",
+									"value": "msj.maso@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "NewPassword",
+									"value": "East67635@",
+									"type": "text"
+								},
+								{
+									"key": "OldPassword",
+									"value": "S3333a@2234",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://{{base_url}}/UserInfo/ResetPassword",
+							"protocol": "https",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"UserInfo",
+								"ResetPassword"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetUserDetails",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsImtpZCI6IkJEQTFFRURDNjNDQkVDNDY4N0Q5MzdDNThCM0ZBQjYxIiwidHlwIjoiYXQrand0In0.eyJuYmYiOjE3MzM4NTU3OTEsImV4cCI6MTczMzk0MjE5MSwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzMTAiLCJhdWQiOlsiZHNfbWFpbmFwaSIsIklkZW50aXR5U2VydmVyQXBpIl0sImNsaWVudF9pZCI6ImRlc2lnbnNwaGVyZWFwcCIsInN1YiI6Ijk3MWI4ZjU1LThkODYtNGQyYS1iMTA0LTk5ZmE5NmVlNDc1MCIsImF1dGhfdGltZSI6MTczMzg1NTc5MSwiaWRwIjoibG9jYWwiLCJyb2xlIjoiY3VzdG9tZXIxIiwibmFtZSI6IjgxNmEwZjc0LWEyMGYtNDljMi1hNWM4LWEwYzVlZjAyZjE3NCIsImp0aSI6IjkzMTkwNUQ3Q0ZFMzU2OUJCQkUxQjQ2NzI2RTVDRTU2IiwiaWF0IjoxNzMzODU1NzkxLCJzY29wZSI6WyJkc19tYWluYXBpc2NvcGUiLCJJZGVudGl0eVNlcnZlckFwaSIsIm9wZW5pZCIsInByb2ZpbGUiLCJvZmZsaW5lX2FjY2VzcyJdLCJhbXIiOlsiZW1haWxwYXNzd29yZCJdfQ.b9_YAo-voZnl3pzOC4VOWZYbWI5OQdubVq751tNdN0cfQ67rl9uMRbxKZ9AVTwqO56Nbh6q7lj18GoPadtSo5vb53Nz-9vsAuxDIf3kGfVAaXkiGzeMquWVIgT9ZKpsWxvKyOx9bgjKak9i1clj88QJJao-g52M4HMLLpwyRUmaDc-9SVNwbU8TNgFDntVclqwcOo_Fb1kJyoHtINZEu05CCB3VMgdprjyQrI33TFrywZA4iqBdyN08gjorzGu5F0mm0uFfoDtGY8UxaP9juG7Mz4ynY4VIOK1xxeBWjWFo2a_n-Mus7g8XUZ6hhLk23qFEzCr1VXULMJFD5AHzNyg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{base_url}}/UserInfo/GetUserDetails",
+							"protocol": "https",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"UserInfo",
+								"GetUserDetails"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UserLogOutRequest",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsImtpZCI6IkJEQTFFRURDNjNDQkVDNDY4N0Q5MzdDNThCM0ZBQjYxIiwidHlwIjoiYXQrand0In0.eyJuYmYiOjE3MzM4NTU3OTEsImV4cCI6MTczMzk0MjE5MSwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzMTAiLCJhdWQiOlsiZHNfbWFpbmFwaSIsIklkZW50aXR5U2VydmVyQXBpIl0sImNsaWVudF9pZCI6ImRlc2lnbnNwaGVyZWFwcCIsInN1YiI6Ijk3MWI4ZjU1LThkODYtNGQyYS1iMTA0LTk5ZmE5NmVlNDc1MCIsImF1dGhfdGltZSI6MTczMzg1NTc5MSwiaWRwIjoibG9jYWwiLCJyb2xlIjoiY3VzdG9tZXIxIiwibmFtZSI6IjgxNmEwZjc0LWEyMGYtNDljMi1hNWM4LWEwYzVlZjAyZjE3NCIsImp0aSI6IjkzMTkwNUQ3Q0ZFMzU2OUJCQkUxQjQ2NzI2RTVDRTU2IiwiaWF0IjoxNzMzODU1NzkxLCJzY29wZSI6WyJkc19tYWluYXBpc2NvcGUiLCJJZGVudGl0eVNlcnZlckFwaSIsIm9wZW5pZCIsInByb2ZpbGUiLCJvZmZsaW5lX2FjY2VzcyJdLCJhbXIiOlsiZW1haWxwYXNzd29yZCJdfQ.b9_YAo-voZnl3pzOC4VOWZYbWI5OQdubVq751tNdN0cfQ67rl9uMRbxKZ9AVTwqO56Nbh6q7lj18GoPadtSo5vb53Nz-9vsAuxDIf3kGfVAaXkiGzeMquWVIgT9ZKpsWxvKyOx9bgjKak9i1clj88QJJao-g52M4HMLLpwyRUmaDc-9SVNwbU8TNgFDntVclqwcOo_Fb1kJyoHtINZEu05CCB3VMgdprjyQrI33TFrywZA4iqBdyN08gjorzGu5F0mm0uFfoDtGY8UxaP9juG7Mz4ynY4VIOK1xxeBWjWFo2a_n-Mus7g8XUZ6hhLk23qFEzCr1VXULMJFD5AHzNyg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://{{base_url}}/UserInfo/LogOut",
+							"protocol": "https",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"UserInfo",
+								"LogOut"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GenerateEmailOtpRequest2fa",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "{{grant_type}}",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "{{client_id}}",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "msj.mdkio@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "{{scope}}",
+									"type": "text"
+								},
+								{
+									"key": "devicecode",
+									"value": "testdevice",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "{{client_secret}}",
+									"type": "text"
+								},
+								{
+									"key": "emailtwofactor",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://{{base_url}}/connect/token",
+							"protocol": "https",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "VerifyEmailOtpRequest2fa",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "{{grant_type}}",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "{{client_id}}",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "{{scope}}",
+									"type": "text"
+								},
+								{
+									"key": "devicecode",
+									"value": "testdevice",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "msj.mdkio@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "{{client_secret}}",
+									"type": "text"
+								},
+								{
+									"key": "emailtwofactor",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "otp",
+									"value": "2007373",
+									"type": "text"
+								},
+								{
+									"key": "protecttoken",
+									"value": "1627595072",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://{{base_url}}/connect/token",
+							"protocol": "https",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GenerateGoogleOtpRequest",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "{{grant_type}}",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "{{client_id}}",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "{{scope}}",
+									"type": "text"
+								},
+								{
+									"key": "devicecode",
+									"value": "testdevice",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "{{client_secret}}",
+									"type": "text"
+								},
+								{
+									"key": "googletwofactor",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "msj.mdkio@gmail.com",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://{{base_url}}/connect/token",
+							"protocol": "https",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "VerifyGoogleOtpRequest",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "{{grant_type}}",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "{{client_id}}",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "{{scope}}",
+									"type": "text"
+								},
+								{
+									"key": "devicecode",
+									"value": "testdevice",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "{{client_secret}}",
+									"type": "text"
+								},
+								{
+									"key": "googletwofactor",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "msj.mdkio@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "otp",
+									"value": "333073",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://{{base_url}}/connect/token",
+							"protocol": "https",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteUserAccountRequest",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "Email",
+									"value": "msj.maso@gmail.com",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://{{base_url}}/UserInfo/DeleteAccount",
+							"protocol": "https",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"UserInfo",
+								"DeleteAccount"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ResyncGoogleAuthenticator",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsImtpZCI6IkJEQTFFRURDNjNDQkVDNDY4N0Q5MzdDNThCM0ZBQjYxIiwidHlwIjoiYXQrand0In0.eyJuYmYiOjE3MzUyMTc0NjQsImV4cCI6MTczNTMwMzg2NCwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzMTAiLCJhdWQiOlsiZHNfbWFpbmFwaSIsIklkZW50aXR5U2VydmVyQXBpIl0sImNsaWVudF9pZCI6ImRlc2lnbnNwaGVyZWFwcCIsInN1YiI6IjM1OTYyZGQ4LTM4ODctNGJkMi1hZDNjLTFmZmMxNThkN2UyNiIsImF1dGhfdGltZSI6MTczNTIxNzQ2MywiaWRwIjoibG9jYWwiLCJyb2xlIjoiY3VzdG9tZXIxIiwibmFtZSI6IjAxN2JkMDQyLTAyZTYtNDY4ZS1iYjIzLTAzOTEzMjA2ZDkzZCIsImp0aSI6IjRFNzYzRUM2NUZDMzBEOEFGRDc3QjQ5Q0MxMEY0MEVDIiwiaWF0IjoxNzM1MjE3NDY0LCJzY29wZSI6WyJkc19tYWluYXBpc2NvcGUiLCJJZGVudGl0eVNlcnZlckFwaSIsIm9wZW5pZCIsInByb2ZpbGUiLCJvZmZsaW5lX2FjY2VzcyJdLCJhbXIiOlsiZW1haWxwYXNzd29yZCJdfQ.bLVp7Lq-US5jkFGogY-Epx5gfKuQEaQoMz3WxFJi4gCU1ECB7Hix18wZN33ijAkD5XR8Ry41LPVrui9oV2D5BP46NR-JiH_ADlMnVTsFzz0azaMcrruwQyL96YWaVvv2lgbGjnJ6BnQSOiQfqfdgwixujEeQcLzcAlEdce0b6Tye3h-naddt8XCcLUVSBJo0EKTrDWYAN-4GKXWvY89iVK2pWnsOYjC4Y289WahocutFlc4VVCVeU8EP4Hx3HFe8vdpiwIVeoX_OfCO2bAET6qYsL9G2_FY8Ou6rAty1XQVD6irEPd_wjTBWD3QOLa6CQjXoYqQ8Xc7CLlY1sz7Sdw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "Code1",
+									"value": "123343",
+									"type": "text"
+								},
+								{
+									"key": "Code2",
+									"value": "233455",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://{{base_url}}/UserInfo/ReSync",
+							"protocol": "https",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"UserInfo",
+								"ReSync"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetReverifyEmailRequest",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "{{grant_type}}",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "{{client_id}}",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "msj.mdkio@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "{{scope}}",
+									"type": "text"
+								},
+								{
+									"key": "devicecode",
+									"value": "testdevice",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "{{client_secret}}",
+									"type": "text"
+								},
+								{
+									"key": "reverifyemail",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://{{base_url}}/connect/token",
+							"protocol": "https",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ReverifyEmailVerifcationRequest",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "{{grant_type}}",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "{{client_id}}",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "msj.mdkio@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "{{scope}}",
+									"type": "text"
+								},
+								{
+									"key": "devicecode",
+									"value": "testdevice",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "{{client_secret}}",
+									"type": "text"
+								},
+								{
+									"key": "reverifyemail",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "otp",
+									"value": "772692",
+									"type": "text"
+								},
+								{
+									"key": "protecttoken",
+									"value": "0094950480",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://{{base_url}}/connect/token",
+							"protocol": "https",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ProjectEndpoints",
+			"item": [
+				{
+					"name": "CreateProject Request",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsImtpZCI6IkJEQTFFRURDNjNDQkVDNDY4N0Q5MzdDNThCM0ZBQjYxIiwidHlwIjoiYXQrand0In0.eyJuYmYiOjE3MzU1ODU4MDUsImV4cCI6MTczNTY3MjIwNSwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzMTAiLCJhdWQiOlsiZHNfbWFpbmFwaSIsIklkZW50aXR5U2VydmVyQXBpIl0sImNsaWVudF9pZCI6ImRlc2lnbnNwaGVyZWFwcCIsInN1YiI6IjM1OTYyZGQ4LTM4ODctNGJkMi1hZDNjLTFmZmMxNThkN2UyNiIsImF1dGhfdGltZSI6MTczNTU4NTgwNSwiaWRwIjoibG9jYWwiLCJyb2xlIjoiY3VzdG9tZXIxIiwibmFtZSI6IjAxN2JkMDQyLTAyZTYtNDY4ZS1iYjIzLTAzOTEzMjA2ZDkzZCIsImp0aSI6IjM3OERBNzBCMzgyQTgwRUMwMjU2OUIyQUZFMkMzRUFEIiwiaWF0IjoxNzM1NTg1ODA1LCJzY29wZSI6WyJkc19tYWluYXBpc2NvcGUiLCJJZGVudGl0eVNlcnZlckFwaSIsIm9wZW5pZCIsInByb2ZpbGUiLCJvZmZsaW5lX2FjY2VzcyJdLCJhbXIiOlsiZW1haWxwYXNzd29yZCJdfQ.V6cPp77Qk0UHz3tg3TnKjo92zAj9UreKKx-RtPl95tpDKu4grrzpTYHOOTUvqxEw8o0LRS0ieAIvlzhIXzl8ru1basxqXzpm3RhF8JnW4mlkcTGvukySmGnnjmoOjqWc64w0tfBxU9HO9v95zi9Wi4Kzub_JvRiLZG64Dni-D2ux8RfQFuPo8OBTwxIw35ZLigX0KN_ozyeXD7ZOvxITmAlPOHqYUUAvOeZe0B5t4yEvTTUnv_8Njwj2ZvNk3Sal2uCNvw3qdBNwNh_r6rBWaAujcvxRt9ewr80bdFNii-1kKEULH6bBzrX1dd1NyCQBBowUkmkMpdaYkqtIGIXQWg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Abcproject\",\r\n  \"publishDate\": \"2024-12-30T19:10:48.505Z\",\r\n  \"deviverableDate\": \"2024-12-30T19:10:48.505Z\",\r\n  \"stage\": 1,\r\n  \"type\": 1,\r\n  \"helpUs\": true,\r\n  \"comment\": \"mmdnndsnm\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{prj_base_url}}/v1/project/CreateProject",
+							"protocol": "http",
+							"host": [
+								"{{prj_base_url}}"
+							],
+							"path": [
+								"v1",
+								"project",
+								"CreateProject"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
