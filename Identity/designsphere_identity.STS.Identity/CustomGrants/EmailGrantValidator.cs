@@ -426,7 +426,15 @@ public class EmailGrantValidator : IExtensionGrantValidator
                                 new Claim(ClaimTypes.Name, user.UserName),
                                 new Claim(ClaimTypes.Email, user.Email),
                                 new Claim(ClaimTypes.Role, role)
+
                             };
+
+                if (!string.IsNullOrEmpty(user.FirstName) &&  !string.IsNullOrEmpty(userdetailCheck.CompanyName))
+                {
+                    claims.Add(new Claim("fullname", user.FirstName +user.LastName));
+                    claims.Add(new Claim("companyname", userdetailCheck.CompanyName));
+                }
+
                 foreach (var claim in claims)
                 {
                     await _userManager.AddClaimAsync(user, new Claim(claim.Type, claim.Value));
@@ -502,6 +510,14 @@ public class EmailGrantValidator : IExtensionGrantValidator
                                 new Claim(ClaimTypes.Email, user.Email),
                                 new Claim(ClaimTypes.Role, role)
                             };
+
+
+                        if (!string.IsNullOrEmpty(user.FirstName) && !string.IsNullOrEmpty(userdetailCheck.CompanyName))
+                        {
+                            claims.Add(new Claim("fullname", user.FirstName + user.LastName));
+                            claims.Add(new Claim("companyname", userdetailCheck.CompanyName));
+                        }
+
                         foreach (var claim in claims)
                         {
                             await _userManager.AddClaimAsync(user, new Claim(claim.Type, claim.Value));

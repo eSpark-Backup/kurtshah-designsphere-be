@@ -3,8 +3,8 @@ using static EventBus.Messages.Common.Enums.Enumeration;
 
 namespace EventBus.Messages.Contract;
 
-    public interface IProject
-    {
+    public interface IProject 
+{
     [Sieve(CanFilter = true)]
     string Name { get; set; }
 
@@ -12,7 +12,11 @@ namespace EventBus.Messages.Contract;
         DateTime? DeviverableDate { get; set; }
         EProjectStage Stage { get; set; }
         EProjectType Type { get; set; }
-        bool? HelpUs { get; set; }
+        HelpOption HelpUs { get; set; }
+         string? OwnerId { get; set; }
+         string? OwnerName { get; set; }
+           string? CompanyName { get; set; }
 
-    }
+
+}
 

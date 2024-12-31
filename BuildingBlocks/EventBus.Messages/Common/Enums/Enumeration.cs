@@ -67,4 +67,10 @@ public  class Enumeration
     {
         HollowMetalFrame, MetalFrame, GlassFrame
     }
+    public enum HelpOption
+    {
+        Yes,
+        No,
+        NotSure
+    }
 }

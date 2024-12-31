@@ -162,19 +162,20 @@ public class Project : EntityBase, IProject
 {
     [Sieve(CanFilter = true)]
     public string Name { get; set; }
-
     public DateTime? PublishDate { get; set; }
     public DateTime? DeviverableDate { get; set; }
     public EProjectStage Stage { get; set; }
     public EProjectType Type { get; set; }
-    public bool? HelpUs { get; set; }
+    public HelpOption HelpUs { get; set; }
     public string Comment { get; set; }
+    public string? OwnerId { get; set; }
+    public string? OwnerName { get; set; }
+    public string? CompanyName { get; set; }
 
     public ICollection<ProjectPlan>? ProjectPlans { get; }
     public ICollection<ProjectUserRole>? ProjectUserRoles { get; }
     public ICollection<ProjectLabel>? ProjectLabels { get; set; }
     public ICollection<Post>? Posts { get; set; }
-
 }
 
 public class ProjectLabel : EntityBase, IProjectLabel

@@ -30,7 +30,14 @@ public class UserService : IUserService
     {
         return _IHttpContextAccessor.HttpContext.User.Identity.Name;
     }
-
+    public string GetFullName()
+    {
+        return _IHttpContextAccessor.HttpContext.User?.FindFirst("fullname")?.Value;
+    }
+    public string GetCompanyName()
+    {
+        return _IHttpContextAccessor.HttpContext.User?.FindFirst("companyname")?.Value;
+    }
     public string GetPhoneNumber()
     {
         return _IHttpContextAccessor.HttpContext.User?.FindFirst(JwtClaimTypes.PhoneNumber)?.Value;

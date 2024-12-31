@@ -11,4 +11,8 @@ public interface IUserService
     string GetPhoneNumber();
 
     string GetDeviceId();
+
+    string GetFullName();
+    string GetCompanyName();
+
 }
