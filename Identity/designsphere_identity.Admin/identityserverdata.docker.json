@@ -120,7 +120,7 @@
       {
         "ClientId": "adminclient",
         "ClientName": "adminclient",
-        "ClientUri": "https://admin.skoruba.local",
+        "ClientUri": "https://admin.designsphere.local",
         "AllowedGrantTypes": [
           "authorization_code"
         ],
@@ -131,14 +131,14 @@
           }
         ],
         "RedirectUris": [
-          "https://admin.skoruba.local/signin-oidc"
+          "https://admin.designsphere.local/signin-oidc"
         ],
-        "FrontChannelLogoutUri": "https://admin.skoruba.local/signout-oidc",
+        "FrontChannelLogoutUri": "https://admin.designsphere.local/signout-oidc",
         "PostLogoutRedirectUris": [
-          "https://admin.skoruba.local/signout-callback-oidc"
+          "https://admin.designsphere.local/signout-callback-oidc"
         ],
         "AllowedCorsOrigins": [
-          "https://admin.skoruba.local"
+          "https://admin.designsphere.local"
         ],
         "AllowedScopes": [
           "openid",
@@ -156,13 +156,13 @@
         "RequireClientSecret": false,
         "RequirePkce": true,
         "RedirectUris": [
-          "https://admin-api.skoruba.local/swagger/oauth2-redirect.html"
+          "https://admin-api.designsphere.local/swagger/oauth2-redirect.html"
         ],
         "AllowedScopes": [
           "adminclient_api"
         ],
         "AllowedCorsOrigins": [
-          "https://admin-api.skoruba.local"
+          "https://admin-api.designsphere.local"
         ]
       },
       {

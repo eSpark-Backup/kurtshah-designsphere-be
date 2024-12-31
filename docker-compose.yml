@@ -18,60 +18,61 @@ services:
       proxy: null
       identityserverui:
         aliases:
-          - sts.skoruba.local
-          - admin.skoruba.local
-          - admin-api.skoruba.local
+          - sts.designsphere.local
+          - admin.designsphere.local
+          - admin-api.designsphere.local
+          - api.designsphere.local
     restart: always
-  skoruba.identityserver4.admin:
-    image: '${DOCKER_REGISTRY-}skoruba-identityserver4-admin'
+  designsphere.identity.admin:
+    image: '${DOCKER_REGISTRY-}designsphere-identity-admin'
     build:
       context: .
       dockerfile: Identity/designsphere_identity.Admin/Dockerfile
-    container_name: skoruba-identityserver4-admin
+    container_name: designsphere-identity-admin
     environment:
-      - VIRTUAL_HOST=admin.skoruba.local
+      - VIRTUAL_HOST=admin.designsphere.local
       - 'ConnectionStrings__ConfigurationDbConnection=Server=db;Port=5432;Database=IdentityServer4Admin;User Id=sa;Password=admin1234;'
       - 'ConnectionStrings__PersistedGrantDbConnection=Server=db;Port=5432;Database=IdentityServer4Admin;User Id=sa;Password=admin1234;'
       - 'ConnectionStrings__IdentityDbConnection=Server=db;Port=5432;Database=IdentityServer4Admin;User Id=sa;Password=admin1234;'
       - 'ConnectionStrings__AdminLogDbConnection=Server=db;Port=5432;Database=IdentityServer4Admin;User Id=sa;Password=admin1234;'
       - 'ConnectionStrings__AdminAuditLogDbConnection=Server=db;Port=5432;Database=IdentityServer4Admin;User Id=sa;Password=admin1234;'
       - 'ConnectionStrings__DataProtectionDbConnection=Server=db;Port=5432;Database=IdentityServer4Admin;User Id=sa;Password=admin1234;'
-      - 'AdminConfiguration__IdentityAdminBaseUrl=https://admin.skoruba.local'
-      - 'AdminConfiguration__IdentityAdminRedirectUri=https://admin.skoruba.local/signin-oidc'
-      - 'AdminConfiguration__IdentityServerBaseUrl=https://sts.skoruba.local'
+      - 'AdminConfiguration__IdentityAdminBaseUrl=https://admin.designsphere.local'
+      - 'AdminConfiguration__IdentityAdminRedirectUri=https://admin.designsphere.local/signin-oidc'
+      - 'AdminConfiguration__IdentityServerBaseUrl=https://sts.designsphere.local'
       - AdminConfiguration__RequireHttpsMetadata=false
-      - 'IdentityServerData__Clients__0__ClientUri=https://admin.skoruba.local'
-      - 'IdentityServerData__Clients__0__RedirectUris__0=https://admin.skoruba.local/signin-oidc'
-      - 'IdentityServerData__Clients__0__FrontChannelLogoutUri=https://admin.skoruba.local/signin-oidc'
-      - 'IdentityServerData__Clients__0__PostLogoutRedirectUris__0=https://admin.skoruba.local/signout-callback-oidc'
-      - 'IdentityServerData__Clients__0__AllowedCorsOrigins__0=https://admin.skoruba.local'
-      - 'IdentityServerData__Clients__1__RedirectUris__0=https://admin-api.skoruba.local/swagger/oauth2-redirect.html'
+      - 'IdentityServerData__Clients__0__ClientUri=https://admin.designsphere.local'
+      - 'IdentityServerData__Clients__0__RedirectUris__0=https://admin.designsphere.local/signin-oidc'
+      - 'IdentityServerData__Clients__0__FrontChannelLogoutUri=https://admin.designsphere.local/signin-oidc'
+      - 'IdentityServerData__Clients__0__PostLogoutRedirectUris__0=https://admin.designsphere.local/signout-callback-oidc'
+      - 'IdentityServerData__Clients__0__AllowedCorsOrigins__0=https://admin.designsphere.local'
+      - 'IdentityServerData__Clients__1__RedirectUris__0=https://admin-api.designsphere.local/swagger/oauth2-redirect.html'
       - 'Serilog__WriteTo__1__Args__connectionString=Server=db;Port=5432;Database=IdentityServer4Admin;User Id=sa;Password=admin1234;'
       - DockerConfiguration__UpdateCaCertificate=true
       - ASPNETCORE_ENVIRONMENT=docker
-    command: dotnet Skoruba.IdentityServer4.Admin.dll /seed
+    command: dotnet designsphere.identity.Admin.dll /seed
     depends_on:
       - db
-      - skoruba.identityserver4.sts.identity
+      - designsphere.identity.sts.identity
     volumes:
       - './shared/serilog.json:/app/serilog.json'
       # - './shared/identitydata.json:/app/identitydata.json'
-      # - './shared/identityserverdata.json:/app/identityserverdata.json'
+      - './Identity/designsphere_identity.Admin/identityserverdata.docker.json:/app/identityserverdata.json'
       - './shared/nginx/certs/cacerts.crt:/usr/local/share/ca-certificates/cacerts.crt'
     networks:
       identityserverui: null
 
-  skoruba.identityserver4.admin.api:
-    image: '${DOCKER_REGISTRY-}skoruba-identityserver4-admin-api'
+  designsphere.identity.admin.api:
+    image: '${DOCKER_REGISTRY-}designsphere-identity-admin-api'
     build:
       context: .
       dockerfile: Identity/designsphere_identity.Admin.Api/Dockerfile
-    container_name: skoruba-identityserver4-admin-api
+    container_name: designsphere-identity-admin-api
     environment:
-      - VIRTUAL_HOST=admin-api.skoruba.local
+      - VIRTUAL_HOST=admin-api.designsphere.local
       - AdminApiConfiguration__RequireHttpsMetadata=false
-      - 'AdminApiConfiguration__ApiBaseUrl=https://admin-api.skoruba.local'
-      - 'AdminApiConfiguration__IdentityServerBaseUrl=https://sts.skoruba.local'
+      - 'AdminApiConfiguration__ApiBaseUrl=https://admin-api.designsphere.local'
+      - 'AdminApiConfiguration__IdentityServerBaseUrl=https://sts.designsphere.local'
       - 'ConnectionStrings__ConfigurationDbConnection=Server=db;Port=5432;Database=IdentityServer4Admin;User Id=sa;Password=admin1234;'
       - 'ConnectionStrings__PersistedGrantDbConnection=Server=db;Port=5432;Database=IdentityServer4Admin;User Id=sa;Password=admin1234;'
       - 'ConnectionStrings__IdentityDbConnection=Server=db;Port=5432;Database=IdentityServer4Admin;User Id=sa;Password=admin1234;'
@@ -86,26 +87,27 @@ services:
     networks:
       identityserverui: null
 
-  skoruba.identityserver4.sts.identity:
-    image: '${DOCKER_REGISTRY-}skoruba-identityserver4-sts-identity'
+  designsphere.identity.sts.identity:
+    image: '${DOCKER_REGISTRY-}designsphere-identity-sts-identity'
     build:
       context: .
       dockerfile: Identity/designsphere_identity.STS.Identity/Dockerfile
-    container_name: skoruba-identityserver4-sts-identity
+    container_name: designsphere-identity-sts-identity
     environment:
-      - VIRTUAL_HOST=sts.skoruba.local
+      - VIRTUAL_HOST=sts.designsphere.local
       - 'ConnectionStrings__ConfigurationDbConnection=Server=db;Port=5432;Database=IdentityServer4Admin;User Id=sa;Password=admin1234;'
       - 'ConnectionStrings__PersistedGrantDbConnection=Server=db;Port=5432;Database=IdentityServer4Admin;User Id=sa;Password=admin1234;'
       - 'ConnectionStrings__IdentityDbConnection=Server=db;Port=5432;Database=IdentityServer4Admin;User Id=sa;Password=admin1234;'
       - 'ConnectionStrings__DataProtectionDbConnection=Server=db;Port=5432;Database=IdentityServer4Admin;User Id=sa;Password=admin1234;'
-      - 'AdminConfiguration__IdentityAdminBaseUrl=https://admin.skoruba.local'
-      - 'IdentityServerOptions__IssuerUri=https://sts.skoruba.local'
+      - 'AdminConfiguration__IdentityAdminBaseUrl=https://admin.designsphere.local'
+      - 'IdentityServerOptions__IssuerUri=https://sts.designsphere.local'
       - IdentityServerOptions__Events__RaiseErrorEvents=true
       - IdentityServerOptions__Events__RaiseInformationEvents=true
       - IdentityServerOptions__Events__RaiseFailureEvents=true
       - IdentityServerOptions__Events__RaiseSuccessEvents=true
       - DockerConfiguration__UpdateCaCertificate=true
       - ASPNETCORE_ENVIRONMENT=docker
+      - EventBusSettings__HostAddress=amqp://admin:dev@rabbitmq:5672
     depends_on:
       - db
     volumes:
@@ -114,7 +116,21 @@ services:
     networks:
       identityserverui:
         aliases:
-          - sts.skoruba.local
+          - sts.designsphere.local
+  designsphere.api:
+    image: ${DOCKER_REGISTRY-}designsphereapi
+    environment:
+      - VIRTUAL_HOST=api.designsphere.local
+      - 'ConnectionStrings__DefaultConnection=Server=db;Port=5432;Database=designsphere;User Id=sa;Password=admin1234;'
+      - 'AdminApiConfiguration__IdentityServerBaseUrl=https://sts.designsphere.local'
+      - 'AdminApiConfiguration__Endpoints__Development=https://api.designsphere.local'
+      - ASPNETCORE_HTTP_PORTS=80
+    build:
+      context: .
+      dockerfile: DesignSphere.Api/Dockerfile
+    networks:
+      identityserverui: null
+
 volumes:
   dbdata:
     driver: local
@@ -123,30 +139,6 @@ networks:
     driver: bridge
   identityserverui:
     driver: bridge
-  # designsphere_identity.sts.identity:
-  #   image: ${DOCKER_REGISTRY-}designsphereidentitystsidentity
-  #   build:
-  #     context: .
-  #     dockerfile: Identity/designsphere_identity.STS.Identity/Dockerfile
 
 
-  # designsphere_identity.admin:
-  #   image: ${DOCKER_REGISTRY-}designsphereidentityadmin
-  #   build:
-  #     context: .
-  #     dockerfile: Identity/designsphere_identity.Admin/Dockerfile
-
-
-  # designsphere_identity.admin.api:
-  #   image: ${DOCKER_REGISTRY-}designsphereidentityadminapi
-  #   build:
-  #     context: .
-  #     dockerfile: Identity/designsphere_identity.Admin.Api/Dockerfile
-
-
-  # designsphere.api:
-  #   image: ${DOCKER_REGISTRY-}designsphereapi
-  #   build:
-  #     context: .
-  #     dockerfile: DesignSphere.Api/Dockerfile
 

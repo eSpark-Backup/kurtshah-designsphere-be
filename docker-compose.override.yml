@@ -100,20 +100,26 @@ services:
   #   volumes:
   #     - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
   #     - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
-  skoruba.identityserver4.admin:
+  designsphere.identity.admin:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
   
-  skoruba.identityserver4.admin.api:
+  designsphere.identity.admin.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
 
-  skoruba.identityserver4.sts.identity:
+  designsphere.identity.sts.identity:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+  designsphere.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+
