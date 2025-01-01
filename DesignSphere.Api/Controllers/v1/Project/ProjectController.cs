@@ -31,8 +31,8 @@ public class ProjectController : BaseApiController
 
     [HttpGet("GetAllProjects")]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
-    [ProducesResponseType(typeof(IEnumerable<GetProjectQueryResult>), (int)HttpStatusCode.OK)]
-    public async Task<IEnumerable<GetProjectQueryResult>> GetAllProjects([FromQuery] GetProjectQueryRequest request)
+    [ProducesResponseType(typeof(PagedResponseOffset<GetProjectQueryResult>), (int)HttpStatusCode.OK)]
+    public async Task<PagedResponseOffset<GetProjectQueryResult>> GetAllProjects([FromQuery] GetProjectQueryRequest request)
     {
           return await Mediator.Send(request);
     }

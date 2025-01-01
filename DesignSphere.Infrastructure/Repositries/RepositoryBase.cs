@@ -87,7 +87,7 @@ public class RepositoryBase<T> : IAsyncRepository<T> where T : EntityBase
         await dbContext.SaveChangesAsync();
     }
 
-    public async Task<PagedResponseOffset<T>> GetFSPOffset(SieveModel model)
+    public async Task<PagedResponseOffset<T>> GetFilteredAsync(SieveModel model)
     {
         var expression = sieveProcessor.GetFilteringExpression<T>(model);
 

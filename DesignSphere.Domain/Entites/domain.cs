@@ -160,7 +160,6 @@ public class MileStone : EntityBase, IMileStone
 
 public class Project : EntityBase, IProject
 {
-    [Sieve(CanFilter = true)]
     public string Name { get; set; }
     public DateTime? PublishDate { get; set; }
     public DateTime? DeviverableDate { get; set; }
@@ -168,6 +167,8 @@ public class Project : EntityBase, IProject
     public EProjectType Type { get; set; }
     public HelpOption HelpUs { get; set; }
     public string Comment { get; set; }
+
+    [Sieve(CanFilter = true)]
     public string? OwnerId { get; set; }
     public string? OwnerName { get; set; }
     public string? CompanyName { get; set; }

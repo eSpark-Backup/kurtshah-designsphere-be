@@ -1,4 +1,6 @@
-﻿using DesignSphere.Domain.Common;
+﻿using BuildingBlocks.Common.Models;
+using DesignSphere.Domain.Common;
+using SieveCustom.Models;
 using System.Linq.Expressions;
 
 namespace DesignSphere.Application.Contracts;
@@ -26,4 +28,7 @@ public interface IAsyncRepository<T> where T : EntityBase
     Task UpdateAsync(T entity);
 
     Task DeleteAsync(T entity);
+
+    Task<PagedResponseOffset<T>> GetFilteredAsync(SieveModel model);
+
 }

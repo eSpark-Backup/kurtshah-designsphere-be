@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BuildingBlocks.Common.Models;
 using BuildingBlocks.Common.Services;
 using DesignSphere.Application.Contracts;
 using DesignSphere.Domain.Common;
@@ -17,7 +18,7 @@ namespace DesignSphere.Application.Features.Project;
 
 public class GetProjectQueryResult : EntityBase, IProject
 {
-   public string Name { get; set; }
+    public string Name { get; set; }
     public DateTime? PublishDate { get; set; }
     public DateTime? DeviverableDate { get; set; }
     public EProjectStage Stage { get; set; }
@@ -31,43 +32,49 @@ public class GetProjectQueryResult : EntityBase, IProject
 
     public string? OwnerId { get; set; }
     public string? OwnerName { get; set; }
-    public string? CompanyName { get; set ; }
+    public string? CompanyName { get; set; }
 }
 
-public class GetProjectQueryRequest : SieveModel, IRequest<List<GetProjectQueryResult>>
+public class GetProjectQueryRequest : SieveModel, IRequest<PagedResponseOffset<GetProjectQueryResult>>
 {
-
-
 }
 
-
-public class GetProjectListQueryHandler : IRequestHandler<GetProjectQueryRequest, List<GetProjectQueryResult>>
+public class GetProjectListQueryHandler : IRequestHandler<GetProjectQueryRequest, PagedResponseOffset<GetProjectQueryResult>>
 {
-    private readonly IProjectRepository repository;
+    private readonly IProjectRepository _repository;
     private readonly IMapper _mapper;
+    private readonly IUserService _userService;
 
-    public GetProjectListQueryHandler(IProjectRepository repository, IMapper mapper
+    public GetProjectListQueryHandler(IProjectRepository repository, IMapper mapper, IUserService userService
 )
     {
-        this.repository = repository;
+        _repository = repository;
         _mapper = mapper;
+        _userService = userService;
     }
 
-    public async Task<List<GetProjectQueryResult>> Handle(GetProjectQueryRequest request,CancellationToken cancellationToken)
+    public async Task<PagedResponseOffset<GetProjectQueryResult>> Handle(GetProjectQueryRequest request, CancellationToken cancellationToken)
     {
+        var userId = _userService.GetUserIdentity();
+        var ownerFilter = $"OwnerId=={userId}";
+
         var sieveModel = new SieveModel
         {
-            Filters = request.Filters,
-            Sorts = string.IsNullOrEmpty(request.Sorts) ? "CreationTime" : request.Sorts, // Default to CreatedOn if Sorts is empty
-            Page = request.Page,       
-            PageSize = request.PageSize 
+            Filters = string.IsNullOrEmpty(request.Filters) ? ownerFilter : $"{request.Filters},{ownerFilter}",
+            Sorts = "-CreationTime",
+            Page = request.Page,
+            PageSize = request.PageSize
         };
 
-        var projects = await repository.GetProjectsAsync(sieveModel);
+        var projects = await _repository.GetFilteredAsync(sieveModel);
 
-        var result = _mapper.Map<List<GetProjectQueryResult>>(projects);
+        var result = new PagedResponseOffset<GetProjectQueryResult>(
+    _mapper.Map<List<GetProjectQueryResult>>(projects.Data),
+    projects.PageNumber,
+    projects.PageSize,
+    projects.TotalRecords
+);
 
         return result;
-  
     }
 }

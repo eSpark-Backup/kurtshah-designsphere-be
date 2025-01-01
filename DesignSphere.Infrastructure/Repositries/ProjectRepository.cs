@@ -35,6 +35,7 @@ public class ProjectRepository : RepositoryBase<Project>, IProjectRepository
     {
         var query = dbContext.Projects.AsQueryable();
 
+        
         query = _sieveProcessor.Apply(sieveModel, query);
 
         return query;
