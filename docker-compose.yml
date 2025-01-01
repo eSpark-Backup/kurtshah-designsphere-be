@@ -122,9 +122,11 @@ services:
     environment:
       - VIRTUAL_HOST=api.designsphere.local
       - 'ConnectionStrings__DefaultConnection=Server=db;Port=5432;Database=designsphere;User Id=sa;Password=admin1234;'
-      - 'AdminApiConfiguration__IdentityServerBaseUrl=https://sts.designsphere.local'
-      - 'AdminApiConfiguration__Endpoints__Development=https://api.designsphere.local'
-      - ASPNETCORE_HTTP_PORTS=80
+      - 'AdminConfiguration__IdentityServerBaseUrl=https://sts.designsphere.local'
+      - 'AdminConfiguration__Endpoints__Development=https://api.designsphere.local'
+      - ASPNETCORE_HTTP_PORTS=80         
+    volumes:
+      - './shared/nginx/certs:/usr/local/share/ca-certificates'
     build:
       context: .
       dockerfile: DesignSphere.Api/Dockerfile

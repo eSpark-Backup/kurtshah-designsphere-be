@@ -28,3 +28,8 @@ mkcert -pkcs12 designsphere.local.pfx designsphere.local *.designsphere.local
 
 docker-compose build
 docker-compose up -d
+
+## for dev certificate only 
+sudo docker exec -u root -t -i [designsphereconatinid] /bin/bash
+## after login 
+update-ca-certificates --fresh
