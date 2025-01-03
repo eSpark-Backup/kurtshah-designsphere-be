@@ -167,6 +167,7 @@ public class Project : EntityBase, IProject
     public EProjectType Type { get; set; }
     public HelpOption HelpUs { get; set; }
     public string Comment { get; set; }
+    [Sieve(CanFilter = true)]
     public string? OwnerId { get; set; }
     public string? OwnerName { get; set; }
     public string? CompanyName { get; set; }
