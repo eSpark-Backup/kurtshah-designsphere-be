@@ -578,7 +578,7 @@ public class EmailGrantValidator : IExtensionGrantValidator
         string otpEncoded = HttpUtility.UrlEncode(otpToken.Otp);
         string protectTokenEncoded = HttpUtility.UrlEncode(otpToken.ProtectToken);
 
-        string baseUrl = _configuration["VerificationUrl"] ?? "https://localhost:44310";
+        string baseUrl = _configuration["AppSettings:VerificationUrl"] ?? "https://localhost:44310";
 
         string connectUrl = string.Empty;
         if (reVerify == "true")
@@ -644,7 +644,7 @@ public class EmailGrantValidator : IExtensionGrantValidator
         string encodedToken = HttpUtility.UrlEncode(token);
 
         // Generate the reset password URL
-        string baseUrl = _configuration["ResetPasswordUrl"] ?? "https://localhost:44310";
+        string baseUrl = _configuration["AppSettings:ResetPasswordUrl"] ?? "https://localhost:44310";
         string resetUrl = $"{baseUrl}?email={user.Email}&token={encodedToken}";
 
         // Send email with reset password link
