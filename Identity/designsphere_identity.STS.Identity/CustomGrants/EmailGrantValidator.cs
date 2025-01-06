@@ -17,9 +17,9 @@ using designsphere_identity.Admin.EntityFramework.Shared.Entities.Application.En
 using designsphere_identity.STS.Identity.CustomGrants.Services;
 using designsphere_identity.Admin.EntityFramework.Shared.Entities.Application;
 using System.Web;
-using designsphere_identity.STS.Identity.Migrations;
 using Google.Authenticator;
-using designsphere_identity.STS.Identity.CustomGrants.Repository;
+using Newtonsoft.Json;
+using designsphere_identity.STS.Identity.Helpers;
 
 namespace designsphere_identity.STS.Identity.CustomGrants;
 
@@ -79,6 +79,7 @@ public class EmailGrantValidator : IExtensionGrantValidator
             request.EmailTwoFactor = context.Request.Raw.Get("emailtwofactor") == "1";
             request.GoogleTwoFactor = context.Request.Raw.Get("googletwofactor") == "1";
             request.ReVeriyEmail = context.Request.Raw.Get("reverifyemail") == "1";
+            request.EncryptedToken = context.Request.Raw.Get("encryptedtoken");
 
             var otptype = context.Request.Raw.Get("otptype");
 
@@ -239,7 +240,8 @@ public class EmailGrantValidator : IExtensionGrantValidator
                     response = new ApiResponse("check Email to verify the account",null);
                     response.Result = new
                     {
-                        ProtectToken = protectToken
+                        ProtectToken = protectToken,
+                        Otp = otp
                     };
                     CustomResult(context, response);
                     return ;
@@ -301,7 +303,15 @@ public class EmailGrantValidator : IExtensionGrantValidator
                 {
                     if (!string.IsNullOrEmpty(request.Otp) && !string.IsNullOrEmpty(request.ProtectToken))
                     {
-                        
+                        if (!string.IsNullOrEmpty(request.EncryptedToken))
+                        {
+                            var decryptdata = EncryptionHelper.Decrypt(request.EncryptedToken, "encryptedkey");
+                            var jsonObject = JsonConvert.DeserializeObject<dynamic>(decryptdata);
+
+                            request.Otp = jsonObject.Otp;
+                            request.ProtectToken = jsonObject.ProtectToken;
+                        }
+
                         var isVerfied = oTPService.VerifyOTP(user.UserName, request, "testhash", GrantType);
 
                         if (isVerfied && request.ReVeriyEmail) {
@@ -421,19 +431,8 @@ public class EmailGrantValidator : IExtensionGrantValidator
                 // create claims
                 const string role = "customer1";
 
-                var claims = new List<Claim>
-                            {
-                                new Claim(ClaimTypes.Name, user.UserName),
-                                new Claim(ClaimTypes.Email, user.Email),
-                                new Claim(ClaimTypes.Role, role)
+                var claims = GenerateClaims(user, userdetailCheck);
 
-                            };
-
-                if (!string.IsNullOrEmpty(user.FirstName) &&  !string.IsNullOrEmpty(userdetailCheck.CompanyName))
-                {
-                    claims.Add(new Claim("fullname", user.FirstName +user.LastName));
-                    claims.Add(new Claim("companyname", userdetailCheck.CompanyName));
-                }
 
                 foreach (var claim in claims)
                 {
@@ -485,8 +484,12 @@ public class EmailGrantValidator : IExtensionGrantValidator
                         return;
                     }
                     // verify otp
-                    request.Otp = context.Request.Raw.Get("otp");
-                    request.ProtectToken = context.Request.Raw.Get("protecttoken");
+
+                    var decryptdata = EncryptionHelper.Decrypt(request.EncryptedToken, "encryptedkey");
+                    var jsonObject = JsonConvert.DeserializeObject<dynamic>(decryptdata);
+
+                    request.Otp = jsonObject.Otp;
+                    request.ProtectToken = jsonObject.ProtectToken;
 
                     if (string.IsNullOrEmpty(request.Otp) || string.IsNullOrEmpty(request.ProtectToken))
                     {
@@ -494,6 +497,7 @@ public class EmailGrantValidator : IExtensionGrantValidator
                         CustomResult(context, response);
                         return;
                     }
+
 
                     if (userdetailCheck.OTPStatus == EOTPStatus.OTPRequested &&
                         oTPService.VerifyOTP(user.UserName, request, "testhash", GrantType))
@@ -504,19 +508,8 @@ public class EmailGrantValidator : IExtensionGrantValidator
                         // create claims
                         const string role = "customer1";
 
-                        var claims = new List<Claim>
-                            {
-                                new Claim(ClaimTypes.Name, user.UserName),
-                                new Claim(ClaimTypes.Email, user.Email),
-                                new Claim(ClaimTypes.Role, role)
-                            };
+                        var claims = GenerateClaims(user, userdetailCheck);
 
-
-                        if (!string.IsNullOrEmpty(user.FirstName) && !string.IsNullOrEmpty(userdetailCheck.CompanyName))
-                        {
-                            claims.Add(new Claim("fullname", user.FirstName + user.LastName));
-                            claims.Add(new Claim("companyname", userdetailCheck.CompanyName));
-                        }
 
                         foreach (var claim in claims)
                         {
@@ -561,6 +554,23 @@ public class EmailGrantValidator : IExtensionGrantValidator
         }
     }
 
+    private List<Claim> GenerateClaims(UserIdentity user, UserDetail userDetails)
+    {
+        var claims = new List<Claim>
+        {
+            new Claim(ClaimTypes.Name, user.UserName),
+            new Claim(ClaimTypes.Email, user.Email),
+            new Claim(ClaimTypes.Role, "customer1")
+        };
+
+        if (!string.IsNullOrEmpty(user.FirstName) && !string.IsNullOrEmpty(userDetails.CompanyName))
+        {
+            claims.Add(new Claim("fullname", $"{user.FirstName} {user.LastName}"));
+            claims.Add(new Claim("companyname", userDetails.CompanyName));
+        }
+
+        return claims;
+    }
     private async void CustomResult(ExtensionGrantValidationContext context, ApiResponse response)
     {
             Dictionary<string, object> errorResult = GrantHelper.ClassToDict(response);
@@ -581,15 +591,18 @@ public class EmailGrantValidator : IExtensionGrantValidator
         string baseUrl = _configuration["AppSettings:VerificationUrl"] ?? "https://localhost:44310";
 
         string connectUrl = string.Empty;
+
+        var encrypteddata = EncryptionHelper.Encrypt(JsonConvert.SerializeObject(new { UserName = userName, Email = email, Otp = otpEncoded, ProtectToken = protectTokenEncoded, AppHash = appHash, GrantType = grantType }), "encryptedkey");
+
         if (reVerify == "true")
         {
-          connectUrl = $"{baseUrl}?UserName={userName}&Email={email}&Otp={otpEncoded}&ProtectToken={protectTokenEncoded}&AppHash={appHash}&GrantType={grantType}&ReVerify={reVerify}";
+          connectUrl = $"{baseUrl}?encryptedtoken={encrypteddata}&ReVerify={reVerify}";
         }
         else
         {
-           connectUrl = $"{baseUrl}?UserName={userName}&Email={email}&Otp={otpEncoded}&ProtectToken={protectTokenEncoded}&AppHash={appHash}&GrantType={grantType}";
+
+            connectUrl = $"{baseUrl}?encryptedtoken={encrypteddata}";
         }
-        // Construct the URL with the OTP and Protect Token
 
         otp = otpToken.Otp;
         protectToken = otpToken.ProtectToken;
@@ -689,4 +702,5 @@ public class EmailGrantValidator : IExtensionGrantValidator
         TwoFactorAuthenticator tfa = new TwoFactorAuthenticator();
         return tfa.ValidateTwoFactorPIN(secretKey, otpCode);
     }
+
 }

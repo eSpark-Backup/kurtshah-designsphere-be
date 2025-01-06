@@ -28,4 +28,7 @@ public class EmailGrantRequest : IOTPToken ,IEmailGrantRequest
 
     public Boolean ReVeriyEmail { get; set; }
 
+    public string EncryptedToken { get; set; }
+
+
 }
