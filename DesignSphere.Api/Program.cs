@@ -50,8 +50,8 @@ app.MigrateDatabase<SQLContext>((context, services) =>
 {
     if (!app.Environment.IsProduction())
     { 
-       // context.Database.EnsureDeleted(); 
-       // context.Database.EnsureCreated();
+      // context.Database.EnsureDeleted(); 
+       //context.Database.EnsureCreated();
         context.Database.Migrate();
 
     }
