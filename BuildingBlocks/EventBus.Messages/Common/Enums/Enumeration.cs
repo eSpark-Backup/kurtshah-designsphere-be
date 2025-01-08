@@ -73,4 +73,9 @@ public  class Enumeration
         No,
         NotSure
     }
+
+    public enum ContributerRole
+    {
+        Owner = 0, Devloper = 1, Viewer = 3,
+    }
 }

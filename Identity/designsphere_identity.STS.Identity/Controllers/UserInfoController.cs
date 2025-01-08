@@ -58,6 +58,9 @@ public class UserInfoController : ControllerBase
         this.configuration = configuration;
         this.events = events;
     }
+
+
+
     [HttpPost("[action]")]
     [ProducesResponseType(typeof(bool), StatusCodes.Status400BadRequest)]
     public async Task<ApiResponse> DeleteUser([FromForm] string remarks)
@@ -392,7 +395,30 @@ public class UserInfoController : ControllerBase
         return isCode1Valid && isCode2Valid && timeStepMatched2 == timeStepMatched1 + 1;
     }
 
-}
+        [HttpGet("GetAllUsers")]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+        public async Task<ApiResponse> GetAllUsers()
+        {
+            try
+            {
+                var users = await userManager.Users.ToListAsync();
+                var userDtos = users.Select(user => new UserInfo
+                {
+                    Id = user.Id,
+                    Name = user.FirstName + user.LastName,
+                    PhoneNumber = user.PhoneNumber,
+                }).ToList();
+
+                return new ApiResponse("Users retrieved successfully.", userDtos);
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse(ex);
+            }
+        }
+
+    }
 
 public class UpdateInfoDto : IName
 {

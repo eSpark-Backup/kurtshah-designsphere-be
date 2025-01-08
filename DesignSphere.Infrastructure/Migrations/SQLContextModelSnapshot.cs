@@ -597,6 +597,62 @@ namespace DesignSphere.Infrastructure.Migrations
                     b.ToTable("Projects");
                 });
 
+            modelBuilder.Entity("DesignSphere.Domain.Entites.ProjectContributer", b =>
+                {
+                    b.Property<byte[]>("Id")
+                        .HasColumnType("bytea");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("CreatorId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("CreatorName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("LastmodificationTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("LastmodifierId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("LastmodifierName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<byte[]>("ProjectId")
+                        .IsRequired()
+                        .HasColumnType("bytea");
+
+                    b.Property<int>("ProjectRole")
+                        .HasColumnType("integer");
+
+                    b.Property<byte[]>("ProjectRoleId")
+                        .HasColumnType("bytea");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProjectId");
+
+                    b.HasIndex("ProjectRoleId");
+
+                    b.ToTable("ProjectContributers");
+                });
+
             modelBuilder.Entity("DesignSphere.Domain.Entites.ProjectDetail", b =>
                 {
                     b.Property<byte[]>("Id")
@@ -784,56 +840,6 @@ namespace DesignSphere.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ProjectRoles");
-                });
-
-            modelBuilder.Entity("DesignSphere.Domain.Entites.ProjectUserRole", b =>
-                {
-                    b.Property<byte[]>("Id")
-                        .HasColumnType("bytea");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("CreatorId")
-                        .HasColumnType("text");
-
-                    b.Property<string>("CreatorName")
-                        .HasColumnType("text");
-
-                    b.Property<string>("DeletedBy")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<DateTime?>("LastmodificationTime")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("LastmodifierId")
-                        .HasColumnType("text");
-
-                    b.Property<string>("LastmodifierName")
-                        .HasColumnType("text");
-
-                    b.Property<byte[]>("ProjectId")
-                        .IsRequired()
-                        .HasColumnType("bytea");
-
-                    b.Property<byte[]>("ProjectRoleId")
-                        .IsRequired()
-                        .HasColumnType("bytea");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProjectId");
-
-                    b.HasIndex("ProjectRoleId");
-
-                    b.ToTable("ProjectUserRoles");
                 });
 
             modelBuilder.Entity("DesignSphere.Domain.Entites.Reaction", b =>
@@ -1051,6 +1057,19 @@ namespace DesignSphere.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("DesignSphere.Domain.Entites.ProjectContributer", b =>
+                {
+                    b.HasOne("DesignSphere.Domain.Entites.Project", null)
+                        .WithMany("ProjectContributers")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DesignSphere.Domain.Entites.ProjectRole", null)
+                        .WithMany("ProjectContributers")
+                        .HasForeignKey("ProjectRoleId");
+                });
+
             modelBuilder.Entity("DesignSphere.Domain.Entites.ProjectLabel", b =>
                 {
                     b.HasOne("DesignSphere.Domain.Entites.Project", null)
@@ -1063,21 +1082,6 @@ namespace DesignSphere.Infrastructure.Migrations
                     b.HasOne("DesignSphere.Domain.Entites.Project", null)
                         .WithMany("ProjectPlans")
                         .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("DesignSphere.Domain.Entites.ProjectUserRole", b =>
-                {
-                    b.HasOne("DesignSphere.Domain.Entites.Project", null)
-                        .WithMany("ProjectUserRoles")
-                        .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DesignSphere.Domain.Entites.ProjectRole", null)
-                        .WithMany("ProjectUserRoles")
-                        .HasForeignKey("ProjectRoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -1226,11 +1230,11 @@ namespace DesignSphere.Infrastructure.Migrations
                 {
                     b.Navigation("Posts");
 
+                    b.Navigation("ProjectContributers");
+
                     b.Navigation("ProjectLabels");
 
                     b.Navigation("ProjectPlans");
-
-                    b.Navigation("ProjectUserRoles");
                 });
 
             modelBuilder.Entity("DesignSphere.Domain.Entites.ProjectPlan", b =>
@@ -1240,7 +1244,7 @@ namespace DesignSphere.Infrastructure.Migrations
 
             modelBuilder.Entity("DesignSphere.Domain.Entites.ProjectRole", b =>
                 {
-                    b.Navigation("ProjectUserRoles");
+                    b.Navigation("ProjectContributers");
                 });
 
             modelBuilder.Entity("DesignSphere.Domain.Entites.Door", b =>

@@ -1,6 +1,8 @@
 ﻿using DesignSphere.Application.Contracts;
+using DesignSphere.Domain.Entites;
 using DesignSphere.Infrastructure.Persistence;
 using DesignSphere.Infrastructure.Repositories;
+using DesignSphere.Infrastructure.Repositries;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,6 +20,7 @@ public static class InfrastructureServiceRegistration
         services.AddScoped(typeof(IAsyncRepository<>), typeof(RepositoryBase<>));
         services.AddScoped<IProjectRepository, ProjectRepository>();
         services.AddScoped<IDoorOpeningRepository, DoorOpeningRepository>();
+        services.AddScoped<IContributerRepository, ContributerRepository>();
         services.AddScoped<ISieveProcessor, SieveProcessor>();
 
         return services;

@@ -130,17 +130,19 @@ public class ProjectRole : EntityBase, IProjectRole
 {
     public string Description { get; set; }
     public string Name { get; set; }
-    public ICollection<ProjectUserRole> ProjectUserRoles { get; set; }   ///colabrators
+    public ICollection<ProjectContributer> ProjectContributers { get; set; } 
 
 }
 
-public class ProjectUserRole : EntityBase, IProjectUserRole
+public class ProjectContributer : EntityBase, IProjectContributer
 {
-    [ForeignKey(nameof(ProjectRole))]
-    public Ulid ProjectRoleId { get; set; }
+    public string UserId { get; set; }
+    public string Name { get; set; }
+    public ContributerRole ProjectRole { get; set; }
+
+    [Sieve(CanFilter = true)]
     [ForeignKey(nameof(Project))]
     public Ulid ProjectId { get; set; }
-    public string UserId { get; set; }
 }
 
 public class MileStone : EntityBase, IMileStone
@@ -173,7 +175,7 @@ public class Project : EntityBase, IProject
     public string? CompanyName { get; set; }
 
     public ICollection<ProjectPlan>? ProjectPlans { get; }
-    public ICollection<ProjectUserRole>? ProjectUserRoles { get; }
+    public ICollection<ProjectContributer>? ProjectContributers { get; }
     public ICollection<ProjectLabel>? ProjectLabels { get; set; }
     public ICollection<Post>? Posts { get; set; }
 }
@@ -184,7 +186,6 @@ public class ProjectLabel : EntityBase, IProjectLabel
     public string Description { get; set; }
     public string Name { get; set; }
 }
-
 
 public class Reaction : EntityBase, IReaction
 {

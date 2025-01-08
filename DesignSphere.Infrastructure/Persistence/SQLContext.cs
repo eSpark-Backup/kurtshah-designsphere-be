@@ -81,7 +81,7 @@ public class SQLContext : DbContext
     public DbSet<DoorFrame> DoorFrames { get; set; }
     public DbSet<DoorOpening> DoorOpenings{ get; set; }
     public DbSet<ProjectRole> ProjectRoles{ get; set; }
-    public DbSet<ProjectUserRole> ProjectUserRoles{ get; set; }
+    public DbSet<ProjectContributer> ProjectContributers { get; set; }
 
     public DbSet<Address> Addresses { get; set; }
 
