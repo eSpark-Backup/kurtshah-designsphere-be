@@ -138,7 +138,9 @@ public class ProjectContributer : EntityBase, IProjectContributer
 {
     public string UserId { get; set; }
     public string Name { get; set; }
-    public ContributerRole ProjectRole { get; set; }
+    public ContributerRole ProjectUserRole { get; set; }
+
+    public EProjectRole ProjectRole { get; set; }
 
     [Sieve(CanFilter = true)]
     [ForeignKey(nameof(Project))]

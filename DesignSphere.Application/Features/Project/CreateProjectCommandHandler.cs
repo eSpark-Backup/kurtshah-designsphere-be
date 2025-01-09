@@ -61,7 +61,8 @@ public class CreateProjectCommandHandler : IRequestHandler<CreateProjectCommandR
             var contributer = new Domain.Entites.ProjectContributer
             {
                 Name = _userService.GetFullName(),
-                ProjectRole = ContributerRole.Owner,
+                ProjectUserRole = ContributerRole.Owner,
+                ProjectRole = EProjectRole.Editor,
                 UserId = _userService.GetUserIdentity(),
                 ProjectId = project.Id
             };

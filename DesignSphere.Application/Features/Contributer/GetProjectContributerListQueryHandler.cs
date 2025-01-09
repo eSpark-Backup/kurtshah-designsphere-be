@@ -18,7 +18,10 @@ public class GetContributerQueryResult : EntityBase, IProjectContributer
 {
 
     public string Name { get; set; }
-    public ContributerRole ProjectRole { get; set; }
+    public ContributerRole ProjectUserRole { get; set; }
+    public string ProjectUserRoleName { get; set; }
+
+    public EProjectRole ProjectRole { get; set; }
     public string ProjectRoleName { get; set; }
     public string UserId { get; set; }
     public Ulid ProjectId { get; set; }

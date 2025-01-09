@@ -78,4 +78,9 @@ public  class Enumeration
     {
         Owner = 0, Devloper = 1, Viewer = 2,
     }
+
+  public enum EProjectRole
+    {
+        Editor = 0, Viewer = 1
+    }
 }

@@ -640,6 +640,9 @@ namespace DesignSphere.Infrastructure.Migrations
                     b.Property<byte[]>("ProjectRoleId")
                         .HasColumnType("bytea");
 
+                    b.Property<int>("ProjectUserRole")
+                        .HasColumnType("integer");
+
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("text");

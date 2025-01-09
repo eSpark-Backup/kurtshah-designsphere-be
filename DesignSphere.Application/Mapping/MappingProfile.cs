@@ -22,7 +22,8 @@ namespace DesignSphere.Application.Mappings
             CreateMap<ProjectContributer, GetContributerQueryResult>().ReverseMap();
 
             CreateMap<ProjectContributer, GetContributerQueryResult>()
-                .ForMember(dest => dest.ProjectRoleName, opt => opt.MapFrom(src => Enum.GetName(typeof(ContributerRole), src.ProjectRole)));
+                .ForMember(dest => dest.ProjectUserRoleName, opt => opt.MapFrom(src => Enum.GetName(typeof(ContributerRole), src.ProjectUserRole)))
+                .ForMember(dest => dest.ProjectRoleName, opt => opt.MapFrom(src => Enum.GetName(typeof(EProjectRole), src.ProjectRole)));
 
 
         }

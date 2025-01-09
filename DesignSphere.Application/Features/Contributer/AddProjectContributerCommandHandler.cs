@@ -8,7 +8,8 @@ namespace DesignSphere.Application.Features.Contributer;
 public class AddProjectContributerRequest : IRequest<Ulid>
 {
     public string Name { get; set; }
-    public ContributerRole Role { get; set; }
+    public ContributerRole ProjectUserRole { get; set; }
+    public EProjectRole ProjectRole { get; set; }
     public string UserId { get; set; }
     public Ulid ProjectId { get; set; }
 }
@@ -30,7 +31,8 @@ public class AddProjectContributerCommandHandler : IRequestHandler<AddProjectCon
         var contributer = new Domain.Entites.ProjectContributer
         {
             Name = request.Name,
-            ProjectRole = request.Role,
+            ProjectUserRole = request.ProjectUserRole,
+            ProjectRole = request.ProjectRole,
             UserId = request.UserId,
             ProjectId = request.ProjectId
         };
