@@ -3,6 +3,7 @@ using DesignSphere.Application.Contracts;
 using DesignSphere.Domain.Entites;
 using EventBus.Messages.Contract;
 using SieveCustom.Models;
+
 using static EventBus.Messages.Common.Enums.Enumeration;
 
 namespace DesignSphere.Application.Features.Project;
@@ -25,11 +26,13 @@ public class CreateProjectCommandHandler : IRequestHandler<CreateProjectCommandR
 {
     private readonly IProjectRepository repository;
     private readonly IUserService _userService;
+    private readonly IContributerRepository _contributerrepository;
 
-    public CreateProjectCommandHandler(IProjectRepository repository, IUserService userService)
+    public CreateProjectCommandHandler(IProjectRepository repository, IUserService userService, IContributerRepository contributerrepository)
     {
         this.repository = repository;
         _userService = userService;
+        _contributerrepository = contributerrepository;
     }
 
 
@@ -52,6 +55,19 @@ public class CreateProjectCommandHandler : IRequestHandler<CreateProjectCommandR
         };
 
         await repository.AddAsync(project);
+
+        if (project.Id != null)
+        {
+            var contributer = new Domain.Entites.ProjectContributer
+            {
+                Name = _userService.GetFullName(),
+                ProjectRole = ContributerRole.Owner,
+                UserId = _userService.GetUserIdentity(),
+                ProjectId = project.Id
+            };
+            await _contributerrepository.AddAsync(contributer);
+        }
+
         return project.Id;
         
     }

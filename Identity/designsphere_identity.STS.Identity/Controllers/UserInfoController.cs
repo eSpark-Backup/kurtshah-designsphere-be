@@ -402,11 +402,16 @@ public class UserInfoController : ControllerBase
         {
             try
             {
-                var users = await userManager.Users.ToListAsync();
-                var userDtos = users.Select(user => new UserInfo
+           var UserId = userService.GetUserIdentity();
+
+            var users = await userManager.Users
+         .Where(user => user.Id != UserId)
+         .ToListAsync();
+
+            var userDtos = users.Select(user => new UserInfo
                 {
                     Id = user.Id,
-                    Name = user.FirstName + user.LastName,
+                    Name = user.FirstName +" "+ user.LastName,
                     PhoneNumber = user.PhoneNumber,
                 }).ToList();
 
