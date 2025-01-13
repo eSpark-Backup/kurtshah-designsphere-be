@@ -86,19 +86,28 @@ public class RepositoryBase<T> : IAsyncRepository<T> where T : EntityBase
         dbContext.Set<T>().Remove(entity);
         await dbContext.SaveChangesAsync();
     }
-
-    public async Task<PagedResponseOffset<T>> GetFilteredAsync(SieveModel model)
+    public async Task<PagedResponseOffset<T>> GetFilteredAsync(SieveModel model, string includeProperties = "")
     {
         var expression = sieveProcessor.GetFilteringExpression<T>(model);
 
-        var totalRecords = await dbContext.Set<T>()
+        var query = dbContext.Set<T>().AsQueryable();
+
+        if (!string.IsNullOrEmpty(includeProperties))
+        {
+            foreach (var includeProperty in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                query = query.Include(includeProperty);
+            }
+        }
+
+        var totalRecords = await query
             .Where(expression)
             .AsNoTracking()
             .CountAsync();
 
         int page = (int)model.Page;
         int pageSize = (int)model.PageSize;
-        var data = dbContext.Set<T>()
+        var data = query
             .AsNoTracking()
             .Where(expression)
             .OrderBy(model)
@@ -107,8 +116,30 @@ public class RepositoryBase<T> : IAsyncRepository<T> where T : EntityBase
             .ToList();
 
         return new PagedResponseOffset<T>(data, page, pageSize, totalRecords);
-
     }
+
+    //public async Task<PagedResponseOffset<T>> GetFilteredAsync(SieveModel model)
+    //{
+    //    var expression = sieveProcessor.GetFilteringExpression<T>(model);
+
+    //    var totalRecords = await dbContext.Set<T>()
+    //        .Where(expression)
+    //        .AsNoTracking()
+    //        .CountAsync();
+
+    //    int page = (int)model.Page;
+    //    int pageSize = (int)model.PageSize;
+    //    var data = dbContext.Set<T>()
+    //        .AsNoTracking()
+    //        .Where(expression)
+    //        .OrderBy(model)
+    //        .Skip((page - 1) * pageSize)
+    //        .Take(pageSize)
+    //        .ToList();
+
+    //    return new PagedResponseOffset<T>(data, page, pageSize, totalRecords);
+
+    //}
 
 
     public async Task<PagedResponseOffset<TType>> GetFSPOffset<TType>(SieveModel model, Expression<Func<T, TType>> select) where TType : class

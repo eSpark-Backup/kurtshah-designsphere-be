@@ -1,6 +1,8 @@
 ﻿using DesignSphere.Domain.Common;
 using EventBus.Messages.Contract;
+using Microsoft.VisualBasic;
 using SieveCustom.Attributes;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using static EventBus.Messages.Common.Enums.Enumeration;
 
@@ -15,6 +17,7 @@ public class Address : EntityBase, ICompanyAddress
 
 public class ProjectPlan : EntityBase, IProjectPlan
 {
+    [Sieve(CanFilter = true)]
     [ForeignKey(nameof(Project))]
     public Ulid ProjectId { get; set; }
     public string Name { get; set; }
@@ -180,6 +183,8 @@ public class Project : EntityBase, IProject
     public ICollection<ProjectContributer>? ProjectContributers { get; }
     public ICollection<ProjectLabel>? ProjectLabels { get; set; }
     public ICollection<Post>? Posts { get; set; }
+    public ICollection<Task>? Tasks { get; set; }
+
 }
 
 public class ProjectLabel : EntityBase, IProjectLabel
@@ -262,5 +267,105 @@ public class UserComnpany : EntityBase, IUserComnpany
     public virtual Contarctor AppComnpanyUser { get; }
 
 }
+public class ProjectStage : EntityBase, IProjectStage
+{
+    public long? Order { get; set; }
+    public string Name { get; set; }
+    public string Description { get; set; }
 
 
+
+}
+public class Task : EntityBase ,ITask
+{
+
+    [ForeignKey("Project")]
+    public Ulid ProjectId { get; set; }
+
+    [Required]
+    [MaxLength(255)]
+    public string Name { get; set; }
+
+    [MaxLength(1000)]
+    public string Description { get; set; } 
+
+    public DateTime Deadline { get; set; } 
+
+    public decimal TaskWeight { get; set; } 
+
+    [Required]
+    public ETaskStatus Status { get; set; } 
+
+    public  ICollection<TaskDetail> TaskDetail { get; set; }
+}
+
+public class TaskDetail: EntityBase,ITaskDetail
+{
+
+    [ForeignKey("Task")]
+    public Ulid TaskId { get; set; } 
+
+    [ForeignKey("TaskStages")]
+    public Ulid TaskStageId { get; set; }  
+
+    [Required]
+    public ETaskStatus Status { get; set; }
+
+    [ForeignKey("ProjectStage")]
+    public Ulid ProjectStageId { get; set; }
+    public virtual ICollection<TaskAssignee> TaskAssignees { get; set; } = new List<TaskAssignee>();
+}
+public class TaskStages : EntityBase, ITaskStage
+{
+
+    public string TaskName { get; set; } 
+
+}
+public class TaskAssignee :EntityBase,ITaskAssignee
+{
+    [ForeignKey("TaskStage")]
+    public Ulid TaskStageId { get; set; } 
+
+    [ForeignKey("ProjectContributer")]
+    public Ulid ContributerId { get; set; } 
+
+    [Required]
+    public TaskStatus Status { get; set; } 
+}
+
+public class Conversation: EntityBase, IConversation
+{
+
+    public Ulid? TaskId { get; set; } 
+
+    [Required]
+    [MaxLength(500)]
+    public string TaskDescription { get; set; } 
+
+    public ICollection<ConversationDetail> ConversationDetails { get; set; } = new List<ConversationDetail>(); 
+}
+
+public class ConversationDetail : IConversationDetail
+{
+
+    [Required]
+    [ForeignKey("Conversation")]
+    public Ulid ConversationId { get; set; } 
+
+    public Conversation conversation { get; set; } 
+
+    [Required]
+    [MaxLength(100)]
+    public string Sender { get; set; } 
+
+    [Required]
+    [MaxLength(100)]
+    public string Receiver { get; set; } 
+
+    [Required]
+    public MessageType MessageType { get; set; } 
+
+    [Required]
+    [MaxLength(1000)]
+    public string MessageContent { get; set; }
+}

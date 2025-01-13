@@ -29,6 +29,6 @@ public interface IAsyncRepository<T> where T : EntityBase
 
     Task DeleteAsync(T entity);
 
-    Task<PagedResponseOffset<T>> GetFilteredAsync(SieveModel model);
+    Task<PagedResponseOffset<T>> GetFilteredAsync(SieveModel model, string includeProperties = "");
 
 }

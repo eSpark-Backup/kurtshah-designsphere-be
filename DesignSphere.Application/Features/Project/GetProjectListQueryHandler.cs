@@ -33,6 +33,11 @@ public class GetProjectQueryResult : EntityBase, IProject
     public string? OwnerId { get; set; }
     public string? OwnerName { get; set; }
     public string? CompanyName { get; set; }
+   // public long? ProjectPlans { get; set; }
+    public long? DoorOpenings { get; set; }
+
+    public bool Revit { get; set; } = true;
+
 }
 
 public class GetProjectQueryRequest : SieveModel, IRequest<PagedResponseOffset<GetProjectQueryResult>>
@@ -66,7 +71,8 @@ public class GetProjectListQueryHandler : IRequestHandler<GetProjectQueryRequest
             PageSize = request.PageSize
         };
 
-        var projects = await _repository.GetFilteredAsync(sieveModel);
+        var projects = await _repository.GetFilteredAsync(sieveModel, includeProperties: "ProjectPlans,ProjectPlans.DoorOpenings");
+
 
         var result = new PagedResponseOffset<GetProjectQueryResult>(
     _mapper.Map<List<GetProjectQueryResult>>(projects.Data),

@@ -83,4 +83,24 @@ public  class Enumeration
     {
         Editor = 0, Viewer = 1
     }
+
+    public enum ETaskStatus
+    {
+        completed = 0, Incompleted = 1 , InProgress = 2, NotStarted = 3
+
+    }
+    public enum ETaskStages
+    {
+        Initial = 0, Final = 1, Review = 2
+
+    }
+
+    public enum MessageType
+    {
+        Text =0,
+        File=1,
+        Image=2,
+        Video=3,
+        Other=4
+    }
 }
