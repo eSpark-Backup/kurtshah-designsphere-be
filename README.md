@@ -34,7 +34,11 @@ The schema of the database is as follows:
 -ProjectStage
 	- [ ] order,name,description
 		
-
+-Contact
+	- [ ] name,userid,status
+-Activity
+	- [ ] type==> (contibuter,task,taskAssignee,taskstage),message,time
+	- [ ] 
 ## Features
 - [ ] Auth Module
 	- [x] Sign-in
@@ -57,21 +61,52 @@ The schema of the database is as follows:
 	- [x] Delete Account
 	- [x] Logout 
 	- [x] Email Service Added
+- [ ] Contacts 
+	- [ ] Add Contacts
+	- [ ] GetAll Contacts with filters
 - [ ] Project Module
 	- [x] ProjectController
 		- [x] Create Project
-		- [x] GetAll Project  
+		- [x] GetAll Project with Filters
 	- [x] ContributerController
 		- [x] Add Contributer
-		- [x] Get Contributer
+			- [ ] Email Service 
+		- [ ] Verfication chnage status   
+		- [x] Get Contributers
+	- [ ] TaskStageController
+		- [ ] Create TaskStage
+		- [ ] Get TaskStage
+		- [ ] no ui
+		- [ ] only Seeding
+			- [ ] Todo,Inprogress,complted 
+	- [ ] TaskController
+		- [ ] Create Task
+			-[ ] conversation add mediator
+		- [ ] Update Task
+	- [ ] TaskDetailController
+		- [ ] set task details 
+		- [ ] Get Task Details (Paginated)
+		- [ ] set Assignee
+		- [ ] conversation add mediator
+	- [ ] ConversationController
+		- [ ] create conversation
+		- [ ] Get Conversation
+		- [ ] Get Conversation with filters
+
+	- [ ] SummaryController
+		- [] GetContributers
+		- [x] GetPlan
+		- [x] Overview
+		- [ ] GetActivity()
+		- [ ] GetNotes(user consveration type)
+    
 	- [x]  PlanController
 		- [x] GetProject Plans
 	- [x] DoorController
 		- [x] Create DoorsOpenings
-	- [] Notes
-	- [] Activity Feeds
+	
+	
 
 - [x] Misc Changes
-	- [x] Domain Schema Updated
 	- [x] sieve custom integrated for pagination
 	- [x] BuildingBlocks updated
