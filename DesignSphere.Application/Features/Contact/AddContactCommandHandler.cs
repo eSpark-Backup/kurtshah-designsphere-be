@@ -17,7 +17,6 @@ public class AddContactRequest : IRequest<Ulid>
     public string Name { get; set; }
     public string EmailAddress { get; set; }
 
-    public Ulid ProjectRoleId { get; set; }
 }
 
 public class AddContactCommandHandler : IRequestHandler<AddContactRequest, Ulid>
@@ -37,7 +36,6 @@ public class AddContactCommandHandler : IRequestHandler<AddContactRequest, Ulid>
         var contact = new Domain.Entites.Contact
         {
             Name = request.Name,
-            ProjectRoleId = request.ProjectRoleId,
             EmailAddress = request.EmailAddress,
             UserId = request.UserId,
         };

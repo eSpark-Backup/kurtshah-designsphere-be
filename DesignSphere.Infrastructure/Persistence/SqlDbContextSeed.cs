@@ -63,7 +63,7 @@ public class SqlDbContextSeed
         //    .RuleFor(d => d.FrameMaterial, f => f.PickRandom<EDoorFrameMaterial>());
 
         var projectRoleFaker = new Faker<ProjectRole>()
-            .RuleFor(pr => pr.Name, f => f.PickRandom("Viewer", "Editor"));
+            .RuleFor(pr => pr.Name, f => f.PickRandom("Owner", "Developer","Viewer"));
 
         var projectRoles = projectRoleFaker.Generate(rolesPerProject);
         foreach (var roles in projectRoles)

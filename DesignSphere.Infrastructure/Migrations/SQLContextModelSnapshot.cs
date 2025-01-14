@@ -145,10 +145,6 @@ namespace DesignSphere.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<byte[]>("ProjectRoleId")
-                        .IsRequired()
-                        .HasColumnType("bytea");
-
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("text");
@@ -685,6 +681,7 @@ namespace DesignSphere.Infrastructure.Migrations
                         .HasColumnType("bytea");
 
                     b.Property<byte[]>("ProjectRoleId")
+                        .IsRequired()
                         .HasColumnType("bytea");
 
                     b.Property<int>("ProjectUserRole")
@@ -1259,7 +1256,9 @@ namespace DesignSphere.Infrastructure.Migrations
 
                     b.HasOne("DesignSphere.Domain.Entites.ProjectRole", null)
                         .WithMany("ProjectContributers")
-                        .HasForeignKey("ProjectRoleId");
+                        .HasForeignKey("ProjectRoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("DesignSphere.Domain.Entites.ProjectLabel", b =>

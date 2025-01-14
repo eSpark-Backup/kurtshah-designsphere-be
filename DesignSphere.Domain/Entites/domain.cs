@@ -142,8 +142,7 @@ public class Contact  : EntityBase, IContact
     public string Name { get; set; }
     public string EmailAddress { get; set; }
 
-    [ForeignKey(nameof(ProjectRole))]
-    public Ulid ProjectRoleId { get; set; }
+
 }
 
 public class ProjectContributer : EntityBase//, IProjectContributer
@@ -156,6 +155,9 @@ public class ProjectContributer : EntityBase//, IProjectContributer
     [Sieve(CanFilter = true)]
     [ForeignKey(nameof(Project))]
     public Ulid ProjectId { get; set; }
+
+    [ForeignKey(nameof(ProjectRole))]
+    public Ulid ProjectRoleId { get; set; }
 }
 
 public class MileStone : EntityBase, IMileStone

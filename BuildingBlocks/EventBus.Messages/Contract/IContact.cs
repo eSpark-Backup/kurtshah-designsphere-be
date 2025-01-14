@@ -7,5 +7,4 @@ public interface  IContact
     string Name { get; set; }
     string EmailAddress { get; set; }
 
-    Ulid ProjectRoleId { get; set; }
 }

@@ -76,7 +76,7 @@ public  class Enumeration
 
     public enum EContributerRole
     {
-        Owner = 0, Devloper = 1, Viewer = 2,
+        Owner = 0, Contributer =1, Devloper = 2, Viewer = 3,
     }
 
   public enum EProjectRole
