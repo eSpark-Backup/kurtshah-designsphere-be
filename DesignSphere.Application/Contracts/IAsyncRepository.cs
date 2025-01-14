@@ -21,7 +21,7 @@ public interface IAsyncRepository<T> where T : EntityBase
                                    List<Expression<Func<T, object>>> includes = null,
                                    bool disableTracking = true);
 
-    Task<T> GetByIdAsync(Guid id);
+    Task<T> GetByIdAsync(Ulid id);
 
     Task<T> AddAsync(T entity);
 

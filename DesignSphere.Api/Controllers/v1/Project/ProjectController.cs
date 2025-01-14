@@ -37,6 +37,4 @@ public class ProjectController : BaseApiController
           return await Mediator.Send(request);
     }
 
-
-   
 }

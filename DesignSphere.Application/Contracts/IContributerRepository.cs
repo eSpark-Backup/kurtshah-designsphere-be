@@ -1,8 +1,8 @@
-﻿using DesignSphere.Domain.Entites;
+﻿//using DesignSphere.Domain.Entites;
 
 
-namespace DesignSphere.Application.Contracts;
+//namespace DesignSphere.Application.Contracts;
 
-public interface IContributerRepository : IAsyncRepository<ProjectContributer>
-{
-}
+//public interface IContributerRepository : IAsyncRepository<ProjectContributer>
+//{
+//}

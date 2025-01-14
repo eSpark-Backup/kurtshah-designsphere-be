@@ -59,8 +59,6 @@ public class UserInfoController : ControllerBase
         this.events = events;
     }
 
-
-
     [HttpPost("[action]")]
     [ProducesResponseType(typeof(bool), StatusCodes.Status400BadRequest)]
     public async Task<ApiResponse> DeleteUser([FromForm] string remarks)
@@ -103,6 +101,7 @@ public class UserInfoController : ControllerBase
             return new ApiResponse(ex);
         }
     }
+
     [HttpPost]
     [ProducesResponseType(typeof(bool), StatusCodes.Status400BadRequest)]
     public async Task<ApiResponse> Update([FromForm] UpdateInfoDto model)
@@ -124,6 +123,7 @@ public class UserInfoController : ControllerBase
         await messageBroker.Publish(uupdateEvent);
         return new ApiResponse($"Record Udpated Sucessfully", true);
     }
+
     [HttpPatch("UpdateUserProfile")]
     [ProducesResponseType(typeof(bool), StatusCodes.Status400BadRequest)]
     public async Task<ApiResponse> UpdateUserProfile([FromForm] UserProfileDto userProfile)
@@ -167,12 +167,11 @@ public class UserInfoController : ControllerBase
             user.TwoFactorEnabled = false;
         }
 
-        if (!string.IsNullOrEmpty(userProfile.IsEmailMFA)) 
-            userDetail.IsEmailMFA = userProfile.IsEmailMFA == "true" ?true:false;
-            
+        if (!string.IsNullOrEmpty(userProfile.IsEmailMFA))
+            userDetail.IsEmailMFA = userProfile.IsEmailMFA == "true" ? true : false;
 
         if (!string.IsNullOrEmpty(userProfile.IsGoogleMFA))
-            userDetail.IsGoogleMFA = userProfile.IsGoogleMFA == "true"?true:false;
+            userDetail.IsGoogleMFA = userProfile.IsGoogleMFA == "true" ? true : false;
 
         if (userProfile.NewsLetterSubscription != null)
             user.NewsLetterSubscription = userProfile.NewsLetterSubscription;
@@ -213,6 +212,7 @@ public class UserInfoController : ControllerBase
 
         return new ApiResponse("Record Updated Successfully", true);
     }
+
     [HttpGet("GetUserDetails")]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     public async Task<ApiResponse> GetUserDetails()
@@ -221,7 +221,6 @@ public class UserInfoController : ControllerBase
         var user = await userManager.Users.FirstOrDefaultAsync(_ => _.Id == id);
 
         var userDetail = await userDetailRepository.GetDetailOfUser(userService.GetUserName());
-
 
         // Handle Profile Picture
         var profilePictureDto = new UserPicture();
@@ -269,10 +268,10 @@ public class UserInfoController : ControllerBase
             IsEmailMFA = userDetail.IsEmailMFA,
             IsGoogleMFA = userDetail.IsGoogleMFA,
             ProfilePicture = profilePictureDto,
-            IsNewsLetterSubscription=user.NewsLetterSubscription
+            IsNewsLetterSubscription = user.NewsLetterSubscription
         };
 
-        return new ApiResponse("get user details", userDto); 
+        return new ApiResponse("get user details", userDto);
     }
 
     [HttpGet("GetCountriesAndJobRoles")]
@@ -299,20 +298,19 @@ public class UserInfoController : ControllerBase
                 }).ToList()
             };
 
-            var response = new ApiResponse("Countries and jobRoles",result);
-            
+            var response = new ApiResponse("Countries and jobRoles", result);
+
             return response;
         }
         catch (Exception ex)
         {
             return new ApiResponse(ex);
-
         }
     }
 
     [HttpPost("ResetPassword")]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-    public async Task<ApiResponse> ResetPassword([FromForm]ResetPasswordRequest request)
+    public async Task<ApiResponse> ResetPassword([FromForm] ResetPasswordRequest request)
     {
         var user = await userManager.FindByEmailAsync(request.Email);
 
@@ -330,7 +328,6 @@ public class UserInfoController : ControllerBase
         }
 
         return new ApiResponse("Password reset successful.", true);
-
     }
 
     [HttpPost("DeleteAccount")]
@@ -373,12 +370,11 @@ public class UserInfoController : ControllerBase
         {
             return new ApiResponse($"An error occurred during logout: {ex.Message}");
         }
-
     }
 
     [HttpPost("ReSync")]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-    public async Task<bool> ResyncDevice([FromForm ]ResyncRequest request)
+    public async Task<bool> ResyncDevice([FromForm] ResyncRequest request)
     {
         var userDetail = await userDetailRepository.GetDetailOfUser(userService.GetUserName());
 
@@ -395,35 +391,74 @@ public class UserInfoController : ControllerBase
         return isCode1Valid && isCode2Valid && timeStepMatched2 == timeStepMatched1 + 1;
     }
 
-        [HttpGet("GetAllUsers")]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-        public async Task<ApiResponse> GetAllUsers()
+    [HttpGet("GetAllUsers")]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+    public async Task<ApiResponse> GetAllUsers()
+    {
+        try
         {
-            try
-            {
-           var UserId = userService.GetUserIdentity();
+            var UserId = userService.GetUserIdentity();
 
             var users = await userManager.Users
          .Where(user => user.Id != UserId)
          .ToListAsync();
 
             var userDtos = users.Select(user => new UserInfo
-                {
-                    Id = user.Id,
-                    Name = user.FirstName +" "+ user.LastName,
-                    PhoneNumber = user.PhoneNumber,
-                }).ToList();
-
-                return new ApiResponse("Users retrieved successfully.", userDtos);
-            }
-            catch (Exception ex)
             {
-                return new ApiResponse(ex);
-            }
-        }
+                Id = user.Id,
+                Name = user.FirstName + " " + user.LastName,
+                Email = user.Email,
+            }).ToList();
 
+            return new ApiResponse("Users retrieved successfully.", userDtos);
+        }
+        catch (Exception ex)
+        {
+            return new ApiResponse(ex);
+        }
     }
+
+    //[HttpGet("GetAllUsers")]
+    //[ProducesResponseType(typeof(ApiResponse), StatusCodes.Status200OK)]
+    //[ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+    //public async Task<ApiResponse> GetAllUsers([FromQuery] GetAllUsersRequest request)
+    //{
+    //    try
+    //    {
+    //        var userId = userService.GetUserIdentity();
+
+    //        // Add filter for excluding the current user
+    //        var ownerFilter = $"Id!={userId}";
+    //        request.Filters = string.IsNullOrEmpty(request.Filters) ? ownerFilter : $"{request.Filters},{ownerFilter}";
+
+    //        // Add filter for searching by name
+    //        if (!string.IsNullOrEmpty(request.SearchTerm))
+    //        {
+    //            var searchFilter = $"FirstName@=*{request.SearchTerm}*,LastName@=*{request.SearchTerm}*";
+    //            request.Filters = string.IsNullOrEmpty(request.Filters) ? searchFilter : $"{request.Filters},{searchFilter}";
+    //        }
+
+    //        var users = await _repository.GetFilteredUsersAsync(request);
+
+    //        var userDtos = users.Data.Select(user => new UserInfo
+    //        {
+    //            Id = user.Id,
+    //            Name = user.FirstName + " " + user.LastName,
+    //            Email = user.Email,
+    //        }).ToList();
+
+    //        var result = new PagedResponseOffset<UserInfo>(userDtos, users.PageNumber, users.PageSize, users.TotalRecords);
+
+    //        return new ApiResponse("Users retrieved successfully.", result);
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        return new ApiResponse(ex);
+    //    }
+    //}
+
+}
 
 public class UpdateInfoDto : IName
 {

@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DesignSphere.Infrastructure.Migrations
 {
     [DbContext(typeof(SQLContext))]
-    [Migration("20250112185132_addtrackingentities")]
-    partial class addtrackingentities
+    [Migration("20250114060723_Updateentities")]
+    partial class Updateentities
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -109,6 +109,56 @@ namespace DesignSphere.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Catalogs");
+                });
+
+            modelBuilder.Entity("DesignSphere.Domain.Entites.Contact", b =>
+                {
+                    b.Property<byte[]>("Id")
+                        .HasColumnType("bytea");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("CreatorId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("CreatorName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("text");
+
+                    b.Property<string>("EmailAddress")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("LastmodificationTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("LastmodifierId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("LastmodifierName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<byte[]>("ProjectRoleId")
+                        .IsRequired()
+                        .HasColumnType("bytea");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Contacts");
                 });
 
             modelBuilder.Entity("DesignSphere.Domain.Entites.Contarctor", b =>
@@ -605,6 +655,10 @@ namespace DesignSphere.Infrastructure.Migrations
                     b.Property<byte[]>("Id")
                         .HasColumnType("bytea");
 
+                    b.Property<byte[]>("ContactId")
+                        .IsRequired()
+                        .HasColumnType("bytea");
+
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("timestamp without time zone");
 
@@ -629,26 +683,15 @@ namespace DesignSphere.Infrastructure.Migrations
                     b.Property<string>("LastmodifierName")
                         .HasColumnType("text");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<byte[]>("ProjectId")
                         .IsRequired()
                         .HasColumnType("bytea");
-
-                    b.Property<int>("ProjectRole")
-                        .HasColumnType("integer");
 
                     b.Property<byte[]>("ProjectRoleId")
                         .HasColumnType("bytea");
 
                     b.Property<int>("ProjectUserRole")
                         .HasColumnType("integer");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -823,10 +866,6 @@ namespace DesignSphere.Infrastructure.Migrations
                     b.Property<string>("DeletedBy")
                         .HasColumnType("text");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
@@ -987,9 +1026,6 @@ namespace DesignSphere.Infrastructure.Migrations
                         .HasColumnType("integer");
 
                     b.Property<byte[]>("TaskDetailId")
-                        .HasColumnType("bytea");
-
-                    b.Property<byte[]>("TaskStageId")
                         .IsRequired()
                         .HasColumnType("bytea");
 
@@ -1028,13 +1064,6 @@ namespace DesignSphere.Infrastructure.Migrations
 
                     b.Property<string>("LastmodifierName")
                         .HasColumnType("text");
-
-                    b.Property<byte[]>("ProjectStageId")
-                        .IsRequired()
-                        .HasColumnType("bytea");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("integer");
 
                     b.Property<byte[]>("TaskId")
                         .IsRequired()
@@ -1274,7 +1303,9 @@ namespace DesignSphere.Infrastructure.Migrations
                 {
                     b.HasOne("DesignSphere.Domain.Entites.TaskDetail", null)
                         .WithMany("TaskAssignees")
-                        .HasForeignKey("TaskDetailId");
+                        .HasForeignKey("TaskDetailId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("DesignSphere.Domain.Entites.TaskDetail", b =>

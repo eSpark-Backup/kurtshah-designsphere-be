@@ -22,10 +22,12 @@ public static class InfrastructureServiceRegistration
         services.AddScoped(typeof(IAsyncRepository<>), typeof(RepositoryBase<>));
         services.AddScoped<IProjectRepository, ProjectRepository>();
         services.AddScoped<IDoorOpeningRepository, DoorOpeningRepository>();
-        services.AddScoped<IContributerRepository, ContributerRepository>();
+       // services.AddScoped<IContributerRepository, ContributerRepository>();
         services.AddScoped<IPlanRepository, PlanRepository>();
         //services.AddScoped<IActivityRepository, ActivityRepository>();
         services.AddScoped<ISieveProcessor, SieveProcessor>();
+        services.AddScoped<IContactRepository, ContactRepository>();
+        services.AddScoped<IProjectRoleRepository, ProjectRoleRepository>();
 
         return services;
     }

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace EventBus.Messages.Contract;
-public interface IProjectRole : IGeneric
+public interface IProjectRole : IName
 {
 
 }

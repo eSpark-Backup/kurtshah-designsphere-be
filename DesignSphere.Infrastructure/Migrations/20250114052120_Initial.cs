@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DesignSphere.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -52,6 +52,29 @@ namespace DesignSphere.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Catalogs", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Contacts",
+                columns: table => new
+                {
+                    Id = table.Column<byte[]>(type: "bytea", nullable: false),
+                    UserId = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    EmailAddress = table.Column<string>(type: "text", nullable: false),
+                    ProjectUserRole = table.Column<int>(type: "integer", nullable: false),
+                    CreatorId = table.Column<string>(type: "text", nullable: true),
+                    CreatorName = table.Column<string>(type: "text", nullable: true),
+                    CreationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    LastmodifierId = table.Column<string>(type: "text", nullable: true),
+                    LastmodifierName = table.Column<string>(type: "text", nullable: true),
+                    LastmodificationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
+                    DeletedBy = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Contacts", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -159,27 +182,6 @@ namespace DesignSphere.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ProjectDetails", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ProjectRoles",
-                columns: table => new
-                {
-                    Id = table.Column<byte[]>(type: "bytea", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    CreatorId = table.Column<string>(type: "text", nullable: true),
-                    CreatorName = table.Column<string>(type: "text", nullable: true),
-                    CreationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    LastmodifierId = table.Column<string>(type: "text", nullable: true),
-                    LastmodifierName = table.Column<string>(type: "text", nullable: true),
-                    LastmodificationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    DeletedBy = table.Column<string>(type: "text", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProjectRoles", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -417,42 +419,6 @@ namespace DesignSphere.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProjectContributers",
-                columns: table => new
-                {
-                    Id = table.Column<byte[]>(type: "bytea", nullable: false),
-                    ProjectRoleId = table.Column<byte[]>(type: "bytea", nullable: false),
-                    UserId = table.Column<string>(type: "text", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    ProjectRole = table.Column<int>(type: "integer", nullable: false),
-                    ProjectId = table.Column<byte[]>(type: "bytea", nullable: false),
-                    CreatorId = table.Column<string>(type: "text", nullable: true),
-                    CreatorName = table.Column<string>(type: "text", nullable: true),
-                    CreationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    LastmodifierId = table.Column<string>(type: "text", nullable: true),
-                    LastmodifierName = table.Column<string>(type: "text", nullable: true),
-                    LastmodificationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    DeletedBy = table.Column<string>(type: "text", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProjectContributers", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ProjectContributers_ProjectRoles_ProjectRoleId",
-                        column: x => x.ProjectRoleId,
-                        principalTable: "ProjectRoles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ProjectContributers_Projects_ProjectId",
-                        column: x => x.ProjectId,
-                        principalTable: "Projects",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ProjectLabel",
                 columns: table => new
                 {
@@ -502,6 +468,37 @@ namespace DesignSphere.Infrastructure.Migrations
                     table.PrimaryKey("PK_ProjectPlans", x => x.Id);
                     table.ForeignKey(
                         name: "FK_ProjectPlans_Projects_ProjectId",
+                        column: x => x.ProjectId,
+                        principalTable: "Projects",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Tasks",
+                columns: table => new
+                {
+                    Id = table.Column<byte[]>(type: "bytea", nullable: false),
+                    ProjectId = table.Column<byte[]>(type: "bytea", nullable: false),
+                    Name = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
+                    Description = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: false),
+                    Deadline = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    TaskWeight = table.Column<decimal>(type: "numeric", nullable: false),
+                    Status = table.Column<int>(type: "integer", nullable: false),
+                    CreatorId = table.Column<string>(type: "text", nullable: true),
+                    CreatorName = table.Column<string>(type: "text", nullable: true),
+                    CreationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    LastmodifierId = table.Column<string>(type: "text", nullable: true),
+                    LastmodifierName = table.Column<string>(type: "text", nullable: true),
+                    LastmodificationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
+                    DeletedBy = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tasks", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Tasks_Projects_ProjectId",
                         column: x => x.ProjectId,
                         principalTable: "Projects",
                         principalColumn: "Id",
@@ -601,6 +598,33 @@ namespace DesignSphere.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TaskDetail",
+                columns: table => new
+                {
+                    Id = table.Column<byte[]>(type: "bytea", nullable: false),
+                    TaskId = table.Column<byte[]>(type: "bytea", nullable: false),
+                    TaskStageId = table.Column<byte[]>(type: "bytea", nullable: false),
+                    CreatorId = table.Column<string>(type: "text", nullable: true),
+                    CreatorName = table.Column<string>(type: "text", nullable: true),
+                    CreationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    LastmodifierId = table.Column<string>(type: "text", nullable: true),
+                    LastmodifierName = table.Column<string>(type: "text", nullable: true),
+                    LastmodificationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
+                    DeletedBy = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TaskDetail", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TaskDetail_Tasks_TaskId",
+                        column: x => x.TaskId,
+                        principalTable: "Tasks",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "DoorOpenings",
                 columns: table => new
                 {
@@ -651,6 +675,33 @@ namespace DesignSphere.Infrastructure.Migrations
                         name: "FK_DoorOpenings_ProjectPlans_ProjectPlanId",
                         column: x => x.ProjectPlanId,
                         principalTable: "ProjectPlans",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TaskAssignee",
+                columns: table => new
+                {
+                    Id = table.Column<byte[]>(type: "bytea", nullable: false),
+                    TaskDetailId = table.Column<byte[]>(type: "bytea", nullable: false),
+                    Status = table.Column<int>(type: "integer", nullable: false),
+                    CreatorId = table.Column<string>(type: "text", nullable: true),
+                    CreatorName = table.Column<string>(type: "text", nullable: true),
+                    CreationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    LastmodifierId = table.Column<string>(type: "text", nullable: true),
+                    LastmodifierName = table.Column<string>(type: "text", nullable: true),
+                    LastmodificationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
+                    DeletedBy = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TaskAssignee", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TaskAssignee_TaskDetail_TaskDetailId",
+                        column: x => x.TaskDetailId,
+                        principalTable: "TaskDetail",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -741,16 +792,6 @@ namespace DesignSphere.Infrastructure.Migrations
                 column: "MaterialId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProjectContributers_ProjectId",
-                table: "ProjectContributers",
-                column: "ProjectId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProjectContributers_ProjectRoleId",
-                table: "ProjectContributers",
-                column: "ProjectRoleId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_ProjectLabel_ProjectId",
                 table: "ProjectLabel",
                 column: "ProjectId");
@@ -764,6 +805,21 @@ namespace DesignSphere.Infrastructure.Migrations
                 name: "IX_Reaction_PostId",
                 table: "Reaction",
                 column: "PostId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TaskAssignee_TaskDetailId",
+                table: "TaskAssignee",
+                column: "TaskDetailId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TaskDetail_TaskId",
+                table: "TaskDetail",
+                column: "TaskId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tasks_ProjectId",
+                table: "Tasks",
+                column: "ProjectId");
         }
 
         /// <inheritdoc />
@@ -773,13 +829,13 @@ namespace DesignSphere.Infrastructure.Migrations
                 name: "Catalogs");
 
             migrationBuilder.DropTable(
+                name: "Contacts");
+
+            migrationBuilder.DropTable(
                 name: "Contarctors");
 
             migrationBuilder.DropTable(
                 name: "DoorOpenings");
-
-            migrationBuilder.DropTable(
-                name: "ProjectContributers");
 
             migrationBuilder.DropTable(
                 name: "ProjectDetails");
@@ -789,6 +845,9 @@ namespace DesignSphere.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Reaction");
+
+            migrationBuilder.DropTable(
+                name: "TaskAssignee");
 
             migrationBuilder.DropTable(
                 name: "UserComnpanies");
@@ -809,10 +868,10 @@ namespace DesignSphere.Infrastructure.Migrations
                 name: "ProjectPlans");
 
             migrationBuilder.DropTable(
-                name: "ProjectRoles");
+                name: "Post");
 
             migrationBuilder.DropTable(
-                name: "Post");
+                name: "TaskDetail");
 
             migrationBuilder.DropTable(
                 name: "HardwareCategories");
@@ -824,13 +883,16 @@ namespace DesignSphere.Infrastructure.Migrations
                 name: "PowerSupplies");
 
             migrationBuilder.DropTable(
-                name: "Projects");
+                name: "Tasks");
 
             migrationBuilder.DropTable(
                 name: "Manufacturers");
 
             migrationBuilder.DropTable(
                 name: "Materials");
+
+            migrationBuilder.DropTable(
+                name: "Projects");
         }
     }
 }

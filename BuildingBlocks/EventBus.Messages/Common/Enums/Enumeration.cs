@@ -74,7 +74,7 @@ public  class Enumeration
         NotSure
     }
 
-    public enum ContributerRole
+    public enum EContributerRole
     {
         Owner = 0, Devloper = 1, Viewer = 2,
     }
@@ -86,7 +86,7 @@ public  class Enumeration
 
     public enum ETaskStatus
     {
-        completed = 0, Incompleted = 1 , InProgress = 2, NotStarted = 3
+        completed = 0, Incompleted = 1 , InProgress = 2, NotStarted = 3, Deleted = 4
 
     }
     public enum ETaskStages

@@ -57,7 +57,7 @@ app.MigrateDatabase<SQLContext>((context, services) =>
     }
 
     var logger = services.GetService<ILogger<SqlDbContextSeed>>();
-    SqlDbContextSeed.Seed(context, projectCount: 10, plansPerProject: 5, doorsPerPlan: 3);
+    SqlDbContextSeed.Seed(context);
 
     //SqlDbContextSeed.SeedAsync(context, logger).Wait();
 

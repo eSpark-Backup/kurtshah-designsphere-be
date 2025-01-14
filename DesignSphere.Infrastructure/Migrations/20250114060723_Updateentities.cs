@@ -5,7 +5,7 @@
 namespace DesignSphere.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration1 : Migration
+    public partial class Updateentities : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -14,6 +14,10 @@ namespace DesignSphere.Infrastructure.Migrations
                 name: "FK_ProjectContributers_ProjectRoles_ProjectRoleId",
                 table: "ProjectContributers");
 
+            migrationBuilder.DropColumn(
+                name: "ProjectUserRole",
+                table: "Contacts");
+
             migrationBuilder.AlterColumn<byte[]>(
                 name: "ProjectRoleId",
                 table: "ProjectContributers",
@@ -21,6 +25,20 @@ namespace DesignSphere.Infrastructure.Migrations
                 nullable: true,
                 oldClrType: typeof(byte[]),
                 oldType: "bytea");
+
+            migrationBuilder.AddColumn<int>(
+                name: "ProjectUserRole",
+                table: "ProjectContributers",
+                type: "integer",
+                nullable: false,
+                defaultValue: 0);
+
+            migrationBuilder.AddColumn<byte[]>(
+                name: "ProjectRoleId",
+                table: "Contacts",
+                type: "bytea",
+                nullable: false,
+                defaultValue: new byte[0]);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_ProjectContributers_ProjectRoles_ProjectRoleId",
@@ -37,6 +55,14 @@ namespace DesignSphere.Infrastructure.Migrations
                 name: "FK_ProjectContributers_ProjectRoles_ProjectRoleId",
                 table: "ProjectContributers");
 
+            migrationBuilder.DropColumn(
+                name: "ProjectUserRole",
+                table: "ProjectContributers");
+
+            migrationBuilder.DropColumn(
+                name: "ProjectRoleId",
+                table: "Contacts");
+
             migrationBuilder.AlterColumn<byte[]>(
                 name: "ProjectRoleId",
                 table: "ProjectContributers",
@@ -46,6 +72,13 @@ namespace DesignSphere.Infrastructure.Migrations
                 oldClrType: typeof(byte[]),
                 oldType: "bytea",
                 oldNullable: true);
+
+            migrationBuilder.AddColumn<int>(
+                name: "ProjectUserRole",
+                table: "Contacts",
+                type: "integer",
+                nullable: false,
+                defaultValue: 0);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_ProjectContributers_ProjectRoles_ProjectRoleId",

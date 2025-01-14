@@ -1,5 +1,7 @@
 ﻿
 using AutoMapper;
+using BuildingBlocks.Common.Models;
+using DesignSphere.Application.Features.Contact;
 using DesignSphere.Application.Features.Contributer;
 using DesignSphere.Application.Features.Plan;
 using DesignSphere.Application.Features.Project;
@@ -15,6 +17,7 @@ namespace DesignSphere.Application.Mappings
         {
             CreateMap<Project, GetProjectQueryResult>().ReverseMap();
 
+
             CreateMap<Project, GetProjectQueryResult>()
                // .ForMember(dest => dest.ProjectPlans, opt => opt.MapFrom(src => src.ProjectPlans))
                 .ForMember(dest => dest.DoorOpenings, opt => opt.MapFrom(src => src.ProjectPlans.Sum(pp => pp.DoorOpenings.Count)))
@@ -22,12 +25,25 @@ namespace DesignSphere.Application.Mappings
                 .ForMember(dest => dest.TypeName, opt => opt.MapFrom(src => Enum.GetName(typeof(EProjectType), src.Type)))
                 .ForMember(dest => dest.HelpUsName, opt => opt.MapFrom(src => Enum.GetName(typeof(HelpOption), src.Type)));
 
-            CreateMap<ProjectContributer, GetContributerQueryResult>().ReverseMap();
+            CreateMap<ProjectRole, GetProjectRoleQueryResult>().ReverseMap();
 
-            CreateMap<ProjectContributer, GetContributerQueryResult>()
-                .ForMember(dest => dest.ProjectUserRoleName, opt => opt.MapFrom(src => Enum.GetName(typeof(ContributerRole), src.ProjectUserRole)))
-                .ForMember(dest => dest.ProjectRoleName, opt => opt.MapFrom(src => Enum.GetName(typeof(EProjectRole), src.ProjectRole)));
-            
+            CreateMap<ProjectRole, GetProjectRoleQueryResult>()
+          .ForMember(dest => dest.ProjectRoleId, opt => opt.MapFrom(src => src.Id))
+          .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));
+
+            CreateMap<Contact, GetContactQueryResult>().ReverseMap();
+
+     //       CreateMap<Contact, GetContactQueryResult>()
+     //.ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+     //.ForMember(dest => dest.EmailAddress, opt => opt.MapFrom(src => src.EmailAddress))
+     //.ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId));
+
+            //CreateMap<ProjectContributer, GetContributerQueryResult>().ReverseMap();
+
+            //CreateMap<ProjectContributer, GetContributerQueryResult>();
+            //  .ForMember(dest => dest.ProjectUserRoleName, opt => opt.MapFrom(src => Enum.GetName(typeof(ContributerRole), src.ProjectUserRole)))
+            // .ForMember(dest => dest.ProjectRoleName, opt => opt.MapFrom(src => Enum.GetName(typeof(EProjectRole), src.ProjectRole)));
+
             CreateMap<ProjectPlan, GetProjectPlansQueryResult>().ReverseMap();
 
 

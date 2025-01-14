@@ -63,7 +63,7 @@ public class RepositoryBase<T> : IAsyncRepository<T> where T : EntityBase
         return await query.ToListAsync();
     }
 
-    public virtual async Task<T> GetByIdAsync(Guid id)
+    public virtual async Task<T> GetByIdAsync(Ulid id)
     {
         return await dbContext.Set<T>().FindAsync(id);
     }
@@ -81,16 +81,24 @@ public class RepositoryBase<T> : IAsyncRepository<T> where T : EntityBase
         await dbContext.SaveChangesAsync();
     }
 
+ 
     public async Task DeleteAsync(T entity)
     {
-        dbContext.Set<T>().Remove(entity);
-        await dbContext.SaveChangesAsync();
+        entity.IsDeleted = true;  
+        await UpdateAsync(entity);  
     }
     public async Task<PagedResponseOffset<T>> GetFilteredAsync(SieveModel model, string includeProperties = "")
     {
         var expression = sieveProcessor.GetFilteringExpression<T>(model);
 
         var query = dbContext.Set<T>().AsQueryable();
+
+        if (typeof(T).GetProperty("IsDeleted") != null)
+        {
+            query = query.Where(x => EF.Property<bool>(x, "IsDeleted") == false);
+        }
+
+
 
         if (!string.IsNullOrEmpty(includeProperties))
         {

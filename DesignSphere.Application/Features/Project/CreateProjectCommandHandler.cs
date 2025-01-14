@@ -26,13 +26,15 @@ public class CreateProjectCommandHandler : IRequestHandler<CreateProjectCommandR
 {
     private readonly IProjectRepository repository;
     private readonly IUserService _userService;
-    private readonly IContributerRepository _contributerrepository;
+   // private readonly IContributerRepository _contributerrepository;
 
-    public CreateProjectCommandHandler(IProjectRepository repository, IUserService userService, IContributerRepository contributerrepository)
+    public CreateProjectCommandHandler(IProjectRepository repository, IUserService userService
+       // , IContributerRepository contributerrepository
+        )
     {
         this.repository = repository;
         _userService = userService;
-        _contributerrepository = contributerrepository;
+        //_contributerrepository = contributerrepository;
     }
 
 
@@ -56,20 +58,20 @@ public class CreateProjectCommandHandler : IRequestHandler<CreateProjectCommandR
 
         await repository.AddAsync(project);
 
-        if (project.Id != null)
-        {
-            var contributer = new Domain.Entites.ProjectContributer
-            {
-                Name = _userService.GetFullName(),
-                ProjectUserRole = ContributerRole.Owner,
-                ProjectRole = EProjectRole.Editor,
-                UserId = _userService.GetUserIdentity(),
-                ProjectId = project.Id
-            };
-            await _contributerrepository.AddAsync(contributer);
-        }
+        //if (project.Id != null)
+        //{
+        //    var contributer = new Domain.Entites.ProjectContributer
+        //    {
+        //        Name = _userService.GetFullName(),
+        //        ProjectUserRole = ContributerRole.Owner,
+        //        ProjectRole = EProjectRole.Editor,
+        //        UserId = _userService.GetUserIdentity(),
+        //        ProjectId = project.Id
+        //    };
+        //    await _contributerrepository.AddAsync(contributer);
+        //}
 
         return project.Id;
-        
+
     }
 }

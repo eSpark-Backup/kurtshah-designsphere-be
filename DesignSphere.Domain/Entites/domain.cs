@@ -1,6 +1,5 @@
 ﻿using DesignSphere.Domain.Common;
 using EventBus.Messages.Contract;
-using Microsoft.VisualBasic;
 using SieveCustom.Attributes;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -131,19 +130,28 @@ public class ProjectDetail : EntityBase, IProjectDetail
 
 public class ProjectRole : EntityBase, IProjectRole
 {
-    public string Description { get; set; }
     public string Name { get; set; }
-    public ICollection<ProjectContributer> ProjectContributers { get; set; } 
-
+    public ICollection<ProjectContributer> ProjectContributers { get; set; }
 }
 
-public class ProjectContributer : EntityBase, IProjectContributer
+public class Contact  : EntityBase, IContact
 {
     public string UserId { get; set; }
-    public string Name { get; set; }
-    public ContributerRole ProjectUserRole { get; set; }
 
-    public EProjectRole ProjectRole { get; set; }
+    [Sieve(CanFilter = true)]
+    public string Name { get; set; }
+    public string EmailAddress { get; set; }
+
+    [ForeignKey(nameof(ProjectRole))]
+    public Ulid ProjectRoleId { get; set; }
+}
+
+public class ProjectContributer : EntityBase//, IProjectContributer
+{
+    [ForeignKey(nameof(Contact))]
+    public Ulid ContactId { get; set; }
+
+    public EContributerRole ProjectUserRole { get; set; }
 
     [Sieve(CanFilter = true)]
     [ForeignKey(nameof(Project))]
@@ -273,8 +281,6 @@ public class ProjectStage : EntityBase, IProjectStage
     public string Name { get; set; }
     public string Description { get; set; }
 
-
-
 }
 public class Task : EntityBase ,ITask
 {
@@ -299,7 +305,7 @@ public class Task : EntityBase ,ITask
     public  ICollection<TaskDetail> TaskDetail { get; set; }
 }
 
-public class TaskDetail: EntityBase,ITaskDetail
+public class TaskDetail: EntityBase//,ITaskDetail
 {
 
     [ForeignKey("Task")]
@@ -308,64 +314,66 @@ public class TaskDetail: EntityBase,ITaskDetail
     [ForeignKey("TaskStages")]
     public Ulid TaskStageId { get; set; }  
 
-    [Required]
-    public ETaskStatus Status { get; set; }
 
-    [ForeignKey("ProjectStage")]
-    public Ulid ProjectStageId { get; set; }
     public virtual ICollection<TaskAssignee> TaskAssignees { get; set; } = new List<TaskAssignee>();
 }
-public class TaskStages : EntityBase, ITaskStage
+public class TaskStages : EntityBase//, ITaskStage
 {
 
-    public string TaskName { get; set; } 
+    public string Name { get; set; } //enumsType ,system,user,Project
+    public int OrderNo { get; set; }
+    public string? Reference { get; set; } //ulid store here TaskStageId
 
 }
-public class TaskAssignee :EntityBase,ITaskAssignee
+public class TaskAssignee :EntityBase//,ITaskAssignee
 {
-    [ForeignKey("TaskStage")]
-    public Ulid TaskStageId { get; set; } 
+    [ForeignKey("TaskDetail")]
+    public Ulid TaskDetailId { get; set; }
 
     [ForeignKey("ProjectContributer")]
-    public Ulid ContributerId { get; set; } 
+    public Ulid ContributerId { get; set; }
 
     [Required]
-    public TaskStatus Status { get; set; } 
+    public ETaskStatus Status { get; set; } 
 }
 
-public class Conversation: EntityBase, IConversation
+public class Conversation : EntityBase, IConversation
 {
 
-    public Ulid? TaskId { get; set; } 
+    public Ulid? TaskId { get; set; }
 
     [Required]
     [MaxLength(500)]
-    public string TaskDescription { get; set; } 
+    public string TaskDescription { get; set; }
 
-    public ICollection<ConversationDetail> ConversationDetails { get; set; } = new List<ConversationDetail>(); 
+    public ICollection<ConversationDetail> ConversationDetails { get; set; } = new List<ConversationDetail>();
 }
 
-public class ConversationDetail : IConversationDetail
+public class ConversationDetail //: IConversationDetail
 {
 
     [Required]
     [ForeignKey("Conversation")]
-    public Ulid ConversationId { get; set; } 
+    public Ulid ConversationId { get; set; }
 
-    public Conversation conversation { get; set; } 
-
-    [Required]
-    [MaxLength(100)]
-    public string Sender { get; set; } 
+    public Conversation conversation { get; set; }
 
     [Required]
     [MaxLength(100)]
-    public string Receiver { get; set; } 
+    public string Sender { get; set; }
 
     [Required]
-    public MessageType MessageType { get; set; } 
+    [MaxLength(100)]
+    public string ReceiverID { get; set; }
+
+    [Required]
+    public MessageType MessageType { get; set; }
 
     [Required]
     [MaxLength(1000)]
+
     public string MessageContent { get; set; }
+
+    public string? Reference { get; set; }
+
 }
