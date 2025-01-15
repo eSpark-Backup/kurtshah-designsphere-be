@@ -22,7 +22,7 @@ public class ContactRepository : RepositoryBase<Contact>, IContactRepository
     public async Task<Contact> getContactByUserId(string userId)
     {
         return await dbContext.Contacts
-            .FirstOrDefaultAsync(c => c.UserId == userId);
+            .FirstOrDefaultAsync(c => c.UserId == userId && c.IsDeleted == false);
     }
 
 }
