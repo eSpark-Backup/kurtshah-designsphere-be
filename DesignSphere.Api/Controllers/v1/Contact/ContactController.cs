@@ -20,8 +20,8 @@ public class ContactController : BaseApiController
 
     [HttpPost("[action]")]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
-    [ProducesResponseType(typeof(Ulid), (int)HttpStatusCode.OK)]
-    public async Task<Ulid> AddContact([FromBody] AddContactRequest query)
+    [ProducesResponseType(typeof(ApiResponse), (int)HttpStatusCode.OK)]
+    public async Task<ApiResponse> AddContact([FromBody] AddContactRequest query)
     {
 
         return await Mediator.Send(query);
