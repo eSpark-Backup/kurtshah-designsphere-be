@@ -1,17 +1,11 @@
-﻿using DesignSphere.Application.Contracts;
-using DesignSphere.Domain.Entites;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static EventBus.Messages.Common.Enums.Enumeration;
+﻿using AutoWrapper.Wrappers;
+using DesignSphere.Application.Contracts;
+
 
 namespace DesignSphere.Application.Features.Contact;
 
 
-public class AddContactRequest : IRequest<Ulid>
+public class AddContactRequest : IRequest<ApiResponse>
 {
     public string UserId { get; set; }
     public string Name { get; set; }
@@ -19,7 +13,7 @@ public class AddContactRequest : IRequest<Ulid>
 
 }
 
-public class AddContactCommandHandler : IRequestHandler<AddContactRequest, Ulid>
+public class AddContactCommandHandler : IRequestHandler<AddContactRequest, ApiResponse>
 
 {
     private readonly IContactRepository repository;
@@ -30,8 +24,16 @@ public class AddContactCommandHandler : IRequestHandler<AddContactRequest, Ulid>
     }
 
 
-    public async Task<Ulid> Handle(AddContactRequest request, CancellationToken cancellationToken)
+    public async Task<ApiResponse> Handle(AddContactRequest request, CancellationToken cancellationToken)
     {
+        // Check if a contact with the given UserId already exists
+        var existingContact = await repository.getContactByUserId(request.UserId);
+
+        if (existingContact != null)
+        {
+            return new ApiResponse(404, "Contact Already Exist ");
+
+        }
 
         var contact = new Domain.Entites.Contact
         {
@@ -41,7 +43,9 @@ public class AddContactCommandHandler : IRequestHandler<AddContactRequest, Ulid>
         };
 
         await repository.AddAsync(contact);
-        return contact.Id;
+
+        return new ApiResponse(200, "Contact Successfully Added ");
 
     }
+
 }
