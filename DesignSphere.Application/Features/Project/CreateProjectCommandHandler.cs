@@ -1,4 +1,5 @@
-﻿using BuildingBlocks.Common.Services;
+﻿using AutoWrapper.Wrappers;
+using BuildingBlocks.Common.Services;
 using DesignSphere.Application.Contracts;
 using DesignSphere.Domain.Entites;
 using EventBus.Messages.Contract;
@@ -8,7 +9,7 @@ using static EventBus.Messages.Common.Enums.Enumeration;
 
 namespace DesignSphere.Application.Features.Project;
 
-public class CreateProjectCommandRequest : IRequest<Ulid>
+public class CreateProjectCommandRequest : IRequest<ApiResponse>
 {
     public string Name { get; set; }
     public DateTime? PublishDate { get; set; }
@@ -21,24 +22,26 @@ public class CreateProjectCommandRequest : IRequest<Ulid>
 
 }
 
-public class CreateProjectCommandHandler : IRequestHandler<CreateProjectCommandRequest, Ulid>
+public class CreateProjectCommandHandler : IRequestHandler<CreateProjectCommandRequest, ApiResponse>
 
 {
     private readonly IProjectRepository repository;
     private readonly IUserService _userService;
-   // private readonly IContributerRepository _contributerrepository;
+   private readonly IContributerRepository _contributerRepository;
+    private readonly IContactRepository _contactRepository;
+    private readonly IProjectRoleRepository _projectRoleRepository;
 
     public CreateProjectCommandHandler(IProjectRepository repository, IUserService userService
-       // , IContributerRepository contributerrepository
+       , IContributerRepository contributerRepository, IContactRepository contactRepository, IProjectRoleRepository projectRoleRepository
         )
     {
         this.repository = repository;
         _userService = userService;
-        //_contributerrepository = contributerrepository;
+        _contributerRepository = contributerRepository;
     }
 
 
-    public async Task<Ulid> Handle(CreateProjectCommandRequest request, CancellationToken cancellationToken)
+    public async Task<ApiResponse> Handle(CreateProjectCommandRequest request, CancellationToken cancellationToken)
     {
 
         var project = new Domain.Entites.Project
@@ -58,20 +61,33 @@ public class CreateProjectCommandHandler : IRequestHandler<CreateProjectCommandR
 
         await repository.AddAsync(project);
 
-        //if (project.Id != null)
-        //{
-        //    var contributer = new Domain.Entites.ProjectContributer
-        //    {
-        //        Name = _userService.GetFullName(),
-        //        ProjectUserRole = ContributerRole.Owner,
-        //        ProjectRole = EProjectRole.Editor,
-        //        UserId = _userService.GetUserIdentity(),
-        //        ProjectId = project.Id
-        //    };
-        //    await _contributerrepository.AddAsync(contributer);
-        //}
+        if (project.Id != null)
+        {
 
-        return project.Id;
+            var getContactId = await _contactRepository.getContactByUserId(_userService.GetUserIdentity());
 
+            var contact = new Domain.Entites.Contact();
+            if (getContactId == null)
+            {
+
+                contact.Name = _userService.GetFullName();
+                contact.EmailAddress = _userService.GetUserEmail();
+                contact.UserId = _userService.GetUserIdentity();
+
+                await _contactRepository.AddAsync(contact);
+            }
+            var getProjectRole = await _projectRoleRepository.getProjectRole("Owner");
+
+
+            var contributer = new Domain.Entites.ProjectContributer
+            {
+                ContactId = getContactId != null?getContactId.Id :contact.Id,
+                ProjectRoleId = getProjectRole.Id,
+                ProjectId = project.Id
+            };
+            await _contributerRepository.AddAsync(contributer);
+        }
+
+        return new ApiResponse(200, "Project Successfully Added ");
     }
 }

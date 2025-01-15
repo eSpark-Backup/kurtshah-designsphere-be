@@ -4,11 +4,14 @@ using DesignSphere.Domain.Entites;
 using DesignSphere.Infrastructure.Persistence;
 using DesignSphere.Infrastructure.Repositories;
 using DesignSphere.Infrastructure.Repositries;
+using DesignSphere.Infrastructure.Services;
+
 //using DesignSphere.Infrastructure.Repositries.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SieveCustom.Services;
+using System.Reflection;
 
 namespace DesignSphere.Infrastructure;
 
@@ -22,12 +25,14 @@ public static class InfrastructureServiceRegistration
         services.AddScoped(typeof(IAsyncRepository<>), typeof(RepositoryBase<>));
         services.AddScoped<IProjectRepository, ProjectRepository>();
         services.AddScoped<IDoorOpeningRepository, DoorOpeningRepository>();
-       // services.AddScoped<IContributerRepository, ContributerRepository>();
+        services.AddScoped<IContributerRepository, ContributerRepository>();
         services.AddScoped<IPlanRepository, PlanRepository>();
         //services.AddScoped<IActivityRepository, ActivityRepository>();
         services.AddScoped<ISieveProcessor, SieveProcessor>();
         services.AddScoped<IContactRepository, ContactRepository>();
         services.AddScoped<IProjectRoleRepository, ProjectRoleRepository>();
+
+        services.AddMailing(configuration);
 
         return services;
     }

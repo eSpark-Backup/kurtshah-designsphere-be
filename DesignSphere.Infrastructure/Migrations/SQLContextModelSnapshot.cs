@@ -664,6 +664,9 @@ namespace DesignSphere.Infrastructure.Migrations
                     b.Property<string>("DeletedBy")
                         .HasColumnType("text");
 
+                    b.Property<bool>("IsContributerRemoved")
+                        .HasColumnType("boolean");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
@@ -683,9 +686,6 @@ namespace DesignSphere.Infrastructure.Migrations
                     b.Property<byte[]>("ProjectRoleId")
                         .IsRequired()
                         .HasColumnType("bytea");
-
-                    b.Property<int>("ProjectUserRole")
-                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 

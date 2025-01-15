@@ -145,19 +145,18 @@ public class Contact  : EntityBase, IContact
 
 }
 
-public class ProjectContributer : EntityBase//, IProjectContributer
+public class ProjectContributer : EntityBase, IProjectContributer
 {
     [ForeignKey(nameof(Contact))]
     public Ulid ContactId { get; set; }
 
-    public EContributerRole ProjectUserRole { get; set; }
-
-    [Sieve(CanFilter = true)]
     [ForeignKey(nameof(Project))]
     public Ulid ProjectId { get; set; }
 
     [ForeignKey(nameof(ProjectRole))]
     public Ulid ProjectRoleId { get; set; }
+
+    public bool IsContributerRemoved { get; set; } = false;
 }
 
 public class MileStone : EntityBase, IMileStone

@@ -14,5 +14,7 @@ public interface IUserService
 
     string GetFullName();
     string GetCompanyName();
+    string GetUserEmail();
+
 
 }

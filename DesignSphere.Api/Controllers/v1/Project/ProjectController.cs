@@ -22,8 +22,8 @@ public class ProjectController : BaseApiController
 
     [HttpPost("[action]")]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
-    [ProducesResponseType(typeof(Ulid), (int)HttpStatusCode.OK)]
-    public async Task<Ulid> CreateProject([FromBody] CreateProjectCommandRequest query)
+    [ProducesResponseType(typeof(ApiResponse), (int)HttpStatusCode.OK)]
+    public async Task<ApiResponse> CreateProject([FromBody] CreateProjectCommandRequest query)
     {
     
         return await Mediator.Send(query);

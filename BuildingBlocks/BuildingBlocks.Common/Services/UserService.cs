@@ -42,7 +42,10 @@ public class UserService : IUserService
     {
         return _IHttpContextAccessor.HttpContext.User?.FindFirst(JwtClaimTypes.PhoneNumber)?.Value;
     }
-
+    public string GetUserEmail()
+    {
+        return _IHttpContextAccessor.HttpContext.User?.FindFirst(JwtClaimTypes.Email)?.Value;
+    }
     public string GetDeviceId()
     {
         return _IHttpContextAccessor.HttpContext.User?.FindFirst("device_id")?.Value;

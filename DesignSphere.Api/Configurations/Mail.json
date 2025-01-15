@@ -1,0 +1,10 @@
+{
+  "EmailConfig": {
+    "SmtpServer": "mail.esparkconsultants.com",
+    "SmtpPort": 587,
+    "SmtpUsername": "masood.s@esparkconsultants.com",
+    "SmtpPassword": "@?}~ftFV6*;u",
+    "SenderEmail": "masood.s@esparkconsultants.com",
+    "smtpClient.EnableSsl": true
+  }
+}

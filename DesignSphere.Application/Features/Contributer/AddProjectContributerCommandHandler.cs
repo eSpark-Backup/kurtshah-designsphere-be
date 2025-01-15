@@ -1,44 +1,50 @@
-﻿using BuildingBlocks.Common.Models;
+﻿using AutoWrapper.Wrappers;
+using BuildingBlocks.Common.Models;
 using DesignSphere.Application.Contracts;
+using DesignSphere.Domain.Entites;
 using EventBus.Messages.Contract;
 using static EventBus.Messages.Common.Enums.Enumeration;
 
 namespace DesignSphere.Application.Features.Contributer;
 
-public class AddProjectContributerRequest : IRequest<Ulid>
+public class AddProjectContributerRequest : IRequest<ApiResponse>
 {
-    public string Name { get; set; }
-   // public ContributerRole ProjectUserRole { get; set; }
-    public EProjectRole ProjectRole { get; set; }
-    public string UserId { get; set; }
+    public Ulid ContactId { get; set; }
+    public Ulid ProjectRoleId { get; set; }
     public Ulid ProjectId { get; set; }
 }
 
-//public class AddProjectContributerCommandHandler : IRequestHandler<AddProjectContributerRequest, Ulid>
+public class AddProjectContributerCommandHandler : IRequestHandler<AddProjectContributerRequest, ApiResponse>
 
-//{
-//    private readonly IContributerRepository repository;
+{
+    private readonly IContributerRepository repository;
 
-//    public AddProjectContributerCommandHandler(IContributerRepository repository)
-//    {
-//        this.repository = repository;
-//    }
+    public AddProjectContributerCommandHandler(IContributerRepository repository)
+    {
+        this.repository = repository;
+    }
 
 
-//    //public async Task<Ulid> Handle(AddProjectContributerRequest request, CancellationToken cancellationToken)
-//    //{
+    public async Task<ApiResponse> Handle(AddProjectContributerRequest request, CancellationToken cancellationToken)
+    {
 
-//    //    var contributer = new Domain.Entites.ProjectContributer
-//    //    {
-//    //        //Name = request.Name,
-//    //        //ProjectUserRole = request.ProjectUserRole,
-//    //        //ProjectRole = request.ProjectRole,
-//    //        //UserId = request.UserId,
-//    //        //ProjectId = request.ProjectId
-//    //    };
+        bool isContributerExist = await repository.getContributerByProject(request.ContactId, request.ProjectId);
 
-//    //    await repository.AddAsync(contributer);
-//    //    return contributer.Id;
+        if(isContributerExist)
+        {
+            return new ApiResponse(409,"Contributer Already Exist");
+        }
 
-//    //}
-//}
+        var contributer = new Domain.Entites.ProjectContributer
+        {
+    
+            ContactId = request.ContactId,
+            ProjectRoleId = request.ProjectRoleId,
+            ProjectId = request.ProjectId
+        };
+
+        await repository.AddAsync(contributer);
+
+        return new ApiResponse(200, "Contributer Successfully Added ");
+    }
+}
