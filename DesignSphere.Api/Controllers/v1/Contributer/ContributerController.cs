@@ -34,14 +34,6 @@ public class ContributerController : BaseApiController
         return await Mediator.Send(request);
     }
 
-    [HttpPost("SendRequestEmailContributers")]
-    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
-    [ProducesResponseType(typeof(ApiResponse), (int)HttpStatusCode.OK)]
-    public async Task<ApiResponse> SendRequestEmailContributers([FromBody] SendEmailRequest request)
-    {
-        return await Mediator.Send(request);
-    }
-
     [HttpGet("IsContributerExist")]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
@@ -54,6 +46,14 @@ public class ContributerController : BaseApiController
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ApiResponse), (int)HttpStatusCode.OK)]
     public async Task<ApiResponse> RemoveProjectContributer([FromQuery] RemoveProjectContributerRequest request)
+    {
+        return await Mediator.Send(request);
+    }
+
+    [HttpPatch("UpdateProjectContributer")]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ApiResponse), (int)HttpStatusCode.OK)]
+    public async Task<ApiResponse> UpdateProjectContributer([FromQuery] UpdateProjectContributerRequest request)
     {
         return await Mediator.Send(request);
     }

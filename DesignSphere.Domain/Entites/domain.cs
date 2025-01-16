@@ -151,6 +151,7 @@ public class ProjectContributer : EntityBase, IProjectContributer
     public Ulid ContactId { get; set; }
     public virtual Contact Contact { get; set; } = default!;
 
+    [Sieve(CanFilter = true)]
     [ForeignKey(nameof(Project))]
     public Ulid ProjectId { get; set; }
     public virtual Project Project { get; set; } = default!;
