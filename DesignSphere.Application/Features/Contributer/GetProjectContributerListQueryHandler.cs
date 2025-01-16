@@ -4,12 +4,6 @@ using DesignSphere.Application.Contracts;
 using DesignSphere.Domain.Common;
 using EventBus.Messages.Contract;
 using SieveCustom.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static EventBus.Messages.Common.Enums.Enumeration;
 
 namespace DesignSphere.Application.Features.Contributer;
 
@@ -17,10 +11,15 @@ namespace DesignSphere.Application.Features.Contributer;
 public class GetContributerQueryResult : EntityBase, IProjectContributer
 {
 
-    Ulid IProjectContributer.ContactId { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-    Ulid IProjectContributer.ProjectId { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-    Ulid IProjectContributer.ProjectRoleId { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-    bool IProjectContributer.IsContributerRemoved { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+   public Ulid ContactId { get ; set ; }
+    public string ContactName { get; set; }
+
+    public Ulid ProjectId { get; set; }
+    public Ulid ProjectRoleId { get; set; }
+    public string ProjectRoleName { get; set; }
+
+    public bool IsContributerRemoved { get; set ; }
+
 }
 
 public class GetContributerQueryRequest : SieveModel, IRequest<PagedResponseOffset<GetContributerQueryResult>>

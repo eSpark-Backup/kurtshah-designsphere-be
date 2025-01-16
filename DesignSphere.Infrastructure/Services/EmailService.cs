@@ -13,21 +13,6 @@ public class EmailService : IEmailService
         _emailConfig = emailConfig.Value;
     }
 
-
-    //public string GetMessageBody(EmailGrantRequest model, string verificationUrl)
-    //{
-    //    var emailBody = $"Hi {model.FirstName},<br><br>Please confirm your email by clicking the link below:<br><a href='{verificationUrl}'>Verify Email</a>";
-
-    //    return emailBody;
-    //}
-
-
-    //public string GetMessageBodyForOtpRequest(EmailGrantRequest model, string otp)
-    //{
-    //    var emailBody = $"Hi {model.FirstName},<br><br>verification otp:<br><a>{otp}</a>";
-
-    //    return emailBody;
-    //}
     public async Task<bool> SendEmailAsync(string toEmail, string subject, string body)
     {
         try

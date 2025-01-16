@@ -9,7 +9,5 @@ public interface IEmailService
 {
     Task<bool> SendEmailAsync(string toEmail, string subject, string body);
 
-    //string GetMessageBody(EmailGrantRequest model, string verificationtoken);
 
-    //string GetMessageBodyForOtpRequest(EmailGrantRequest model, string otp);
 }

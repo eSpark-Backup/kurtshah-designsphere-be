@@ -149,14 +149,19 @@ public class ProjectContributer : EntityBase, IProjectContributer
 {
     [ForeignKey(nameof(Contact))]
     public Ulid ContactId { get; set; }
+    public virtual Contact Contact { get; set; } = default!;
 
     [ForeignKey(nameof(Project))]
     public Ulid ProjectId { get; set; }
+    public virtual Project Project { get; set; } = default!;
 
     [ForeignKey(nameof(ProjectRole))]
     public Ulid ProjectRoleId { get; set; }
+    public virtual ProjectRole ProjectRole { get; set; } = default!;
+
 
     public bool IsContributerRemoved { get; set; } = false;
+
 }
 
 public class MileStone : EntityBase, IMileStone

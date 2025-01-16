@@ -23,4 +23,8 @@
 		<ProjectReference Include="..\DesignSphere.Infrastructure\DesignSphere.Infrastructure.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Configurations\" />
+	</ItemGroup>
+
 </Project>
