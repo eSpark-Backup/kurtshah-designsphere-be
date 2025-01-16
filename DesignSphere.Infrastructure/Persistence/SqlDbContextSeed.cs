@@ -17,7 +17,7 @@ public class SqlDbContextSeed
      // int projectCount = 5;
      //int plansPerProject = 3;
      //int doorsPerPlan = 10;
-     int rolesPerProject = 2;
+     int rolesPerProject = 3;
         if (context.ProjectRoles.Any())
         {
             Console.WriteLine("Data already exists. Skipping seeding process.");

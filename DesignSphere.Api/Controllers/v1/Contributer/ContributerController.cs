@@ -49,4 +49,12 @@ public class ContributerController : BaseApiController
     {
         return await Mediator.Send(request);
     }
+
+    [HttpPost("RemoveProjectContributer")]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ApiResponse), (int)HttpStatusCode.OK)]
+    public async Task<ApiResponse> RemoveProjectContributer([FromQuery] RemoveProjectContributerRequest request)
+    {
+        return await Mediator.Send(request);
+    }
 }
