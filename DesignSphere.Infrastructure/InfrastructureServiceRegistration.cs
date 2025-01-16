@@ -1,4 +1,6 @@
 ﻿using DesignSphere.Application.Contracts;
+using DesignSphere.Application.Contracts.Services;
+
 //using DesignSphere.Application.Contracts.Services;
 using DesignSphere.Domain.Entites;
 using DesignSphere.Infrastructure.Persistence;
@@ -31,6 +33,7 @@ public static class InfrastructureServiceRegistration
         services.AddScoped<ISieveProcessor, SieveProcessor>();
         services.AddScoped<IContactRepository, ContactRepository>();
         services.AddScoped<IProjectRoleRepository, ProjectRoleRepository>();
+        services.AddScoped<IEmailService, EmailService>();
 
         services.AddMailing(configuration);
 

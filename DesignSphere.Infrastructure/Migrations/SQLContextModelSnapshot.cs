@@ -689,6 +689,8 @@ namespace DesignSphere.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ContactId");
+
                     b.HasIndex("ProjectId");
 
                     b.HasIndex("ProjectRoleId");
@@ -1248,17 +1250,29 @@ namespace DesignSphere.Infrastructure.Migrations
 
             modelBuilder.Entity("DesignSphere.Domain.Entites.ProjectContributer", b =>
                 {
-                    b.HasOne("DesignSphere.Domain.Entites.Project", null)
+                    b.HasOne("DesignSphere.Domain.Entites.Contact", "Contact")
+                        .WithMany()
+                        .HasForeignKey("ContactId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DesignSphere.Domain.Entites.Project", "Project")
                         .WithMany("ProjectContributers")
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DesignSphere.Domain.Entites.ProjectRole", null)
+                    b.HasOne("DesignSphere.Domain.Entites.ProjectRole", "ProjectRole")
                         .WithMany("ProjectContributers")
                         .HasForeignKey("ProjectRoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Contact");
+
+                    b.Navigation("Project");
+
+                    b.Navigation("ProjectRole");
                 });
 
             modelBuilder.Entity("DesignSphere.Domain.Entites.ProjectLabel", b =>
