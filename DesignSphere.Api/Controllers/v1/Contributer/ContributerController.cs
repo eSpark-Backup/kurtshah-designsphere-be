@@ -37,7 +37,7 @@ public class ContributerController : BaseApiController
     [HttpGet("IsContributerExist")]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
-    public async Task<bool> IsContributerExist([FromBody] IsContributerExistRequest request)
+    public async Task<bool> IsContributerExist([FromQuery] IsContributerExistRequest request)
     {
         return await Mediator.Send(request);
     }
