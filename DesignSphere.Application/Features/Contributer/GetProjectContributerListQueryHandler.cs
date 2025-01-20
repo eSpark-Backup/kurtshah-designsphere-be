@@ -20,6 +20,9 @@ public class GetContributerQueryResult : EntityBase, IProjectContributer
 
     public bool IsContributerRemoved { get; set ; }
 
+    public string Email { get; set; }
+
+
 }
 
 public class GetContributerQueryRequest : SieveModel, IRequest<PagedResponseOffset<GetContributerQueryResult>>
