@@ -42,7 +42,7 @@ namespace DesignSphere.Application.Mappings
 
             CreateMap<ProjectContributer, GetContributerQueryResult>()
               .ForMember(dest => dest.ContactName, opt => opt.MapFrom(src => src.Contact.Name))
-              .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Contact.Name))
+              .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Contact.EmailAddress))
              .ForMember(dest => dest.ProjectRoleName, opt => opt.MapFrom(src => src.ProjectRole.Name));
 
             CreateMap<ProjectPlan, GetProjectPlansQueryResult>().ReverseMap();
