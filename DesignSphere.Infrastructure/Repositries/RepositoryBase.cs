@@ -93,12 +93,15 @@ public class RepositoryBase<T> : IAsyncRepository<T> where T : EntityBase
 
         var query = dbContext.Set<T>().AsQueryable();
 
-        if (typeof(T).GetProperty("IsDeleted") != null)
+        var commonFields = new List<string> { "IsDeleted", "IsContributerRemoved" };
+
+        foreach (var field in commonFields)
         {
-            query = query.Where(x => EF.Property<bool>(x, "IsDeleted") == false);
+            if (typeof(T).GetProperty(field) != null)
+            {
+                query = query.Where(x => EF.Property<bool>(x, field) == false);
+            }
         }
-
-
 
         if (!string.IsNullOrEmpty(includeProperties))
         {

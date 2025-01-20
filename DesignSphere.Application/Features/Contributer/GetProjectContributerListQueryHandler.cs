@@ -55,7 +55,7 @@ public class GetProjectContributerListQueryHandler : IRequestHandler<GetContribu
         };
 
         var projectContributer = await _repository.GetFilteredAsync(sieveModel, includeProperties: "Contact,ProjectRole");
-
+       
         var result = new PagedResponseOffset<GetContributerQueryResult>(
     _mapper.Map<List<GetContributerQueryResult>>(projectContributer.Data),
     projectContributer.PageNumber,
