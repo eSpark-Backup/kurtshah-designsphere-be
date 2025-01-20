@@ -44,7 +44,7 @@ public class GetProjectContributerListQueryHandler : IRequestHandler<GetContribu
 
     public async Task<PagedResponseOffset<GetContributerQueryResult>> Handle(GetContributerQueryRequest request, CancellationToken cancellationToken)
     {
-        var projectFilter = $"ProjectId=={request.ProjectId}";
+        var projectFilter = $"ProjectId=={request.ProjectId},IsContributerRemoved==false";
 
         var sieveModel = new SieveModel
         {
