@@ -51,13 +51,13 @@ public class GetProjectContributerListQueryHandler : IRequestHandler<GetContribu
             PageSize = request.PageSize
         };
 
-        var projects = await _repository.GetFilteredAsync(sieveModel);
+        var projectContributer = await _repository.GetFilteredAsync(sieveModel, includeProperties: "Contact,ProjectRole");
 
         var result = new PagedResponseOffset<GetContributerQueryResult>(
-    _mapper.Map<List<GetContributerQueryResult>>(projects.Data),
-    projects.PageNumber,
-    projects.PageSize,
-    projects.TotalRecords
+    _mapper.Map<List<GetContributerQueryResult>>(projectContributer.Data),
+    projectContributer.PageNumber,
+    projectContributer.PageSize,
+    projectContributer.TotalRecords
 );
 
         return result;

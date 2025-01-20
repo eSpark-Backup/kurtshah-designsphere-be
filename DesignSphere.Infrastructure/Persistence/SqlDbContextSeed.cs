@@ -18,6 +18,8 @@ public class SqlDbContextSeed
      //int plansPerProject = 3;
      //int doorsPerPlan = 10;
      int rolesPerProject = 3;
+
+
         if (context.ProjectRoles.Any())
         {
             Console.WriteLine("Data already exists. Skipping seeding process.");
@@ -62,15 +64,19 @@ public class SqlDbContextSeed
         //    .RuleFor(d => d.DoorMaterial, f => f.PickRandom<EDoorMaterial>())
         //    .RuleFor(d => d.FrameMaterial, f => f.PickRandom<EDoorFrameMaterial>());
 
-        var projectRoleFaker = new Faker<ProjectRole>()
-            .RuleFor(pr => pr.Name, f => f.PickRandom("Owner", "Developer","Viewer"));
+        var projectRoles = new[]
+          {
+                new ProjectRole { Name = "Owner" },
+                new ProjectRole { Name = "Developer" },
+                new ProjectRole { Name = "Viewer" }
+            };
 
-        var projectRoles = projectRoleFaker.Generate(rolesPerProject);
-        foreach (var roles in projectRoles)
+        foreach (var role in projectRoles)
         {
-            context.ProjectRoles.Add(roles);
-
+            context.ProjectRoles.Add(role);
         }
+
+
         // Generate mock data
         //var projects = projectFaker.Generate(projectCount);
 

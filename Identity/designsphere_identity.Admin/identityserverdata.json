@@ -89,6 +89,7 @@
         "UserClaims": [
           "role",
           "name",
+          "email",
           "fullname",
           "companyname"
         ]

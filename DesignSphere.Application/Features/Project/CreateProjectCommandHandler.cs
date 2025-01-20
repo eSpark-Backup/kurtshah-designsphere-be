@@ -38,6 +38,8 @@ public class CreateProjectCommandHandler : IRequestHandler<CreateProjectCommandR
         this.repository = repository;
         _userService = userService;
         _contributerRepository = contributerRepository;
+        _contactRepository = contactRepository;
+        _projectRoleRepository = projectRoleRepository;
     }
 
 
