@@ -384,3 +384,18 @@ public class ConversationDetail //: IConversationDetail
     public string? Reference { get; set; }
 
 }
+
+public class TestDoorEntity
+{
+    public int Id { get; set; }
+    public string ProjectName { get; set; }
+    public string FileName { get; set; }
+    public string DoorId { get; set; }
+    public string DoorType { get; set; }
+    public string FloorName { get; set; }
+    public string DoorWidth { get; set; }
+    public string DoorHeight { get; set; }
+    public double LocationX { get; set; }
+    public double LocationY { get; set; }
+    public double LocationZ { get; set; }
+}

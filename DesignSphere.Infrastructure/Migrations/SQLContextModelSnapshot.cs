@@ -1076,6 +1076,56 @@ namespace DesignSphere.Infrastructure.Migrations
                     b.ToTable("TaskDetail");
                 });
 
+            modelBuilder.Entity("DesignSphere.Domain.Entites.TestDoorEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("DoorHeight")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("DoorId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("DoorType")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("DoorWidth")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("FloorName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<double>("LocationX")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("LocationY")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("LocationZ")
+                        .HasColumnType("double precision");
+
+                    b.Property<string>("ProjectName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TestDoorPlans");
+                });
+
             modelBuilder.Entity("DesignSphere.Domain.Entites.UserComnpany", b =>
                 {
                     b.Property<byte[]>("Id")
