@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using Skoruba.IdentityServer4.Shared.Configuration.Helpers;
@@ -89,6 +90,19 @@ public class Program
             {
                 webBuilder.ConfigureKestrel(options => options.AddServerHeader = false);
                 webBuilder.UseStartup<Startup>();
+            })
+            .ConfigureServices((hostContext, services) =>
+            {
+                // Add CORS policy
+                services.AddCors(options =>
+                {
+                    options.AddPolicy("AllowLocalhost", builder =>
+                    {
+                        builder.WithOrigins("https://localhost:3000", "http://localhost:8080") // Your allowed origin
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                    });
+                });
             })
             .UseSerilog((context, services, configuration) =>
             configuration.ReadFrom.Configuration(context.Configuration)

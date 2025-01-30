@@ -2,7 +2,6 @@
 using AutoWrapper.Wrappers;
 using BuildingBlocks.Common.Models;
 using DesignSphere.Application.Features.Contact;
-using DesignSphere.Application.Features.Contributer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;

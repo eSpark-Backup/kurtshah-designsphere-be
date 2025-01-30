@@ -8,10 +8,23 @@ using BuildingBlocks.Common.Services;
 using Microsoft.AspNetCore.Authentication;
 using BuildingBlocks.Common.Filters;
 using Microsoft.EntityFrameworkCore;
+using DesignSphere.Application.Hubs;
+using Microsoft.AspNetCore.Http.Connections;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 IConfiguration configuration = builder.Services.BuildServiceProvider().GetService<IConfiguration>();
+
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = configuration.GetValue<string>("CacheSettings:ConnectionString");
+    options.InstanceName = "DesignSphereInstance";
+});
+
+
+builder.Services.AddSignalR();
+
 builder.Services.AddControllers();
 
 builder.Host.UseSerilog(SeriLogger.Configure);
@@ -69,4 +82,16 @@ app.UseCors();
 app.UseAuthorization();
 app.MapControllers();
 
+//app.UseMiddleware<BuildingBlocks.Common.Infrastructure.CustomTokenRetriever>();
+
+
+app.MapHub<SecuredHub>("/Secured/Hub", options =>
+{
+    options.Transports = HttpTransportType.WebSockets | HttpTransportType.LongPolling | HttpTransportType.ServerSentEvents;
+});
+
 app.Run();
+
+
+
+

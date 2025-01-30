@@ -58,6 +58,17 @@ public class Startup
         // Add HSTS options
         RegisterHstsOptions(services);
 
+        services.AddCors(options =>
+        {
+            options.AddPolicy("AllowLocalhost", builder =>
+            {
+                builder.WithOrigins("https://localhost:3000", "http://localhost:8080") // The allowed origin for your front-end app
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+
+
+            });
+        });
         // Add all dependencies for Asp.Net Core Identity in MVC - these dependencies are injected into generic Controllers
         // Including settings for MVC and Localization
         // If you want to change primary keys or use another db model for Asp.Net Core Identity:
@@ -98,6 +109,8 @@ public class Startup
 
         app.UseSerilogRequestLogging(options =>
         {
+            app.UseCors("AllowLocalhost");
+
             // Customize the message template
             //options.MessageTemplate = "Handled {RequestPath}";
 
