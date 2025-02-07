@@ -1,14 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <RevitAddIns>
-    <AddIn Type="Command">
-        <Name>RevitSyncFramework</Name>
-		<Description> Floor Door Plan</Description>
-		<Text> Sync Plan</Text>
-        <Assembly>"C:\otherproject\eSpark-Consultants\RevitSyncFramework\bin\Debug\RevitSyncFramework.dll"</Assembly>
-        <AddInId>YOUR-ADDIN-ID-HERE</AddInId>
-        <FullClassName>RevitSyncFramework.Commands.SyncDoorDataCommand</FullClassName>
-        <VendorId>YourVendorId</VendorId>
-		<AddInId>502fe383-2648-4e98-adf8-5e6047f9dc34</AddInId>
-        <VendorDescription>Your Vendor Description</VendorDescription>
-    </AddIn>
+	<AddIn Type="Application">
+		<Name>RevitSyncFramework</Name>
+		<Assembly>"C:\otherproject\eSpark-Consultants\RevitSyncFramework\bin\Debug\net8.0-windows\RevitSyncFramework.dll"</Assembly>
+		<AddInId>12345678-1234-1234-1234-123456789012</AddInId>
+		<FullClassName>RevitSyncFramework.Application.App</FullClassName>
+		<VendorId>YourVendorId</VendorId>
+		<VendorDescription>Your Company</VendorDescription>
+		<Description>Revit Sync Framework</Description>
+	</AddIn>
+	<!--<AddIn Type="Command">
+		<Name>SyncDoorDataCommand</Name>
+		<Assembly>"C:\otherproject\eSpark-Consultants\RevitSyncFramework\bin\Debug\RevitSyncFramework.dll"</Assembly>
+		<AddInId>12345678-1234-1234-1234-123456789012</AddInId>
+		<FullClassName>RevitSyncFramework.Commands.SyncDoorDataCommand</FullClassName>
+		<VendorId>YourVendorId</VendorId>
+		<VendorDescription>Your Company</VendorDescription>
+		<Description>Sync Door Data Command</Description>
+	</AddIn>-->
 </RevitAddIns>
