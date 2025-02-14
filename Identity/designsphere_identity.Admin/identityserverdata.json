@@ -197,7 +197,34 @@
           "ds_mainapiscope",
           "IdentityServerApi"
         ]
+      },
+      {
+        "ClientId": "wpf_plugin_client",
+        "ClientName": "wpfpluginclient",
+        "DeviceFlowAllowed": true,
+        "AllowedGrantTypes": [
+          "urn:ietf:params:oauth:grant-type:device_code"
+        ],
+
+        "ClientSecrets": [
+          {
+            "Value": "mysecret"
+          }
+        ],
+        "AllowedScopes": [
+          "openid",
+          "profile"
+        ],
+        "AllowedCorsOrigins": [
+          "https://localhost"
+        ]
       }
     ]
   }
 }
+
+
+
+
+
+

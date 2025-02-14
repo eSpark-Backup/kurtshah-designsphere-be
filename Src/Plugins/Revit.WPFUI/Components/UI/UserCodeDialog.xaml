@@ -1,0 +1,23 @@
+﻿<Window x:Class="Revit.WPFUI.Components.UI.UserCodeDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Device Flow Authentication" Height="200" Width="400">
+    <Grid>
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top" Margin="20">
+            Please visit the URL below and enter the user code:
+        </TextBlock>
+
+        <!-- Display Verification URL -->
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20,40,20,0">
+            Verification URL: <TextBlock Foreground="Blue" TextDecorations="Underline" Cursor="Hand" 
+                                         Text="{Binding VerificationUri}" 
+                                         MouseLeftButtonUp="VerificationUri_MouseLeftButtonUp"/>
+        </TextBlock>
+
+        <!-- Display the User Code -->
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="20,0,20,40">
+            User Code: <TextBlock FontWeight="Bold" Text="{Binding UserCode}"/>
+        </TextBlock>
+
+    </Grid>
+</Window>
