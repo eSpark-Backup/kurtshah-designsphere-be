@@ -18,6 +18,8 @@
         <TextBlock HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="20,0,20,40">
             User Code: <TextBlock FontWeight="Bold" Text="{Binding UserCode}"/>
         </TextBlock>
-
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,149,0,0">
+         Close Dialog after Entering credentials on browser <TextBlock/>
+</TextBlock>
     </Grid>
 </Window>

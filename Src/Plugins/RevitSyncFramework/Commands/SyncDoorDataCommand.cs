@@ -60,20 +60,22 @@ namespace RevitSyncFramework.Commands
             var jsonRequestData = JsonConvert.SerializeObject(requestData);
 
             // Send the data to the API
-            var apiService = new ApiService();
-            var result = apiService.SendDoorData(jsonRequestData);
+            using (var httpClient = new HttpClient())
+            {
+                var apiService = new ApiService(httpClient);
+                var result = apiService.SendDoorDataAsync(jsonRequestData).Result;
 
-            if (result)
-            {
-                TaskDialog.Show("Success", "Door data sent successfully!");
-                return Result.Succeeded;
-            }
-            else
-            {
-                TaskDialog.Show("Error", "Failed to send door data.");
-                return Result.Failed;
+                if (result)
+                {
+                    TaskDialog.Show("Success", "Door data sent successfully!");
+                    return Result.Succeeded;
+                }
+                else
+                {
+                    TaskDialog.Show("Error", "Failed to send door data.");
+                    return Result.Failed;
+                }
             }
         }
     }
 }
-

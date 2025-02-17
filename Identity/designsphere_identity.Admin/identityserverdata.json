@@ -213,7 +213,9 @@
         ],
         "AllowedScopes": [
           "openid",
-          "profile"
+          "profile",
+          "ds_mainapiscope",
+          "IdentityServerApi"
         ],
         "AllowedCorsOrigins": [
           "https://localhost"

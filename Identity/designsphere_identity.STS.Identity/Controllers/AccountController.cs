@@ -23,6 +23,11 @@ using designsphere_identity.STS.Identity.Configuration;
 using designsphere_identity.STS.Identity.Helpers;
 using designsphere_identity.STS.Identity.Helpers.Localization;
 using designsphere_identity.STS.Identity.ViewModels.Account;
+using IdentityModel.Client;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Collections.Generic;
+using System.Web;
 
 namespace designsphere_identity.STS.Identity.Controllers;
 
@@ -96,45 +101,49 @@ public class AccountController<TUser, TKey> : Controller
         return View(vm);
     }
 
-    /// <summary>
-    /// Handle postback from username/password login
-    /// </summary>
     [HttpPost]
     [AllowAnonymous]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Login(LoginInputModel model, string button)
     {
-        // check if we are in the context of an authorization request
+        // Check if we're in the context of an authorization request
         var context = await _interaction.GetAuthorizationContextAsync(model.ReturnUrl);
 
-        // the user clicked the "cancel" button
+        // If the user clicked "cancel", deny the authorization and redirect
         if (button != "login")
         {
             if (context != null)
             {
-                // if the user cancels, send a result back into IdentityServer as if they
-                // denied the consent (even if this client does not require consent).
-                // this will send back an access denied OIDC error response to the client.
                 await _interaction.DenyAuthorizationAsync(context, AuthorizationError.AccessDenied);
 
-                // we can trust model.ReturnUrl since GetAuthorizationContextAsync returned non-null
                 if (context.IsNativeClient())
                 {
-                    // The client is native, so this change in how to
-                    // return the response is for better UX for the end user.
                     return this.LoadingPage("Redirect", model.ReturnUrl);
                 }
 
                 return Redirect(model.ReturnUrl);
             }
 
-            // since we don't have a valid context, then we just go back to the home page
             return Redirect("~/");
         }
 
         if (ModelState.IsValid)
         {
-            var user = await _userResolver.GetUserAsync(model.Username);
+            TUser user = null;
+
+            // Check if the entered username is an email address
+            if (IsValidEmail(model.Username))
+            {
+                // If it's an email, resolve user by email
+                user = await _userManager.FindByEmailAsync(model.Username);
+            }
+            else
+            {
+                // Otherwise, resolve user by username
+                user = await _userResolver.GetUserAsync(model.Username);
+            }
+
+            // Check if the user exists and then attempt to sign them in
             if (user != default(TUser))
             {
                 var result = await _signInManager.PasswordSignInAsync(user.UserName, model.Password, model.RememberLogin, lockoutOnFailure: true);
@@ -146,16 +155,12 @@ public class AccountController<TUser, TKey> : Controller
                     {
                         if (context.IsNativeClient())
                         {
-                            // The client is native, so this change in how to
-                            // return the response is for better UX for the end user.
                             return this.LoadingPage("Redirect", model.ReturnUrl);
                         }
 
-                        // we can trust model.ReturnUrl since GetAuthorizationContextAsync returned non-null
                         return Redirect(model.ReturnUrl);
                     }
 
-                    // request for a local page
                     if (Url.IsLocalUrl(model.ReturnUrl))
                     {
                         return Redirect(model.ReturnUrl);
@@ -166,7 +171,7 @@ public class AccountController<TUser, TKey> : Controller
                         return Redirect("~/");
                     }
 
-                    // user might have clicked on a malicious link - should be logged
+                    // Handle malicious URL
                     throw new Exception("invalid return URL");
                 }
 
@@ -180,11 +185,13 @@ public class AccountController<TUser, TKey> : Controller
                     return View("Lockout");
                 }
             }
+
+            // If authentication fails, raise a failure event and return the login form with an error
             await _events.RaiseAsync(new UserLoginFailureEvent(model.Username, "invalid credentials", clientId: context?.Client.ClientId));
             ModelState.AddModelError(string.Empty, AccountOptions.InvalidCredentialsErrorMessage);
         }
 
-        // something went wrong, show form with error
+        // If something went wrong, show the login form with error
         var vm = await BuildLoginViewModelAsync(model);
         return View(vm);
     }
@@ -816,5 +823,19 @@ public class AccountController<TUser, TKey> : Controller
         }
 
         return vm;
+    }
+
+    // Helper method to check if a string is a valid email address
+    private bool IsValidEmail(string email)
+    {
+        try
+        {
+            var addr = new System.Net.Mail.MailAddress(email);
+            return addr.Address == email;
+        }
+        catch
+        {
+            return false;
+        }
     }
 }

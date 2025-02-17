@@ -1,5 +1,6 @@
 ﻿using Autodesk.Revit.UI;
 using System;
+using System.IO;
 using System.Reflection;
 using System.Windows.Media.Imaging;
 
@@ -23,8 +24,14 @@ namespace RevitSyncFramework.Application
             // Add "Send" button to Data panel
             AddPushButton(dataPanel, "SyncDoorData", "Send",
                 "RevitSyncFramework.Commands.SyncDoorDataCommand",
-                "C:\\otherproject\\eSpark-Consultants\\RevitSyncFramework\\Resources\\send_image.png",
+                "Resources/send_image.png",
                 "Sync door data with external API");
+
+            // Add "Receive" button to Data panel
+            AddPushButton(dataPanel, "ReceiveDoorData", "Retrieve",
+                "RevitSyncFramework.Commands.ReceiveProjectCommand",
+                "Resources/retrieve_image.png",
+                "Retrieve Projects");
 
             // Create the General panel
             RibbonPanel generalPanel = application.CreateRibbonPanel(tabName, generalPanelName);
@@ -32,7 +39,7 @@ namespace RevitSyncFramework.Application
             // Add "Account" button to General panel
             AddPushButton(generalPanel, "AccountSettings", "Account",
                 "RevitSyncFramework.Commands.AccountCommand",
-                "C:\\otherproject\\eSpark-Consultants\\RevitSyncFramework\\Resources\\account_general.png",
+                "Resources/account_general.png",
                 "Manage account settings");
 
             return Result.Succeeded;
@@ -43,9 +50,10 @@ namespace RevitSyncFramework.Application
             return Result.Succeeded;
         }
 
-        private void AddPushButton(RibbonPanel panel, string name, string text, string commandNamespace, string imagePath, string tooltip)
+        private void AddPushButton(RibbonPanel panel, string name, string text, string commandNamespace, string imageName, string tooltip)
         {
             string assemblyPath = Assembly.GetExecutingAssembly().Location;
+            string imagePath = Path.Combine(Path.GetDirectoryName(assemblyPath), imageName);
 
             PushButtonData buttonData = new PushButtonData(name, text, assemblyPath, commandNamespace)
             {
@@ -67,3 +75,4 @@ namespace RevitSyncFramework.Application
         }
     }
 }
+

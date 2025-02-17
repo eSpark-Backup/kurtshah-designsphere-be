@@ -1,9 +1,8 @@
-﻿using System;
-using System.ComponentModel;
-using System.Net.Http;
+﻿using System.ComponentModel;
 using System.Windows;
-using Newtonsoft.Json.Linq;
-using IdentityModel.Client;
+using Newtonsoft.Json;
+using System.Text;
+using Revit.WPFUI.Helpers;
 
 namespace Revit.WPFUI.Components.UI
 {
@@ -41,30 +40,44 @@ namespace Revit.WPFUI.Components.UI
             GetUserInfoAsync(); // Fetch user info based on the access token
         }
 
-        // Fetch user information using the access token
-        private async void GetUserInfoAsync()
+        private void GetUserInfoAsync()
         {
             try
             {
-                var client = new HttpClient();
-                client.SetBearerToken(AccessToken);  // Set Authorization header with the access token
+                // Decode the JWT token
+                var parts = AccessToken.Split('.');
+                if (parts.Length == 3)
+                {
+                    var payload = parts[1];
+                    var json = TokenHelper.Base64UrlDecode(payload);
 
-                // Make a request to the user info endpoint to fetch user details (e.g., name)
-                var response = await client.GetStringAsync("https://localhost:44310/connect/userinfo");
+                    // Deserialize the payload into a dictionary
+                    var jsonObject = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
 
-                // Parse the response JSON (assuming it returns user information like name)
-                var userInfo = JObject.Parse(response);
-                UserName = userInfo["name"]?.ToString();  // Set the UserName property
-
-                // Set a custom message for success or authentication
-                Message = $"User logged in successfully: {UserName}";
+                    // Extract the "fullname" claim
+                    if (jsonObject.ContainsKey("fullname"))
+                    {
+                        UserName = jsonObject["fullname"].ToString();  // Set the UserName property
+                        Message = $"User logged in successfully: {UserName}";
+                    }
+                    else
+                    {
+                        Message = "Invalid token.";
+                    }
+                }
+                else
+                {
+                    Message = "Invalid token format.";
+                }
             }
             catch (Exception ex)
             {
-                Message = "Error fetching user info.";
-                Console.WriteLine($"Error fetching user info: {ex.Message}");
+                Message = "Error decoding token.";
+                Console.WriteLine($"Error decoding token: {ex.Message}");
             }
         }
+
+   
 
         // Implement INotifyPropertyChanged to notify UI of property changes
         public event PropertyChangedEventHandler PropertyChanged;

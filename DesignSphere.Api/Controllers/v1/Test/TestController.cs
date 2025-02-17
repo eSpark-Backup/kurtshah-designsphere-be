@@ -23,7 +23,6 @@ public class TestController : BaseApiController
     }
 
     [HttpPost("SaveDoorData")]
-    [AllowAnonymous]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ApiResponse), (int)HttpStatusCode.OK)]
     public async Task<ApiResponse> SaveDoorData([FromBody] RequestDto requestDto)
