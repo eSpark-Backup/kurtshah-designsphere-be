@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RevitAddIns>
+	<AddIn Type="Application">
+		<Name>DesignSphere</Name>
+		<Assembly>C:\otherproject\eSpark-Consultants\kurtshah-designsphere-be\Src\Plugins\Revit\bin\Debug\revit.dll</Assembly>
+		<AddInId>C816F98F-7932-4875-939D-E07CC35029D3</AddInId>
+		<FullClassName>Revit.Main</FullClassName>
+		<VendorId>YourVendorId</VendorId>
+		<VendorDescription>Your Company</VendorDescription>
+		<Description>Revit Sync Framework</Description>
+	</AddIn>
+</RevitAddIns>
