@@ -22,6 +22,31 @@ namespace designsphere_identity.Admin.EntityFramework.PostgreSQL.Migrations.Iden
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("designsphere_identity.Admin.EntityFramework.Shared.Entities.Application.Organization", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<string>("AdminUserId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ConnectionString")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Domain")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Organization");
+                });
+
             modelBuilder.Entity("designsphere_identity.Admin.EntityFramework.Shared.Entities.Identity.UserIdentity", b =>
                 {
                     b.Property<string>("Id")
@@ -67,6 +92,9 @@ namespace designsphere_identity.Admin.EntityFramework.PostgreSQL.Migrations.Iden
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
 
+                    b.Property<string>("OrganizationId")
+                        .HasColumnType("text");
+
                     b.Property<string>("PasswordHash")
                         .HasColumnType("text");
 
@@ -100,6 +128,8 @@ namespace designsphere_identity.Admin.EntityFramework.PostgreSQL.Migrations.Iden
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
+
+                    b.HasIndex("OrganizationId");
 
                     b.ToTable("Users", (string)null);
                 });
@@ -236,6 +266,15 @@ namespace designsphere_identity.Admin.EntityFramework.PostgreSQL.Migrations.Iden
                     b.ToTable("UserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("designsphere_identity.Admin.EntityFramework.Shared.Entities.Identity.UserIdentity", b =>
+                {
+                    b.HasOne("designsphere_identity.Admin.EntityFramework.Shared.Entities.Application.Organization", "Organization")
+                        .WithMany("Users")
+                        .HasForeignKey("OrganizationId");
+
+                    b.Navigation("Organization");
+                });
+
             modelBuilder.Entity("designsphere_identity.Admin.EntityFramework.Shared.Entities.Identity.UserIdentityRoleClaim", b =>
                 {
                     b.HasOne("designsphere_identity.Admin.EntityFramework.Shared.Entities.Identity.UserIdentityRole", null)
@@ -285,6 +324,11 @@ namespace designsphere_identity.Admin.EntityFramework.PostgreSQL.Migrations.Iden
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("designsphere_identity.Admin.EntityFramework.Shared.Entities.Application.Organization", b =>
+                {
+                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }

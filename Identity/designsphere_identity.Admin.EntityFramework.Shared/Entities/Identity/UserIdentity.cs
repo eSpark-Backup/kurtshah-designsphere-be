@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
 using designsphere_identity.Admin.EntityFramework.Shared.Entities.Application.Enums;
+using designsphere_identity.Admin.EntityFramework.Shared.Entities.Application;
 
-namespace designsphere_identity.Admin.EntityFramework.Shared.Entities.Identity; 
+namespace designsphere_identity.Admin.EntityFramework.Shared.Entities.Identity;
 public interface IAppUserExtention
 {
     string FirstName { get; set; }
@@ -19,6 +20,6 @@ public class UserIdentity : IdentityUser, IAppUserExtention
     public string LastName { get; set; } = string.Empty;
     public string ProfilePictureUrl { get; set; } = string.Empty;
     public bool? NewsLetterSubscription { get; set; }
-  
-
+    public string OrganizationId { get; set; }
+    public Organization Organization { get; set; }
 }

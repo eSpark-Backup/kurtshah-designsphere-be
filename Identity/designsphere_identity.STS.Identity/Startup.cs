@@ -26,6 +26,7 @@ using designsphere_identity.STS.Identity.CustomGrants.Repository;
 using designsphere_identity.STS.Identity.CustomGrants.Repository.Contracts;
 using designsphere_identity.STS.Identity.CustomGrants.Services;
 using designsphere_identity.STS.Identity.Helpers;
+using designsphere_identity.STS.Identity.Middlewares;
 
 namespace designsphere_identity.STS.Identity;
 
@@ -216,6 +217,7 @@ public class Startup
     public virtual void UseAuthentication(IApplicationBuilder app)
     {
         IdentityModelEventSource.ShowPII = true;
+        //app.UseMiddleware<TenantMiddleware>();
         app.UseIdentityServer();
     }
 
