@@ -13,6 +13,7 @@ public class MylocalContext : DbContext
         //AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
     }
     public DbSet<Organization> Organizations { get; set; }
+    public DbSet<OrganizationConfiguration> OrganizationConfigurations { get; set; }
     public DbSet<ExUserIdentity> ExUserIdentities { get; set; }
     public DbSet<UserDetail> UserDetails { get; set; }
     public DbSet<UserDetailLog> UserDetailLogs { get; set; }

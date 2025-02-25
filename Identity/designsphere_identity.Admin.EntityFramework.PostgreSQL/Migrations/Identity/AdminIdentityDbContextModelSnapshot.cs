@@ -24,27 +24,89 @@ namespace designsphere_identity.Admin.EntityFramework.PostgreSQL.Migrations.Iden
 
             modelBuilder.Entity("designsphere_identity.Admin.EntityFramework.Shared.Entities.Application.Organization", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("AuthConnectionString")
                         .HasColumnType("text");
 
-                    b.Property<string>("AdminUserId")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ConnectionString")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("CreatedAt")
+                    b.Property<DateTime>("CreationTime")
                         .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("CreatorId")
+                        .HasColumnType("text");
 
                     b.Property<string>("Domain")
                         .HasColumnType("text");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("LastmodificationTime")
+                        .HasColumnType("timestamp without time zone");
+
                     b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ResourceConnectionString")
+                        .HasColumnType("text");
+
+                    b.Property<string>("SubDomain")
+                        .HasColumnType("text");
+
+                    b.Property<string>("SupportEmailAddress")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Website")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
                     b.ToTable("Organization");
+                });
+
+            modelBuilder.Entity("designsphere_identity.Admin.EntityFramework.Shared.Entities.Application.OrganizationConfiguration", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ConfigKey")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ConfigType")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ConfigValue")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("CreatorId")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("LastmodificationTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid>("OrganizationId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrganizationId");
+
+                    b.ToTable("OrganizationConfiguration");
                 });
 
             modelBuilder.Entity("designsphere_identity.Admin.EntityFramework.Shared.Entities.Identity.UserIdentity", b =>
@@ -92,8 +154,8 @@ namespace designsphere_identity.Admin.EntityFramework.PostgreSQL.Migrations.Iden
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
 
-                    b.Property<string>("OrganizationId")
-                        .HasColumnType("text");
+                    b.Property<Guid>("OrganizationId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("PasswordHash")
                         .HasColumnType("text");
@@ -266,11 +328,22 @@ namespace designsphere_identity.Admin.EntityFramework.PostgreSQL.Migrations.Iden
                     b.ToTable("UserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("designsphere_identity.Admin.EntityFramework.Shared.Entities.Application.OrganizationConfiguration", b =>
+                {
+                    b.HasOne("designsphere_identity.Admin.EntityFramework.Shared.Entities.Application.Organization", null)
+                        .WithMany("OrganizationConfigurations")
+                        .HasForeignKey("OrganizationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("designsphere_identity.Admin.EntityFramework.Shared.Entities.Identity.UserIdentity", b =>
                 {
                     b.HasOne("designsphere_identity.Admin.EntityFramework.Shared.Entities.Application.Organization", "Organization")
                         .WithMany("Users")
-                        .HasForeignKey("OrganizationId");
+                        .HasForeignKey("OrganizationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Organization");
                 });
@@ -328,6 +401,8 @@ namespace designsphere_identity.Admin.EntityFramework.PostgreSQL.Migrations.Iden
 
             modelBuilder.Entity("designsphere_identity.Admin.EntityFramework.Shared.Entities.Application.Organization", b =>
                 {
+                    b.Navigation("OrganizationConfigurations");
+
                     b.Navigation("Users");
                 });
 #pragma warning restore 612, 618

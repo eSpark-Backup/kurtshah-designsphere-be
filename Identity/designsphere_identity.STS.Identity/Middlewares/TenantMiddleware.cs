@@ -2,6 +2,7 @@
 using designsphere_identity.STS.Identity.CustomGrants.Persistance;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -26,12 +27,12 @@ public class TenantMiddleware
         if (!string.IsNullOrEmpty(tenantIdentifier))
         {
             var organization = await _globalDbContext.Organizations
-                .FirstOrDefaultAsync(o => o.Domain == tenantIdentifier || o.Id == tenantIdentifier);
+                .FirstOrDefaultAsync(o => o.Domain == tenantIdentifier || o.Id == Guid.Parse(tenantIdentifier));
 
             if (organization != null)
             {
                 context.Items["Tenant"] = organization.Id;
-                context.Items["ConnectionString"] = organization.ConnectionString;
+                context.Items["ConnectionString"] = organization.AuthConnectionString;
             }
         }
 
