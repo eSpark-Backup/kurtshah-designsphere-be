@@ -1,0 +1,31 @@
+﻿@page
+@model CreateModel
+@{
+    ViewData["Title"] = "Create Organization";
+}
+
+<h2>Create Organization</h2>
+
+<form method="post">
+    <div class="form-group">
+        <label asp-for="Organization.Name"></label>
+        <input asp-for="Organization.Name" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Organization.Domain"></label>
+        <input asp-for="Organization.Domain" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Organization.SubDomain"></label>
+        <input asp-for="Organization.SubDomain" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Organization.Website"></label>
+        <input asp-for="Organization.Website" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Organization.SupportEmailAddress"></label>
+        <input asp-for="Organization.SupportEmailAddress" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>

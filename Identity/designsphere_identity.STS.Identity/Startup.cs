@@ -192,6 +192,7 @@ public class Startup
         services.AddScoped(typeof(IUserDetailRepository), typeof(UserDetailRepository));
         services.AddScoped(typeof(IExExUserIdentityRepository), typeof(ExExUserIdentityRepository));
         services.AddScoped(typeof(IDeviceRepository), typeof(DeviceRepository));
+        services.AddScoped(typeof(IOrganizationRepository), typeof(OrganizationRepository));
 
         services.Configure<OTPConfig>(Configuration.GetSection("OTPConfig"));
         services.AddSingleton<IOTPConfig>(serviceProvider => serviceProvider.GetRequiredService<IOptions<OTPConfig>>().Value);

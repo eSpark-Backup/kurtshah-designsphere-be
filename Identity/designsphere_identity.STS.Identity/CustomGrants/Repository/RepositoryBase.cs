@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using designsphere_identity.Admin.EntityFramework.Shared.Entities.Application;
 using designsphere_identity.STS.Identity.CustomGrants.Persistance;
 using designsphere_identity.STS.Identity.CustomGrants.Repository.Contracts;
+using IdentityModel;
 
 namespace designsphere_identity.STS.Identity.CustomGrants.Repository;
 
@@ -61,6 +62,11 @@ public class RepositoryBase<T> : IAsyncRepository<T> where T : EntityBase
     {
         return await dbContext.Set<T>().FindAsync(id);
     }
+    public virtual async Task<T> GetByIdAsync(Guid id, Expression<Func<T, bool>> predicate = null)
+    {
+        return await dbContext.Set<T>().Where(predicate)
+            .FirstOrDefaultAsync(x=> x.Id == id);
+    }
 
     public async Task<T> AddAsync(T entity)
     {
@@ -69,10 +75,10 @@ public class RepositoryBase<T> : IAsyncRepository<T> where T : EntityBase
         return entity;
     }
 
-    public async Task UpdateAsync(T entity)
+    public async Task<bool> UpdateAsync(T entity)
     {
         dbContext.Entry(entity).State = EntityState.Modified;
-        await dbContext.SaveChangesAsync();
+        return await dbContext.SaveChangesAsync() > 0;
     }
 
     public async Task DeleteAsync(T entity)
@@ -86,5 +92,13 @@ public class RepositoryBase<T> : IAsyncRepository<T> where T : EntityBase
         var data = dbContext.Set<T>().FindAsync(id);
         dbContext.Set<T>().Remove(data.Result);
         await dbContext.SaveChangesAsync();
+    }
+    public async Task<bool> SoftDeleteByIdAsync(Guid id)
+    {
+        var data = await dbContext.Set<T>().FindAsync(id);
+        data.IsDeleted = true;
+        data.IsActive = false;
+        dbContext.Entry(data).State = EntityState.Modified;
+        return await dbContext.SaveChangesAsync() > 0;
     }
 }

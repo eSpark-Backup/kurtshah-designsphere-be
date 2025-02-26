@@ -27,9 +27,11 @@ public interface IAsyncRepository<T> where T : EntityBase
 
     Task<T> AddAsync(T entity);
 
-    Task UpdateAsync(T entity);
+    Task<bool> UpdateAsync(T entity);
 
     Task DeleteAsync(T entity);
 
     Task DeleteByIdAsync(Guid id);
+
+    Task<bool> SoftDeleteByIdAsync(Guid id);
 }

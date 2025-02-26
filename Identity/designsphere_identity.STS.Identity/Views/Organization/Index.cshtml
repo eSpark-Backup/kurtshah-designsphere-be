@@ -1,0 +1,38 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Organizations";
+}
+
+<h2>Organizations</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Domain</th>
+            <th>SubDomain</th>
+            <th>Website</th>
+            <th>Support Email</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var org in Model.Organizations)
+        {
+            <tr>
+                <td>@org.Name</td>
+                <td>@org.Domain</td>
+                <td>@org.SubDomain</td>
+                <td>@org.Website</td>
+                <td>@org.SupportEmailAddress</td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@org.Id">Edit</a> |
+                    <a asp-page="./Delete" asp-route-id="@org.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-page="./Create" class="btn btn-primary">Create New</a>
