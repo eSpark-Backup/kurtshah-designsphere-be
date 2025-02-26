@@ -13,4 +13,8 @@ public class OrganizationConfiguration : EntityBase
     public string ConfigKey { get; set; }
     public string ConfigValue { get; set; }
     public string ConfigType { get; set; }
+
+    #region Navigation Property
+    public Organization Organization { get; set; }
+    #endregion
 }

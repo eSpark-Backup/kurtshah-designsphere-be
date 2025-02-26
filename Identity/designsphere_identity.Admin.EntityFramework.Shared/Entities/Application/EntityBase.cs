@@ -4,7 +4,7 @@ namespace designsphere_identity.Admin.EntityFramework.Shared.Entities.Applicatio
 
 public class EntityBase
 {
-    public Guid Id { get; set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
     public bool IsActive { get; set; }
     public bool IsDeleted { get; set; }
     public DateTime CreationTime { get; set; }

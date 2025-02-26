@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace designsphere_identity.Admin.EntityFramework.PostgreSQL.Migrations.IdentityServerGrants
 {
-    public partial class DbInit5 : Migration
+    public partial class DbInit : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

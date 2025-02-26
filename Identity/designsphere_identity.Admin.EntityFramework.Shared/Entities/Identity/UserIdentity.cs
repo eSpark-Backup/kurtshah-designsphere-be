@@ -23,7 +23,7 @@ public class UserIdentity : IdentityUser, IAppUserExtention
     public bool? NewsLetterSubscription { get; set; }
 
     [ForeignKey("OrganizationId")]
-    public Guid OrganizationId { get; set; }
+    public Guid? OrganizationId { get; set; }
 
     #region Navigation Properties
     public virtual Organization Organization { get; set; }

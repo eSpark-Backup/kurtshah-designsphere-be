@@ -13,6 +13,10 @@
     <ProjectReference Include="..\designsphere_identity.Admin.EntityFramework.Shared\designsphere_identity.Admin.EntityFramework.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>
 
 

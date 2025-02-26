@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace designsphere_identity.Admin.EntityFramework.PostgreSQL.Migrations.AuditLogging
 {
-    public partial class DbInit5 : Migration
+    public partial class DbInit : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

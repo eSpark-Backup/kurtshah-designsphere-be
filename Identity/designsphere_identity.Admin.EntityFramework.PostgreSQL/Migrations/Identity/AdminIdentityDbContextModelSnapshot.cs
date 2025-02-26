@@ -154,7 +154,7 @@ namespace designsphere_identity.Admin.EntityFramework.PostgreSQL.Migrations.Iden
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
 
-                    b.Property<Guid>("OrganizationId")
+                    b.Property<Guid?>("OrganizationId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("PasswordHash")
@@ -330,20 +330,20 @@ namespace designsphere_identity.Admin.EntityFramework.PostgreSQL.Migrations.Iden
 
             modelBuilder.Entity("designsphere_identity.Admin.EntityFramework.Shared.Entities.Application.OrganizationConfiguration", b =>
                 {
-                    b.HasOne("designsphere_identity.Admin.EntityFramework.Shared.Entities.Application.Organization", null)
+                    b.HasOne("designsphere_identity.Admin.EntityFramework.Shared.Entities.Application.Organization", "Organization")
                         .WithMany("OrganizationConfigurations")
                         .HasForeignKey("OrganizationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Organization");
                 });
 
             modelBuilder.Entity("designsphere_identity.Admin.EntityFramework.Shared.Entities.Identity.UserIdentity", b =>
                 {
                     b.HasOne("designsphere_identity.Admin.EntityFramework.Shared.Entities.Application.Organization", "Organization")
                         .WithMany("Users")
-                        .HasForeignKey("OrganizationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("OrganizationId");
 
                     b.Navigation("Organization");
                 });

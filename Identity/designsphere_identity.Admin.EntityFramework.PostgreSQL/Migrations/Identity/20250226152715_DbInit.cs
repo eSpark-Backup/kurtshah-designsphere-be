@@ -6,10 +6,33 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace designsphere_identity.Admin.EntityFramework.PostgreSQL.Migrations.Identity
 {
-    public partial class DbInit5 : Migration
+    public partial class DbInit : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Organization",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: true),
+                    Domain = table.Column<string>(type: "text", nullable: true),
+                    SubDomain = table.Column<string>(type: "text", nullable: true),
+                    Website = table.Column<string>(type: "text", nullable: true),
+                    SupportEmailAddress = table.Column<string>(type: "text", nullable: true),
+                    AuthConnectionString = table.Column<string>(type: "text", nullable: true),
+                    ResourceConnectionString = table.Column<string>(type: "text", nullable: true),
+                    IsActive = table.Column<bool>(type: "boolean", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
+                    CreationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    CreatorId = table.Column<string>(type: "text", nullable: true),
+                    LastmodificationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Organization", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Roles",
                 columns: table => new
@@ -25,6 +48,32 @@ namespace designsphere_identity.Admin.EntityFramework.PostgreSQL.Migrations.Iden
                 });
 
             migrationBuilder.CreateTable(
+                name: "OrganizationConfiguration",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    OrganizationId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ConfigKey = table.Column<string>(type: "text", nullable: true),
+                    ConfigValue = table.Column<string>(type: "text", nullable: true),
+                    ConfigType = table.Column<string>(type: "text", nullable: true),
+                    IsActive = table.Column<bool>(type: "boolean", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
+                    CreationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    CreatorId = table.Column<string>(type: "text", nullable: true),
+                    LastmodificationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OrganizationConfiguration", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_OrganizationConfiguration_Organization_OrganizationId",
+                        column: x => x.OrganizationId,
+                        principalTable: "Organization",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -35,6 +84,7 @@ namespace designsphere_identity.Admin.EntityFramework.PostgreSQL.Migrations.Iden
                     LastName = table.Column<string>(type: "text", nullable: true),
                     ProfilePictureUrl = table.Column<string>(type: "text", nullable: true),
                     NewsLetterSubscription = table.Column<bool>(type: "boolean", nullable: true),
+                    OrganizationId = table.Column<Guid>(type: "uuid", nullable: true),
                     UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
@@ -53,6 +103,11 @@ namespace designsphere_identity.Admin.EntityFramework.PostgreSQL.Migrations.Iden
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Users_Organization_OrganizationId",
+                        column: x => x.OrganizationId,
+                        principalTable: "Organization",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -162,6 +217,11 @@ namespace designsphere_identity.Admin.EntityFramework.PostgreSQL.Migrations.Iden
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_OrganizationConfiguration_OrganizationId",
+                table: "OrganizationConfiguration",
+                column: "OrganizationId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_RoleClaims_RoleId",
                 table: "RoleClaims",
                 column: "RoleId");
@@ -193,6 +253,11 @@ namespace designsphere_identity.Admin.EntityFramework.PostgreSQL.Migrations.Iden
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Users_OrganizationId",
+                table: "Users",
+                column: "OrganizationId");
+
+            migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
                 table: "Users",
                 column: "NormalizedUserName",
@@ -201,6 +266,9 @@ namespace designsphere_identity.Admin.EntityFramework.PostgreSQL.Migrations.Iden
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "OrganizationConfiguration");
+
             migrationBuilder.DropTable(
                 name: "RoleClaims");
 
@@ -221,6 +289,9 @@ namespace designsphere_identity.Admin.EntityFramework.PostgreSQL.Migrations.Iden
 
             migrationBuilder.DropTable(
                 name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "Organization");
         }
     }
 }
